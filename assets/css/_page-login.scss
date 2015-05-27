@@ -1,0 +1,30 @@
+/* Chatboard style,
+ * Dariusz Sikorski
+ * 2015
+ */
+
+// ------------------------------------------------
+
+
+.page-login { // body.page-login
+  // 948c8b
+  background: url(../img/bgr.jpga) #3B3D46;
+  background-position: center top;
+  background-repeat: no-repeat;
+  margin-top: 10px;
+  @include box(xl, only-y);
+  .login-window {
+    background: #fff;
+    border-top: 7px solid #EB8F4C;
+    overflow: hidden;
+  }
+  .loginButton {
+    margin-top: 45px;
+    width: 100%;
+    text-align: center;
+    background: #4C578C;
+    .icon {font-size: 1.5em;
+      vertical-align: top;
+    }
+  }
+}

@@ -1,0 +1,101 @@
+/* Chatboard style,
+ * Dariusz Sikorski
+ * 2015
+ */
+
+
+.page-chat-deprecated {
+  background: #fff;
+  display: table;
+  width: 100%;
+  .topbar {
+    background: #6AA1BC;
+    .arrow {
+      vertical-align: sub;
+      margin-right: 10px;
+    }
+  }
+  header.boardHeader {height: 1px;}
+  footer.boardWrite {height: 1px;}
+
+  header.boardHeader,
+  section.boardMessages,
+  footer.boardWrite {
+    display: table-row;
+  }
+
+  .cell {
+    display: table-cell;
+  }
+  section.boardMessages {
+    height: auto;
+    overflow: hidden;
+    .cell {
+      position: relative;
+      .content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        top: 0;
+        right: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    }
+  }
+
+  section.boardMessages {
+    article {
+      // margin: 10px;
+      @include container(lg);
+      @include clearfix;
+      @include box(lg);
+      @include shape(rounded);
+      background: #fff;
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      .userPhoto {
+        @include shape(circular);
+        float: left;
+        max-width: 32px;
+        margin-right: 20px;
+      }
+    }
+  }
+
+  footer.boardWrite {
+    background: #F6F6F6;
+    box-shadow: inset 0px -5px 8px rgba(0, 0, 0, 0.1);
+    .inner-wrap {
+      @include container(lg);
+      @include box(md);
+      .left-side {
+        overflow: hidden;
+        @include shape(rounded);
+        box-shadow: 0 0 4px rgba(0,0,0,0.1); 
+        textarea {
+          @include input(md);
+          min-height: 44px;
+          background: #fff;
+          @include shape(rounded);
+          transition: all 0.33s;
+          &:focus {
+            box-shadow: inset 0 0 10px 1px #6cc6f2;
+          }
+        }
+      }
+      .right-side {
+        float: right;
+      }      
+    }
+    button {
+      @include button(md);
+      @include shape(rounded);
+      margin-left: 10px;
+      &:hover {
+        background: #5199D5;
+      }
+    }
+  }
+
+
+}

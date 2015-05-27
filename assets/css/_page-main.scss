@@ -1,0 +1,86 @@
+/* Chatboard style,
+ * Dariusz Sikorski
+ * 2015
+ */
+
+// ------------------------------------------------
+.page-main {
+  background: #F0DFCC;
+  // background: url(http://www.free-patterns.info/wp-content/uploads/2014/09/light-triangle-mix-313279.png);
+  .wrapper {
+    min-height: 100%;
+    margin-bottom: -75px;
+    padding-bottom: 100px;
+  }
+  .footer {
+    height: 60px;
+    padding-top: 15px;
+    text-align: center;
+    border-top: dotted 1px rgba(127,127,127,0.5);
+  }
+  .topbar {
+    color: #555;
+    a {
+      color: #555;
+    }
+  }
+  section.tileGrid {
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 100px;
+    .tile {
+      &,* {cursor: pointer;}
+      @include tile;
+      display: inline-block;
+      width: 19%;
+      margin: 5px;
+      max-width: 380px;
+      // background: #fff;
+      @include shape(rounded);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      .upper-left {@include position(top-left);}
+      .upper-right {@include position(top-right);}
+      .centered {
+        @include position(center);
+        .icon {
+          font-size: 2.5rem;
+          display: block;
+        }
+        strong {
+          font-weight: normal;
+          font-size: 1.1rem;
+        }
+      }
+      // color: #fff;
+      .tile-part {@include box(sm);}
+      border: solid 3px transparent;
+      transition: all 0.1s;
+      &:hover {
+        border: solid 3px rgba(0,0,0,0.25);
+        // transform: scale(1.02);
+      }
+      // &:nth-child(17n){background: #D85944;}
+      // &:nth-child(17n+1){background: #4F3E38;}
+      // &:nth-child(17n+2){background: #829090;}
+      // &:nth-child(17n+3){background: #ECD424;}
+      // &:nth-child(17n+4){background: #50585C;}
+      // &:nth-child(17n+5){background: #704E77;}
+      // &:nth-child(17n+6){background: #93AC74;}
+      // &:nth-child(17n+7){background: #332324;}
+      // &:nth-child(17n+8){background: #6AA1BC;}
+      // &:nth-child(17n+9){background: #ffffff; color: #555;}
+      // &:nth-child(17n+10){background: #ffffff; color: #555;}
+      // &:nth-child(17n+11){background: #ffffff; color: #555;}
+      // &:nth-child(17n+12){background: #ffffff; color: #555;}
+      // &:nth-child(17n+13){background: #ffffff; color: #555;}
+      // &:nth-child(17n+14){background: #ffffff; color: #555;}
+      // &:nth-child(17n+15){background: #ffffff; color: #555;}
+      // &:nth-child(17n+16){background: #ffffff; color: #555;}
+      // &:nth-child(17n+17){background: #ffffff; color: #555;}
+    }
+    @include xxl{.tile {width: 23%;}}
+    @include lg{.tile {width: 31%;}}
+    @include md{.tile {width: 48%;}}
+    @include sm{.tile {width: 80%;}}
+  }
+}
