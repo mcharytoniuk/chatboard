@@ -45,7 +45,7 @@
 
         <section class="tileGrid">
             {% for chat in chatList %}
-                <div class="tile {{ chat.themeClassnames }}">
+                <a class="tile {{ chat.themeClassnames }}" href="chat.html">
                   <div>
                     <span class="upper-left tile-part">
                       <span class="ion-chatbubble icon"></span>
@@ -60,7 +60,7 @@
                       <strong>{{ chat.title }}</strong>
                     </span>
                   </div>
-                </div>
+                </a>
             {% endfor %}
         </section>
 
