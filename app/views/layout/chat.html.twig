@@ -1,273 +1,254 @@
+{% extends "layout.html.twig" %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Chatboard</title>
-  </head>
-  <body class="page-chat">
+{% block content %}
+<div class="page-chat">
+    <!-- top bar -->
+    <header class="boardHeader">
+      <nav class="topbar theme-underWater">
+        <ul class="topnav">
+          <li><a href="#"><span class="ion-arrow-left-a arrow"></span> Boards</a></li>
+          <li><span class="ion-pizza icon"></span> <strong>What to eat in the office???!??!!?</strong></li>
+          <li class="link-container">
+            <input type="text" value="http://chtbrd.com/he74n" class="link">
+            <span class="ion-link icon"></span>
+          </li>
+        </ul>
+      </nav>
+      <div class="subbar">
+        <div class="subbar-inwrap">
+          <span class="button-xs sub-button" for-panel=".panel-userList">guest list</span>
+          <span class="button-xs sub-button" for-panel=".panel-changeTitle">title</span>
+          <span class="button-xs sub-button" for-panel=".panel-changeIcon">icon</span>
+          <span class="button-xs sub-button" for-panel=".panel-changeColor">color</span>
+          <span class="button-xs sub-button" for-panel=".panel-privPublic">private</span>
 
-
-
-
-
-
-
-<!-- top bar -->
-<header class="boardHeader">
-  <nav class="topbar theme-underWater">
-    <ul class="topnav">
-      <li><a href="#"><span class="ion-arrow-left-a arrow"></span> Boards</a></li>
-      <li><span class="ion-pizza icon"></span> <strong>What to eat in the office???!??!!?</strong></li>
-      <li class="link-container">
-        <input type="text" value="http://chtbrd.com/he74n" class="link">
-        <span class="ion-link icon"></span>
-      </li>
-    </ul>
-  </nav>
-  <div class="subbar">
-    <div class="subbar-inwrap">
-      <span class="button-xs sub-button" for-panel=".panel-userList">guest list</span>
-      <span class="button-xs sub-button" for-panel=".panel-changeTitle">title</span>
-      <span class="button-xs sub-button" for-panel=".panel-changeIcon">icon</span>
-      <span class="button-xs sub-button" for-panel=".panel-changeColor">color</span>
-      <span class="button-xs sub-button" for-panel=".panel-privPublic">private</span>
-
-      <div class="gui-slidePanel panel-userList">
-        <div class="panelHeader">Conversation guests</div>
-        <div class="panelContent">
-          <div class="vert-list">
-            <div>
-              <a href="#">
-                <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
-                <span class="userName">Dariusz Sikorski</span>
-              </a>
-              <span class="button-xs kickButton">kick</span>
+          <div class="gui-slidePanel panel-userList">
+            <div class="panelHeader">Conversation guests</div>
+            <div class="panelContent">
+              <div class="vert-list">
+                <div>
+                  <a href="#">
+                    <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
+                    <span class="userName">Dariusz Sikorski</span>
+                  </a>
+                  <span class="button-xs kickButton">kick</span>
+                </div>
+                <div>
+                  <a href="#">
+                    <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
+                    <span class="userName">Dariusz Sikorski</span>
+                  </a>
+                  <span class="button-xs kickButton">kick</span>
+                </div>
+                <div>
+                  <a href="#">
+                    <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
+                    <span class="userName">Dariusz Sikorski</span>
+                  </a>
+                  <span class="userStatus">(Admin)</span>
+                  <span class="button-xs kickButton">kick</span>
+                </div>
+                <div>
+                  <a href="#">
+                    <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
+                    <span class="userName">Dariusz Sikorski</span>
+                  </a>
+                  <span class="button-xs kickButton">kick</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <a href="#">
-                <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
-                <span class="userName">Dariusz Sikorski</span>
-              </a>
-              <span class="button-xs kickButton">kick</span>
+          </div>
+
+
+          <div class="gui-slidePanel panel-changeTitle">
+            <div class="panelHeader">chat title</div>
+            <div class="panelContent">
+              <label>
+                Edit:
+              <input type="text" class="input-md" value="What to eat!???">
             </div>
-            <div>
-              <a href="#">
-                <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
-                <span class="userName">Dariusz Sikorski</span>
-              </a>
-              <span class="userStatus">(Admin)</span>
-              <span class="button-xs kickButton">kick</span>
+          </div>
+
+          <div class="gui-slidePanel panel-changeIcon">
+            <div class="panelHeader">chat icon</div>
+            <div class="panelContent">
+              <div class="iconList">
+                <span class="ion-android-happy"></span>
+                <span class="fa fa-meh-o"></span>
+                <span class="ion-android-sad"></span>
+                <span class="fa fa-comments-o"></span>
+                <span class="ion-beer"></span>
+                <span class="ion-pizza"></span>
+                <span class="ion-ios-sunny"></span>
+                <span class="ion-headphone"></span>
+                <span class="ion-heart"></span>
+                <span class="ion-transgender"></span>
+                <span class="fa fa-bicycle"></span>
+                <span class="fa fa-facebook-official"></span>
+                <span class="ion-map"></span>
+                <span class="ion-camera active"></span>
+                <span class="ion-iphone"></span>
+                <span class="ion-xbox"></span>
+                <span class="ion-playstation"></span>
+                <span class="ion-model-s"></span>
+                <span class="ion-code-working"></span>
+                <span class="ion-ios-game-controller-b"></span>
+                <span class="fa fa-stethoscope"></span>
+              </div>
             </div>
-            <div>
-              <a href="#">
-                <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
-                <span class="userName">Dariusz Sikorski</span>
-              </a>
-              <span class="button-xs kickButton">kick</span>
+          </div>
+
+          <div class="gui-slidePanel panel-changeColor">
+            <div class="panelHeader">chat color</div>
+            <div class="panelContent">
+              <div class="colorPalette">
+                <div class="theme-greenSea">color</div>
+                <div class="theme-pinkStraw">color</div>
+                <div class="theme-redAccent">color</div>
+                <div class="theme-greenSun">color</div>
+                <div class="theme-redShine">color</div>
+                <div class="theme-eveningSand">color</div>
+                <div class="theme-underWater">color</div>
+                <div class="theme-deepPurple active">color</div>
+                <div class="theme-skyBlue">color</div>
+                <div class="theme-calmGray">color</div>
+                <div class="theme-calmBlack">color</div>
+                <div class="theme-deepBlue">color</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gui-slidePanel panel-privPublic">
+            <div class="panelHeader">Set chat as private or public</div>
+            <div class="panelContent">
+              <label><input type="checkbox">Set as private</label>
+              <hr>
+              <i>Your chat won't appear on main page when set on private, but still can be viewed by people who got link to it.</i>
             </div>
           </div>
         </div>
       </div>
-    
-      
-      <div class="gui-slidePanel panel-changeTitle">
-        <div class="panelHeader">chat title</div>
-        <div class="panelContent">
-          <label>
-            Edit:
-          <input type="text" class="input-md" value="What to eat!???">
+
+    </header>
+
+
+
+    <!-- content -->
+    <section class="boardMessages">
+      <div class="cell">
+        <div class="content">
+
+          <article class="type-message">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+              </p>
+            </div>
+          </article>
+
+
+          <article class="type-communicate">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                <strong>This board will be closed in 7 days</strong>
+              </p>
+            </div>
+          </article>
+
+          <article class="type-warning">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <div class="article-content">
+              <p>
+                <strong>Antek</strong> has kicked Randomuser326 from this chat.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-message">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-info">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <div class="article-content">
+              <p>
+                <strong>Welcome</strong> on board What to eat in the office???!??!!?.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-message">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-success">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <div class="article-content">
+              <p>
+                <strong>Antek</strong> has joined the chat.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-message">
+            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-message">
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+              </p>
+            </div>
+          </article>
+
+          <article class="type-message">
+            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+            <div class="article-content">
+              <p>
+                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+              </p>
+            </div>
+          </article>
+
         </div>
       </div>
-      
-      <div class="gui-slidePanel panel-changeIcon">
-        <div class="panelHeader">chat icon</div>
-        <div class="panelContent">
-          <div class="iconList">
-            <span class="ion-android-happy"></span>
-            <span class="fa fa-meh-o"></span>
-            <span class="ion-android-sad"></span>
-            <span class="fa fa-comments-o"></span>
-            <span class="ion-beer"></span>
-            <span class="ion-pizza"></span>
-            <span class="ion-ios-sunny"></span>
-            <span class="ion-headphone"></span>
-            <span class="ion-heart"></span>
-            <span class="ion-transgender"></span>
-            <span class="fa fa-bicycle"></span>
-            <span class="fa fa-facebook-official"></span>
-            <span class="ion-map"></span>
-            <span class="ion-camera active"></span>
-            <span class="ion-iphone"></span>
-            <span class="ion-xbox"></span>
-            <span class="ion-playstation"></span>
-            <span class="ion-model-s"></span>
-            <span class="ion-code-working"></span>
-            <span class="ion-ios-game-controller-b"></span>
-            <span class="fa fa-stethoscope"></span>
-          </div>
+    </section>
+
+
+    <!-- bottom bar -->
+    <footer class="boardFooter">
+      <div class="inner-wrap">
+        <div class="right-side">
+          <button>Send</button>
+        </div>
+        <div class="left-side">
+          <textarea placeholder="Message..."></textarea>
         </div>
       </div>
-      
-      <div class="gui-slidePanel panel-changeColor">
-        <div class="panelHeader">chat color</div>
-        <div class="panelContent">
-          <div class="colorPalette">
-            <div class="theme-greenSea">color</div>
-            <div class="theme-pinkStraw">color</div>
-            <div class="theme-redAccent">color</div>
-            <div class="theme-greenSun">color</div>
-            <div class="theme-redShine">color</div>
-            <div class="theme-eveningSand">color</div>
-            <div class="theme-underWater">color</div>
-            <div class="theme-deepPurple active">color</div>
-            <div class="theme-skyBlue">color</div>
-            <div class="theme-calmGray">color</div>
-            <div class="theme-calmBlack">color</div>
-            <div class="theme-deepBlue">color</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="gui-slidePanel panel-privPublic">
-        <div class="panelHeader">Set chat as private or public</div>
-        <div class="panelContent">
-          <label><input type="checkbox">Set as private</label>
-          <hr> 
-          <i>Your chat won't appear on main page when set on private, but still can be viewed by people who got link to it.</i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</header>
-
-
-
-<!-- content -->
-<section class="boardMessages">
-  <div class="cell">
-    <div class="content">
-
-      <article class="type-message">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-          </p>
-        </div>
-      </article>
-
-
-      <article class="type-communicate">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            <strong>This board will be closed in 7 days</strong>
-          </p>
-        </div>
-      </article>
-
-      <article class="type-warning">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <div class="article-content">
-          <p>
-            <strong>Antek</strong> has kicked Randomuser326 from this chat.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-message">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-info">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <div class="article-content">
-          <p>
-            <strong>Welcome</strong> on board What to eat in the office???!??!!?.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-message">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-success">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <div class="article-content">
-          <p>
-            <strong>Antek</strong> has joined the chat.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-message">
-        <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-message">
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-          </p>
-        </div>
-      </article>
-
-      <article class="type-message">
-        <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-        <div class="article-content">
-          <p>
-            Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-          </p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- bottom bar -->
-<footer class="boardFooter">
-  <div class="inner-wrap">
-    <div class="right-side">
-      <button>Send</button>
-    </div>
-    <div class="left-side">
-      <textarea placeholder="Message..."></textarea>
-    </div>
-  </div>
-</footer>
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <!-- <script src="http://cssrefresh.frebsite.nl/js/cssrefresh.js"></script> -->
-  <script type="text/javascript" src="./assets/js/script.js"></script>
-  </body>
-</html>
+    </footer>
+</div>
+{% endblock %}

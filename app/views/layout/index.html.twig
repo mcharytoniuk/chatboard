@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Chatboard</title>
-  </head>
-  <body class="page-main">
+{% extends "layout.html.twig" %}
 
+{% block content %}
+<div class="page-main">
     <div class="wrapper">
 
       <nav class="topbar">
@@ -271,14 +265,8 @@
       </div>
     </div>
 
-
-
-  <div class="footer">
-    <p>&copy; 2014-2015. Made with love <span class="fa fa-heart-o"></span><br>by Authors of <i>Chatboard</i></p>
-  </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <!-- <script src="http://cssrefresh.frebsite.nl/js/cssrefresh.js"></script> -->
-  <script type="text/javascript" src="./assets/js/script.js"></script>
-  </body>
-</html>
+    <div class="footer">
+        <p>&copy; 2014-2015. Made with love <span class="fa fa-heart-o"></span><br>by Authors of <i>Chatboard</i></p>
+    </div>
+</div>
+{% endblock %}

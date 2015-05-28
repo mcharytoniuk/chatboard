@@ -23,7 +23,7 @@ app.get("/", function (req, res, next) {
 });
 
 app.get("/:page.html", function (req, res) {
-    res.render(req.params.page + ".html.twig");
+    res.render("layout/" + req.params.page + ".html.twig");
 });
 
 app.listen(8063);
