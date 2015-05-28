@@ -12,7 +12,7 @@ var app,
     path = require("path");
 
 app = express();
-app.use("assets", express.static(path.resolve(__dirname, "..", "assets")));
+app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
 
 env = nunjucks.configure(path.resolve(__dirname, "views"));
 env.express(app);
