@@ -1,0 +1,23 @@
+{
+    "dependencies": {
+        "express": "4.x",
+        "nunjucks": "1.x"
+    },
+    "devDependencies": {
+    },
+    "engines": {
+        "node": ">=0.12"
+    },
+    "keywords": [
+    ],
+    "main": "chatboard",
+    "name": "chatboard",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:goreutils/chatboard.git"
+    },
+    "scripts": {
+        "test": "gulp test"
+    },
+    "version": "0.0.0"
+}
