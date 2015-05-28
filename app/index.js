@@ -5,11 +5,12 @@
 
 "use strict";
 
-var app,
+var path = require("path"),
+    app,
     env,
     express = require("express"),
-    nunjucks = require("nunjucks"),
-    path = require("path");
+    indexController = require(path.resolve(__dirname, "controllers", "index")),
+    nunjucks = require("nunjucks");
 
 app = express();
 app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
@@ -21,6 +22,8 @@ app.get("/", function (req, res, next) {
     req.url = "/index.html";
     next();
 });
+
+app.get("/index.html", indexController);
 
 app.get("/:page.html", function (req, res) {
     res.render("layout/" + req.params.page + ".html.twig");
