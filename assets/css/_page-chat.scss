@@ -7,22 +7,16 @@
 .page-chat {
   background: #fff;
   overflow: hidden;
-
-
-
-
   .boardHeader {
-
-
     .topbar {
-      // background: #6AA1BC;
       border-top: none;
+      font-family: 'Lora', serif;
+      font-style: italic;
       .arrow {
         vertical-align: sub;
         margin-right: 10px;
       }
     }
-
   }
   .boardMessages {
     padding-bottom: 50px;
@@ -34,14 +28,12 @@
     }
     .article-header {
       color: #959599;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       display: block;
-      // position: absolute;
-      // top: -20px;
-      // left: 30px;
+      font-style: italic;
+      font-family: 'Lora', serif;
     }
     article {
-      // outline: solid 1px gray;
       color: #333;
       margin-top: 20px;
       margin-left: 50px;
@@ -75,8 +67,6 @@
         &-info {
           .article-content {background: #269BFC;}
           color: #fff;
-          // background: rgb(219, 233, 245);
-          // color: rgb(88, 116, 176);
         }
         &-success {
           .article-content {background: #32BA60;}

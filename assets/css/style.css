@@ -11,10 +11,9 @@ Twitter: @rich_clark
 */
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css';
 @import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
-@import url(http://fonts.googleapis.com/css?family=Dosis:500);
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400);
 @import url(http://fonts.googleapis.com/css?family=Grand+Hotel);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,600,300);
+@import url(http://fonts.googleapis.com/css?family=Lora:400,400italic|Lobster|Oswald);
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -2123,16 +2122,8 @@ textarea.input, textarea.input-xs, textarea.input-sm, textarea.input-md, textare
 
 body {
   line-height: 1.5;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', serif;
   color: #333;
-}
-
-.lato {
-  font-family: 'Lato', sans-serif;
-}
-
-.dosis {
-  font-family: 'Dosis', sans-serif;
 }
 
 .grand {
@@ -2165,7 +2156,6 @@ body {
   color: #47515B;
   background-size: cover;
   background-position: center center;
-  font-family: "Open Sans";
   font-size: 15px;
   line-height: 1.5;
 }
@@ -2214,6 +2204,7 @@ h6 {
   }
 }
 .topbar {
+  font-family: 'Open Sans';
   border-top: solid 3px #EB8F4C;
   background: #f4f4f4;
 }
@@ -2373,7 +2364,7 @@ h6 {
   color: #333;
 }
 
-/* section
+/*
 ---------------------------------------------------- */
 /* Wobble Vertical */
 @-webkit-keyframes hvr-wobble-vertical {
@@ -2712,7 +2703,7 @@ h6 {
  * 2015
  */
 .page-login {
-  background: url(../img/bgr.jpga) #3b3d46;
+  background: url(../img/bgr.jpg) #3b3d46;
   background-position: center top;
   background-repeat: no-repeat;
   margin-top: 10px;
@@ -2752,6 +2743,7 @@ h6 {
   padding-top: 15px;
   text-align: center;
   border-top: dotted 1px rgba(127, 127, 127, 0.5);
+  font-size: 0.85rem;
 }
 .page-main .topbar {
   color: #555;
@@ -2794,14 +2786,17 @@ h6 {
   transform: translateX(-50%) translateY(-50%);
   top: 50%;
   left: 50%;
+  font-style: italic;
+  font-family: 'Lora', serif;
+  width: 75%;
 }
 .page-main section.tileGrid .tile .centered .icon {
-  font-size: 2.5rem;
+  font-size: 2.65rem;
   display: block;
 }
 .page-main section.tileGrid .tile .centered strong {
   font-weight: normal;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 .page-main section.tileGrid .tile:hover {
   border: solid 3px rgba(0, 0, 0, 0.25);
@@ -2837,6 +2832,8 @@ h6 {
 }
 .page-chat .boardHeader .topbar {
   border-top: none;
+  font-family: 'Lora', serif;
+  font-style: italic;
 }
 .page-chat .boardHeader .topbar .arrow {
   vertical-align: sub;
@@ -2853,8 +2850,10 @@ h6 {
 }
 .page-chat .boardMessages .article-header {
   color: #959599;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   display: block;
+  font-style: italic;
+  font-family: 'Lora', serif;
 }
 .page-chat .boardMessages article {
   color: #333;

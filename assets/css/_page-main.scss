@@ -17,6 +17,7 @@
     padding-top: 15px;
     text-align: center;
     border-top: dotted 1px rgba(127,127,127,0.5);
+    font-size: 0.85rem;
   }
   .topbar {
     color: #555;
@@ -35,48 +36,30 @@
       width: 19%;
       margin: 5px;
       max-width: 380px;
-      // background: #fff;
       @include shape(rounded);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
       .upper-left {@include position(top-left);}
       .upper-right {@include position(top-right);}
       .centered {
         @include position(center);
+        font-style: italic;
+        font-family: 'Lora', serif;
+        width: 75%;
         .icon {
-          font-size: 2.5rem;
+          font-size: 2.65rem;
           display: block;
         }
         strong {
           font-weight: normal;
-          font-size: 1.1rem;
+          font-size: 1.2rem;
         }
       }
-      // color: #fff;
       .tile-part {@include box(sm);}
       border: solid 3px transparent;
       transition: all 0.1s;
       &:hover {
         border: solid 3px rgba(0,0,0,0.25);
-        // transform: scale(1.02);
       }
-      // &:nth-child(17n){background: #D85944;}
-      // &:nth-child(17n+1){background: #4F3E38;}
-      // &:nth-child(17n+2){background: #829090;}
-      // &:nth-child(17n+3){background: #ECD424;}
-      // &:nth-child(17n+4){background: #50585C;}
-      // &:nth-child(17n+5){background: #704E77;}
-      // &:nth-child(17n+6){background: #93AC74;}
-      // &:nth-child(17n+7){background: #332324;}
-      // &:nth-child(17n+8){background: #6AA1BC;}
-      // &:nth-child(17n+9){background: #ffffff; color: #555;}
-      // &:nth-child(17n+10){background: #ffffff; color: #555;}
-      // &:nth-child(17n+11){background: #ffffff; color: #555;}
-      // &:nth-child(17n+12){background: #ffffff; color: #555;}
-      // &:nth-child(17n+13){background: #ffffff; color: #555;}
-      // &:nth-child(17n+14){background: #ffffff; color: #555;}
-      // &:nth-child(17n+15){background: #ffffff; color: #555;}
-      // &:nth-child(17n+16){background: #ffffff; color: #555;}
-      // &:nth-child(17n+17){background: #ffffff; color: #555;}
     }
     @include xxl{.tile {width: 23%;}}
     @include lg{.tile {width: 31%;}}

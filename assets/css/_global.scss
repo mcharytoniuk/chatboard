@@ -3,32 +3,25 @@
  * 2015
  */
 
-
-
 @import '../../../cssfw/1.0/_cssfw.scss';
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css';
 @import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
-@import url(http://fonts.googleapis.com/css?family=Dosis:500);
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400);
 @import url(http://fonts.googleapis.com/css?family=Grand+Hotel);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,600,300);
+@import url(http://fonts.googleapis.com/css?family=Lora:400,400italic|Lobster|Oswald);
 
-
-
-
+// font-family: 'Lora', serif;
+// font-family: 'Lobster', cursive;
+// font-family: 'Oswald', sans-serif;
+// font-family: 'Open Sans', sans-serif;
+// font-family: 'Grand Hotel', cursive;
 
 body {
   line-height: 1.5;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', serif;
   color: #333;
 }
 
-.lato {
-  font-family: 'Lato', sans-serif;
-}
-.dosis {
-  font-family: 'Dosis', sans-serif;
-}
 .grand {
   font-family: 'Grand Hotel', cursive;
 }
@@ -43,7 +36,6 @@ h1,h2,h3,h4,h5,h6 {
 
 a {
   text-decoration: none;
-  // font-weight: bold;
   color: #002557;
 }
 
@@ -57,7 +49,6 @@ body {
   color: #47515B;
   background-size: cover;
   background-position: center center;
-  font-family: "Open Sans";
   font-size: 15px;
   line-height: 1.5;
 }
@@ -79,17 +70,11 @@ h6 {
 @media (max-width: 480px){html,body {font-size: 14.3px;}}
 @media (max-width: 320px){html,body {font-size: 14px;}}
 
-
 .topbar {
-  // background: #EB8F4C;
-  // color: #fff;
-  // @include box(xs);
-  // background: #eee;
-  // background: #555B6B;
+  font-family: 'Open Sans';
   border-top: solid 3px #EB8F4C;
   background: #f4f4f4;
   * {
-    // color: #4B5161;
     font-weight: 500;
   }
   input {
@@ -102,7 +87,6 @@ h6 {
     vertical-align: middle;
   }
   ul.topnav {
-    // @include horizontal-list(lg);
     @include box(md, only-x);
     @include container(lg);
     @include pile;
@@ -124,7 +108,6 @@ h6 {
       margin-left: 10px;
       margin-right: 10px;
       font-size: 15px;
-      // color: #fff;
       transition: all 0.15s;
       display: inline-block;
       @include box(sm, only-y);
@@ -144,7 +127,6 @@ h6 {
       transition: all 0.4s;
       &:focus {
         background: #fff;
-        // background: red;
         width: 250px;
         ~ .icon {
           color: rgba(0,0,0,0.45);
@@ -154,7 +136,6 @@ h6 {
       }
     }
     .icon {
-      // color: blue;
       font-weight: bold;
       font-size: 23px;
       @include position(left);
@@ -164,7 +145,6 @@ h6 {
   }
   .link-container {
     position: relative;
-    // padding-bottom: 10px;
     .link {
       @include shape(rounded);
       @include input(xs);
@@ -175,7 +155,6 @@ h6 {
       transition: all 0.4s;
       &:focus {
         background: #fff;
-        // background: red;
         width: 250px;
         ~ .icon {
           color: rgba(0,0,0,0.45);
@@ -185,7 +164,6 @@ h6 {
       }
     }
     .icon {
-      // color: blue;
       font-weight: bold;
       font-size: 23px;
       @include position(left);
@@ -222,12 +200,7 @@ h6 {
   }
 }
 
-* {
-  // outline: solid 1px red !important;
-}
-
-
-/* section
+/*
 ---------------------------------------------------- */
 //https://github.com/IanLunn/Hover/blob/master/css/hover.css
 
@@ -325,13 +298,11 @@ h6 {
 }
 
 .gui-slidePanel {
-  // display: none;
   opacity: 0;
   height: 0;
   overflow: hidden;
   width: 100%;
   color: #333;
-  // background: #E4E3E7;
   position: relative;
   background: #fff;
   -webkit-transition:all ease-out 0.5s;
@@ -360,15 +331,12 @@ h6 {
     max-height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
-    // color: red;
-    // background: red;
     @include box(md);
   }
 }
 
 .panel {
   &-userList {
-    // background: green;
     a {
       font-weight: bold;
       color: #000;
@@ -400,7 +368,6 @@ h6 {
     }
   }
   &-myProfile {
-    // background: red;
     .bar {
       margin-top: 15px;
     }
@@ -414,10 +381,8 @@ h6 {
     .deleteAccountBtn {color: #CA615B; border-radius: 99px; background: none;}
   }
   &-changeTitle {
-    // background: green;
   }
   &-changeIcon {
-    // background: blue;
     @include justify;
     .iconList {
 
@@ -438,7 +403,6 @@ h6 {
           transform: scale(1.15);
         }
       }
-
     }
   }
   &-changeColor {
@@ -468,7 +432,6 @@ h6 {
     }
   }
   &-privPublic {
-    // background: white;
   }
 }
 
@@ -576,6 +539,4 @@ h6 {
       color: #6F9EC4;
     }
   }
-
-
 }
