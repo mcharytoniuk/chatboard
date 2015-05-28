@@ -7,7 +7,6 @@ $(function(){
       boardHeaderHeight = $(".boardHeader").innerHeight(),
       boardFooterHeight = $(".boardFooter").innerHeight(),
       boardMessagesHeight = windowHeight - boardHeaderHeight - boardFooterHeight;
-      console.log("et");
     $(".boardMessages").innerHeight(boardMessagesHeight);
   }, 50);
 
@@ -37,7 +36,7 @@ $(function(){
     if (!container.is(e.target)
     && container.has(e.target).length === 0) {
       container.removeClass("active");
-      
+
       // restore bottom bar
       $(".boardFooter").css("height","auto");
     }
