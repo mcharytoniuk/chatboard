@@ -7,6 +7,8 @@
 
 var path = require("path"),
     app,
+    chatController = require(path.resolve(__dirname, "controllers", "chat")),
+    chatProvider = require(path.resolve(__dirname, "..", "chatboard", "chatProvider")),
     env,
     express = require("express"),
     indexController = require(path.resolve(__dirname, "controllers", "index")),
@@ -23,7 +25,13 @@ app.get("/", function (req, res, next) {
     next();
 });
 
-app.get("/index.html", indexController);
+app.get("/index.html", function (req, res) {
+    indexController(req, res, chatProvider);
+});
+
+app.get("/chat/:slug.html", function (req, res) {
+    chatController(req, res, chatProvider);
+});
 
 app.get("/:page.html", function (req, res) {
     res.render("layout/" + req.params.page + ".html.twig");

@@ -4,10 +4,13 @@
 <div class="page-chat">
     <!-- top bar -->
     <header class="boardHeader">
-      <nav class="topbar theme-underWater">
+      <nav class="topbar {{ chat.themeClassnames }}">
         <ul class="topnav">
           <li><a href="/"><span class="ion-arrow-left-a arrow"></span> Boards</a></li>
-          <li><span class="ion-pizza icon"></span> <strong>What to eat in the office???!??!!?</strong></li>
+          <li>
+            <span class="icon {{ chat.iconClassnames }}"></span>
+            <strong>{{ chat.title }}</strong>
+          </li>
           <li class="link-container">
             <input type="text" value="http://chtbrd.com/he74n" class="link">
             <span class="ion-link icon"></span>

@@ -8,9 +8,9 @@
 var _ = require("lodash");
 
 module.exports = function (req, res, chatProvider) {
-    chatProvider.find(25).then(function (chatList) {
-        res.render("layout/index.html.twig", {
-            "chatList": chatList
+    chatProvider.findBySlug(req.params.slug).then(function (chatList) {
+        res.render("layout/chat.html.twig", {
+            "chat": _.first(chatList)
         });
     });
 };
