@@ -19,6 +19,7 @@
         "url": "git@github.com:goreutils/chatboard.git"
     },
     "scripts": {
+        "start": "nodemon app/index.js",
         "test": "gulp test"
     },
     "version": "0.0.0"
