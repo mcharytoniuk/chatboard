@@ -5,12 +5,21 @@
 
 "use strict";
 
-var _ = require("lodash");
+var _ = require("lodash"),
+    Promise = require("bluebird");
 
-module.exports = function (req, res, chatProvider) {
-    chatProvider.findBySlug(req.params.slug).then(function (chatList) {
-        res.render("layout/chat.html.twig", {
-            "chat": _.first(chatList)
+module.exports = function (req, res, chatProvider, messageProvider) {
+    chatProvider.findBySlug(req.params.slug)
+        .then(function (chatList) {
+            return _.first(chatList);
+        })
+        .then(function (chat) {
+            return Promise.props({
+                "chat": chat,
+                "messageList": messageProvider.findByChat(chat)
+            });
+        })
+        .then(function (results) {
+            res.render("layout/chat.html.twig", results);
         });
-    });
 };

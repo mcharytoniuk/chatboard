@@ -140,102 +140,19 @@
     <section class="boardMessages">
       <div class="cell">
         <div class="content">
-
-          <article class="type-message">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
+          {% for message in messageList %}
+            <article class="type-{{ message.type }}">
+              <p class="article-header">
+                {{ message.author }}, {{ message.date }}
               </p>
-            </div>
-          </article>
-
-
-          <article class="type-communicate">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                <strong>This board will be closed in 7 days</strong>
-              </p>
-            </div>
-          </article>
-
-          <article class="type-warning">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <div class="article-content">
-              <p>
-                <strong>Antek</strong> has kicked Randomuser326 from this chat.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-message">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-info">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <div class="article-content">
-              <p>
-                <strong>Welcome</strong> on board What to eat in the office???!??!!?.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-message">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-success">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <div class="article-content">
-              <p>
-                <strong>Antek</strong> has joined the chat.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-message">
-            <p class="article-header">Mateusz Charytoniuk, Read 1:38 PM</p>
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-message">
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-              </p>
-            </div>
-          </article>
-
-          <article class="type-message">
-            <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
-            <div class="article-content">
-              <p>
-                Fusce venenatis aliquam mollis. Ut vestibulum consequat porttitor. Nam vestibulum, turpis ac venenatis egestas, ante ligula congue lectus, id accumsan eros magna nec odio. Donec risus quam, varius eu malesuada a, dictum in nibh. Nulla ut pellentesque augue, in gravida lorem. Nullam congue, elit nec pulvinar accumsan, libero ante hendrerit velit, nec ornare ligula sapien sit amet odio. Donec ligula quam, tincidunt in imperdiet a, pulvinar fermentum est. Fusce eget metus tincidunt purus fringilla posuere.
-              </p>
-            </div>
-          </article>
+              <a href="#"><img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto"></a>
+              <div class="article-content">
+                <p>
+                  {{ message.content }}
+                </p>
+              </div>
+            </article>
+          {% endfor %}
 
         </div>
       </div>
