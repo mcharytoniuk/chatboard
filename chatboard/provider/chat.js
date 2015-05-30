@@ -44,20 +44,16 @@ themeClassnames = [
 ];
 
 function find(db, count) {
-    return provider.toArray(db.collection("chat").find({}));
+    return Promise.fromNode(function (cb) {
+        db.collection("chat").find({}).toArray(cb);
+    });
 }
 
 function findOneBySlug(db, slug) {
-    return new Promise(function (resolve, reject) {
+    return Promise.fromNode(function (cb) {
         db.collection("chat").findOne({
             "slug": slug
-        }, function (err, chat) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(chat);
-            }
-        });
+        }, cb);
     });
 }
 

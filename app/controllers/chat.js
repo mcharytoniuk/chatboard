@@ -17,7 +17,11 @@ module.exports = function (req, res, next, chatProvider, messageProvider) {
             });
         })
         .then(function (results) {
-            res.render("layout/chat.html.twig", results);
+            if (!results.chat) {
+                next();
+            } else {
+                res.render("layout/chat.html.twig", results);
+            }
         })
         .catch(next);
 };

@@ -5,8 +5,7 @@
 
 "use strict";
 
-var _ = require("lodash"),
-    Promise = require("bluebird");
+var _ = require("lodash");
 
 module.exports = {
     "create": function (methods) {
@@ -15,16 +14,5 @@ module.exports = {
                 return _.bind(method, null, db);
             });
         }
-    },
-    "toArray": function toArray(collection) {
-        return new Promise(function (resolve, reject) {
-            collection.toArray(function (err, results) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(results);
-                }
-            });
-        });
     }
 };
