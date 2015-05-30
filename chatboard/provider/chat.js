@@ -41,22 +41,30 @@ themeClassnames = [
     "theme-underWater"
 ];
 
+function mockChat() {
+    var title = lipsum.words(_.random(1, 5));
+
+    return {
+        "iconClassnames": _.sample(iconClassnames),
+        "membersCount": _.random(1, 120),
+        "messagesCount": _.random(0, 120),
+        "themeClassnames": _.sample(themeClassnames),
+        "slug": _.kebabCase(title),
+        "title": title
+    };
+}
+
 function find(db, count) {
-    return new Promise(function (resolve) {
-        var chatList = _.range(count).map(function () {
-            var title = lipsum.words(_.random(1, 5));
-
-            return {
-                "iconClassnames": _.sample(iconClassnames),
-                "membersCount": _.random(1, 120),
-                "messagesCount": _.random(0, 120),
-                "themeClassnames": _.sample(themeClassnames),
-                "slug": _.kebabCase(title),
-                "title": title
-            };
-        });
-
-        resolve(chatList);
+    return new Promise(function (resolve, reject) {
+        db.collection("chat")
+            .find({})
+            .toArray(function (err, chatList) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(chatList);
+                }
+            });
     });
 };
 
