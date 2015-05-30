@@ -30,10 +30,10 @@ function mockMessage() {
 }
 
 function findByChat(db, chat) {
-    return new Promise(function (resolve) {
-        var messageList = _.range(25).map(mockMessage);
-
-        resolve(messageList);
+    return Promise.fromNode(function (cb) {
+        db.collection("message").find({
+            "owner": chat._id
+        }).toArray(cb);
     });
 }
 
