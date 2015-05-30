@@ -5,10 +5,12 @@
 
 "use strict";
 
-var _ = require("lodash"),
+var path = require("path"),
+    _ = require("lodash"),
     iconClassnames,
     lipsum = require("ainojs-lipsum"),
     Promise = require("bluebird"),
+    provider = require(path.resolve(__dirname, "..", "provider")),
     themeClassnames;
 
 iconClassnames = [
@@ -41,6 +43,24 @@ themeClassnames = [
     "theme-underWater"
 ];
 
+function find(db, count) {
+    return provider.toArray(db.collection("chat").find({}));
+}
+
+function findOneBySlug(db, slug) {
+    return new Promise(function (resolve, reject) {
+        db.collection("chat").findOne({
+            "slug": slug
+        }, function (err, chat) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(chat);
+            }
+        });
+    });
+}
+
 function mockChat() {
     var title = lipsum.words(_.random(1, 5));
 
@@ -54,29 +74,9 @@ function mockChat() {
     };
 }
 
-function find(db, count) {
-    return new Promise(function (resolve, reject) {
-        db.collection("chat")
-            .find({})
-            .toArray(function (err, chatList) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(chatList);
-                }
-            });
-    });
-};
-
-function findBySlug(db, slug) {
-    return find(db, 1);
-}
-
 module.exports = {
-    "create": function (db) {
-        return {
-            "find": _.bind(find, null, db),
-            "findBySlug": _.bind(findBySlug, null, db)
-        };
-    }
+    "create": provider.create({
+        "find": find,
+        "findOneBySlug": findOneBySlug
+    })
 };

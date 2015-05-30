@@ -5,9 +5,11 @@
 
 "use strict";
 
-var _ = require("lodash"),
+var path = require("path"),
+    _ = require("lodash"),
     lipsum = require("ainojs-lipsum"),
     Promise = require("bluebird"),
+    provider = require(path.resolve(__dirname, "..", "provider")),
     types;
 
 types = [
@@ -18,25 +20,25 @@ types = [
     "warning"
 ];
 
+function mockMessage() {
+    return {
+        "author": lipsum.words(_.random(2, 3)),
+        "content": lipsum.words(_.random(10, 25)),
+        "date": new Date(),
+        "type": _.sample(types)
+    };
+}
+
 function findByChat(db, chat) {
     return new Promise(function (resolve) {
-        var messageList = _.range(25).map(function () {
-            return {
-                "author": lipsum.words(_.random(2, 3)),
-                "content": lipsum.words(_.random(10, 25)),
-                "date": new Date(),
-                "type": _.sample(types)
-            };
-        });
+        var messageList = _.range(25).map(mockMessage);
 
         resolve(messageList);
     });
 }
 
 module.exports = {
-    "create": function (db) {
-        return {
-            "findByChat": _.bind(findByChat, null, db)
-        };
-    }
+    "create": provider.create({
+        "findByChat": findByChat
+    })
 };

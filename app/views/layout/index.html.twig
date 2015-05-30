@@ -48,7 +48,7 @@
 
         <section class="tileGrid">
             {% for chat in chatList %}
-                <a class="tile {{ chat.themeClassnames }}" href="chat/{{ chat.slug }}.html">
+                <a class="tile {{ chat.themeClassnames }}" href="{{ chat.slug }}.chat">
                   <div>
                     <span class="upper-left tile-part">
                       <span class="ion-chatbubble icon"></span>

@@ -9,10 +9,7 @@ var _ = require("lodash"),
     Promise = require("bluebird");
 
 module.exports = function (req, res, next, chatProvider, messageProvider) {
-    chatProvider.findBySlug(req.params.slug)
-        .then(function (chatList) {
-            return _.first(chatList);
-        })
+    chatProvider.findOneBySlug(req.params.slug)
         .then(function (chat) {
             return Promise.props({
                 "chat": chat,
