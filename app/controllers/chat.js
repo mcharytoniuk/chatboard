@@ -8,7 +8,7 @@
 var _ = require("lodash"),
     Promise = require("bluebird");
 
-module.exports = function (req, res, chatProvider, messageProvider) {
+module.exports = function (req, res, next, chatProvider, messageProvider) {
     chatProvider.findBySlug(req.params.slug)
         .then(function (chatList) {
             return _.first(chatList);
@@ -21,5 +21,6 @@ module.exports = function (req, res, chatProvider, messageProvider) {
         })
         .then(function (results) {
             res.render("layout/chat.html.twig", results);
-        });
+        })
+        .catch(next);
 };

@@ -41,7 +41,7 @@ themeClassnames = [
     "theme-underWater"
 ];
 
-function find(count) {
+function find(db, count) {
     return new Promise(function (resolve) {
         var chatList = _.range(count).map(function () {
             var title = lipsum.words(_.random(1, 5));
@@ -60,11 +60,15 @@ function find(count) {
     });
 };
 
-function findBySlug(slug) {
-    return find(1);
+function findBySlug(db, slug) {
+    return find(db, 1);
 }
 
 module.exports = {
-    "find": find,
-    "findBySlug": findBySlug
+    "create": function (db) {
+        return {
+            "find": _.bind(find, null, db),
+            "findBySlug": _.bind(findBySlug, null, db)
+        };
+    }
 };

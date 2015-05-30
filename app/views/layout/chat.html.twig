@@ -1,7 +1,10 @@
 {% extends "layout.html.twig" %}
 
+{% block bodyOpenTag %}
+    <body class="page-chat">
+{% endblock %}
+
 {% block content %}
-<div class="page-chat">
     <!-- top bar -->
     <header class="boardHeader">
       <nav class="topbar {{ chat.themeClassnames }}">
@@ -170,5 +173,4 @@
         </div>
       </div>
     </footer>
-</div>
 {% endblock %}

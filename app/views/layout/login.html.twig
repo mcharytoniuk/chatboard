@@ -1,7 +1,10 @@
 {% extends "layout.html.twig" %}
 
+{% block bodyOpenTag %}
+    <body class="page-login">
+{% endblock %}
+
 {% block content %}
-<div class="page-login">
     <div class="login-window window-md box-lg z-shadow-5 hvr-wobble-vertical">
     <h1 class="grand text-xxl">Chat board
         <!-- <span class="ion-chatbox-working"></span> -->
@@ -15,5 +18,4 @@
             <span class="ion-social-facebook icon"></span> login with facebook
         </span>
     </div>
-</div>
 {% endblock %}

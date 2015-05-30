@@ -18,7 +18,7 @@ types = [
     "warning"
 ];
 
-function findByChat(chat) {
+function findByChat(db, chat) {
     return new Promise(function (resolve) {
         var messageList = _.range(25).map(function () {
             return {
@@ -34,5 +34,9 @@ function findByChat(chat) {
 }
 
 module.exports = {
-    "findByChat": findByChat
+    "create": function (db) {
+        return {
+            "findByChat": _.bind(findByChat, null, db)
+        };
+    }
 };

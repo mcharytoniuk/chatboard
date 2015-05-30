@@ -9,29 +9,48 @@ var path = require("path"),
     app,
     chatController = require(path.resolve(__dirname, "controllers", "chat")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
-    messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     env,
     express = require("express"),
     indexController = require(path.resolve(__dirname, "controllers", "index")),
-    nunjucks = require("nunjucks");
+    messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
+    MongoClient = require("mongodb").MongoClient,
+    mongoClientPromise,
+    nunjucks = require("nunjucks"),
+    Promise = require("bluebird");
+
+mongoClientPromise = new Promise(function (resolve, reject) {
+    MongoClient.connect("mongodb://192.168.59.103:27017/chatboard", function (err, db) {
+        if (err) {
+            reject(err);
+        } else {
+            resolve(db);
+        }
+    });
+});
 
 app = express();
-app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
 
-env = nunjucks.configure(path.resolve(__dirname, "views"));
-env.express(app);
+nunjucks.configure(path.resolve(__dirname, "views"), {
+    "express": app
+});
+
+app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
 
 app.get("/", function (req, res, next) {
     req.url = "/index.html";
     next();
 });
 
-app.get("/index.html", function (req, res) {
-    indexController(req, res, chatProvider);
+app.get("/index.html", function (req, res, next) {
+    mongoClientPromise.then(function (db) {
+        indexController(req, res, next, chatProvider.create(db));
+    }).catch(next);
 });
 
-app.get("/chat/:slug.html", function (req, res) {
-    chatController(req, res, chatProvider, messageProvider);
+app.get("/:slug.chat", function (req, res, next) {
+    mongoClientPromise.then(function (db) {
+        chatController(req, res, next, chatProvider.create(db), messageProvider.create(db));
+    }).catch(next);
 });
 
 app.get("/:page.html", function (req, res) {

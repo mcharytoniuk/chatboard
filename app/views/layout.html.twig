@@ -6,7 +6,9 @@
         <link rel="stylesheet" href="/assets/css/style.css">
         <title>Chatboard</title>
     </head>
-    <body>
+    {% block bodyOpenTag %}
+        <body>
+    {% endblock %}
         {% block content %}{% endblock %}
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

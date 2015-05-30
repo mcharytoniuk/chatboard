@@ -1,7 +1,10 @@
 {% extends "layout.html.twig" %}
 
+{% block bodyOpenTag %}
+    <body class="page-main">
+{% endblock %}
+
 {% block content %}
-<div class="page-main">
     <div class="wrapper">
 
       <nav class="topbar">
@@ -70,5 +73,4 @@
     <div class="footer">
         <p>&copy; 2014-2015. Made with love <span class="fa fa-heart-o"></span><br>by Authors of <i>Chatboard</i></p>
     </div>
-</div>
 {% endblock %}
