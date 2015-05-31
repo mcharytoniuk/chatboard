@@ -13,7 +13,8 @@ var path = require("path"),
     io = require("socket.io"),
     nunjucks = require("nunjucks"),
     router = require(path.resolve(__dirname, "router")),
-    server;
+    server,
+    socket;
 
 app = express();
 
@@ -24,8 +25,6 @@ nunjucks.configure(path.resolve(__dirname, "views"), {
 });
 
 app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
-app.use("/", router.create(container.create({
-    "io": io(server)
-})));
+app.use("/", router.create(container.create({})));
 
-app.listen(8063);
+socket = io(server.listen(8063));
