@@ -17,9 +17,12 @@ function create(initialData) {
     var container = new Baobab(initialData);
 
     container.facets.connection = container.createFacet({
-        "get": function () {
+        "cursors": {
+            "connectionString": container.select("parameters", "mongo", "connectionString")
+        },
+        "get": function (data) {
             return Promise.fromNode(function (cb) {
-                MongoClient.connect("mongodb://192.168.59.103:27017/chatboard", cb);
+                MongoClient.connect(data.connectionString, cb);
             });
         }
     });

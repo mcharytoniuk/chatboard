@@ -1,0 +1,5 @@
+{
+    "mongo": {
+        "connectionString": "mongodb://192.168.59.103:27017/chatboard"
+    }
+}

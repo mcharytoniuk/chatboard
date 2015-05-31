@@ -5,17 +5,18 @@
 
 "use strict";
 
+import Baobab from "baobab";
 import ChatDocument from "chatboard/React/ChatDocument";
 import io from "socket.io-client";
 import React from "react";
 
 var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig").textContent),
-    socket = io.connect("http://localhost:8063");
+    socket = io.connect("http://localhost:8063/" + chatDocumentConfig.chat.title),
+    stateTree = new Baobab(chatDocumentConfig);
 
 socket.on("chat message", function (message) {
-    chatDocumentConfig.messageList.push(message);
-
-    render();
+    stateTree.select("messageList").push(message);
+    stateTree.commit();
 });
 
 function onMessageSubmit(message) {
@@ -23,9 +24,10 @@ function onMessageSubmit(message) {
 }
 
 function render() {
-    React.render(<ChatDocument {...chatDocumentConfig}
+    React.render(<ChatDocument {...stateTree.get()}
         onMessageSubmit={onMessageSubmit}
     ></ChatDocument>, document.body);
 }
 
+stateTree.on("update", render);
 render();
