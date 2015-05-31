@@ -16,14 +16,8 @@ var path = require("path"),
     Promise = require("bluebird"),
     router = express.Router();
 
-mongoClientPromise = new Promise(function (resolve, reject) {
-    MongoClient.connect("mongodb://192.168.59.103:27017/chatboard", function (err, db) {
-        if (err) {
-            reject(err);
-        } else {
-            resolve(db);
-        }
-    });
+mongoClientPromise = Promise.fromNode(function (cb) {
+    MongoClient.connect("mongodb://192.168.59.103:27017/chatboard", cb);
 });
 
 router.get("/", function (req, res, next) {
