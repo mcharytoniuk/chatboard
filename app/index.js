@@ -7,54 +7,24 @@
 
 var path = require("path"),
     app,
-    chatController = require(path.resolve(__dirname, "controllers", "chat")),
-    chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
-    env,
     express = require("express"),
-    indexController = require(path.resolve(__dirname, "controllers", "index")),
-    messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
-    MongoClient = require("mongodb").MongoClient,
-    mongoClientPromise,
+    http = require("http"),
+    io,
     nunjucks = require("nunjucks"),
-    Promise = require("bluebird");
-
-mongoClientPromise = new Promise(function (resolve, reject) {
-    MongoClient.connect("mongodb://192.168.59.103:27017/chatboard", function (err, db) {
-        if (err) {
-            reject(err);
-        } else {
-            resolve(db);
-        }
-    });
-});
+    router = require(path.resolve(__dirname, "router")),
+    server,
+    socketIo = require("socket.io");
 
 app = express();
+
+server = http.createServer(app);
+io = socketIo(server);
 
 nunjucks.configure(path.resolve(__dirname, "views"), {
     "express": app
 });
 
 app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
-
-app.get("/", function (req, res, next) {
-    req.url = "/index.html";
-    next();
-});
-
-app.get("/index.html", function (req, res, next) {
-    mongoClientPromise.then(function (db) {
-        indexController(req, res, next, chatProvider.create(db));
-    }).catch(next);
-});
-
-app.get("/:slug.chat", function (req, res, next) {
-    mongoClientPromise.then(function (db) {
-        chatController(req, res, next, chatProvider.create(db), messageProvider.create(db));
-    }).catch(next);
-});
-
-app.get("/:page.html", function (req, res) {
-    res.render("layout/" + req.params.page + ".html.twig");
-});
+app.use("/", router);
 
 app.listen(8063);

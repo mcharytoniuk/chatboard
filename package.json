@@ -5,7 +5,8 @@
         "express": "4.x",
         "lodash": "3.x",
         "mongodb": "2.x",
-        "nunjucks": "1.x"
+        "nunjucks": "1.x",
+        "socket.io": "1.x"
     },
     "devDependencies": {
     },
