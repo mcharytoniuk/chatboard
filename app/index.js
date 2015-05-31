@@ -7,6 +7,7 @@
 
 var path = require("path"),
     app,
+    container = require(path.resolve(__dirname, "container")),
     express = require("express"),
     http = require("http"),
     io,
@@ -25,6 +26,6 @@ nunjucks.configure(path.resolve(__dirname, "views"), {
 });
 
 app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
-app.use("/", router);
+app.use("/", router.create(container.create()));
 
 app.listen(8063);

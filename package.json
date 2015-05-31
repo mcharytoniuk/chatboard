@@ -1,6 +1,7 @@
 {
     "dependencies": {
         "ainojs-lipsum": "1.x",
+        "baobab": "1.x",
         "bluebird": "2.x",
         "express": "4.x",
         "lodash": "3.x",
