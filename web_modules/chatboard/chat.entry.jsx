@@ -9,10 +9,23 @@ import ChatDocument from "chatboard/React/ChatDocument";
 import io from "socket.io-client";
 import React from "react";
 
-var socket = io.connect("http://localhost:8063");
+var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig").textContent),
+    socket = io.connect("http://localhost:8063");
 
-socket.on("chat message", function () {
-    console.log(arguments);
+socket.on("chat message", function (message) {
+    chatDocumentConfig.messageList.push(message);
+
+    render();
 });
 
-React.render(<ChatDocument chat={{}} messages={[]} />, document.body);
+function onMessageSubmit(message) {
+    socket.emit("chat message", message);
+}
+
+function render() {
+    React.render(<ChatDocument {...chatDocumentConfig}
+        onMessageSubmit={onMessageSubmit}
+    ></ChatDocument>, document.body);
+}
+
+render();

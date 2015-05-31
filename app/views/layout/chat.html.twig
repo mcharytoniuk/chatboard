@@ -4,6 +4,15 @@
     <body class="page-chat">
 {% endblock %}
 
+{% block content %}
+    <script id="ChatDocumentConfig" type="application/json">
+        {{ {
+            "chat": chat,
+            "messageList": messageList
+        }|json }}
+    </script>
+{% endblock %}
+
 {% block scripts %}
     <script src="/assets/js/chatboard.chatboard-chat.min.js"></script>
 {% endblock %}

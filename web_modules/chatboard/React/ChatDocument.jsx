@@ -5,13 +5,25 @@
 
 "use strict";
 
+/*eslint no-underscore-dangle: 0 */
+
+import classnames from "classnames";
 import React from "react";
 
 export default class ChatDocument extends React.Component {
+    onFormSubmit(evt) {
+        evt.preventDefault();
+
+        this.props.onMessageSubmit(React.findDOMNode(this.refs.messageTextInput).value);
+    }
+
     render() {
         return <div>
             <header className="boardHeader">
-                <nav className="topbar {this.props.chat.themeClassnames}">
+                <nav className={classnames([
+                    "topbar",
+                    this.props.chat.themeClassnames
+                ])}>
                     <ul className="topnav">
                         <li>
                             <a href="/">
@@ -20,7 +32,10 @@ export default class ChatDocument extends React.Component {
                             </a>
                         </li>
                         <li>
-                            <span className="icon {this.props.chat.iconClassnames}" />
+                            <span className={classnames([
+                                "icon",
+                                this.props.chat.iconClassnames
+                            ])} />
                             <strong>{this.props.chat.title}</strong>
                         </li>
                         <li className="link-container">
@@ -156,7 +171,7 @@ export default class ChatDocument extends React.Component {
             <section className="boardMessages">
                 <div className="cell">
                     <div className="content">
-                        {this.props.messages.map(message => <article className="type-{message.type}">
+                        {this.props.messageList.map(message => <article className={"type-" + message.type} key={message._id}>
                             <p className="article-header">
                                 {message.author}, {message.date}
                             </p>
@@ -174,14 +189,14 @@ export default class ChatDocument extends React.Component {
             </section>
 
             <footer className="boardFooter">
-                <div className="inner-wrap">
+                <form className="inner-wrap" onSubmit={evt => this.onFormSubmit(evt)}>
                     <div className="right-side">
                         <button>Send</button>
                     </div>
                     <div className="left-side">
-                        <textarea placeholder="Message..." />
+                        <textarea placeholder="Message..." ref="messageTextInput" />
                     </div>
-                </div>
+                </form>
             </footer>
         </div>;
     }
@@ -189,5 +204,6 @@ export default class ChatDocument extends React.Component {
 
 ChatDocument.propTypes = {
     "chat": React.PropTypes.object.isRequired,
-    "messages": React.PropTypes.array.isRequired
+    "messageList": React.PropTypes.array.isRequired,
+    "onMessageSubmit": React.PropTypes.func.isRequired
 };
