@@ -13,8 +13,8 @@ var path = require("path"),
     mongoClientPromise,
     Promise = require("bluebird");
 
-function create() {
-    var container = new Baobab();
+function create(initialData) {
+    var container = new Baobab(initialData);
 
     container.facets.connection = container.createFacet({
         "get": function () {

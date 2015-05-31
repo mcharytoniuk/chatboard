@@ -1,1 +1,5 @@
+# generated files
+/assets/js/*
+
+# vendor libraries
 node_modules

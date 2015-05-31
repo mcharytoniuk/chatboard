@@ -8,7 +8,7 @@
 var _ = require("lodash"),
     Promise = require("bluebird");
 
-module.exports = function (req, res, next, chatProvider, messageProvider) {
+module.exports = function (req, res, next, chatProvider, io, messageProvider) {
     chatProvider.findOneBySlug(req.params.slug)
         .then(function (chat) {
             return Promise.props({

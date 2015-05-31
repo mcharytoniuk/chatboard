@@ -22,16 +22,17 @@ function create(container) {
     router.get("/index.html", function (req, res, next) {
         container.facets.chatProvider.get().then(function (chatProvider) {
             indexController(req, res, next, chatProvider);
-        });
+        }).catch(next);
     });
 
     router.get("/:slug.chat", function (req, res, next) {
         Promise.resolve([
             container.facets.chatProvider.get(),
-            container.facets.messageProvider.get()
-        ]).spread(function (chatProvider, messageProvider) {
-            chatController(req, res, next, chatProvider, messageProvider);
-        });
+            container.get("io"),
+            container.facets.messageProvider.get(),
+        ]).spread(function (chatProvider, io, messageProvider) {
+            chatController(req, res, next, chatProvider, io, messageProvider);
+        }).catch(next);
     });
 
     router.get("/:page.html", function (req, res) {

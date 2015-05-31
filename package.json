@@ -4,12 +4,19 @@
         "baobab": "1.x",
         "bluebird": "2.x",
         "express": "4.x",
+        "jquery": "2.x",
         "lodash": "3.x",
         "mongodb": "2.x",
         "nunjucks": "1.x",
         "socket.io": "1.x"
     },
     "devDependencies": {
+        "gore-gulp": "0.x",
+        "gulp": "3.x"
+    },
+    "directories": {
+        "dist": "assets/js",
+        "lib": "web_modules"
     },
     "engines": {
         "node": ">=0.12"
