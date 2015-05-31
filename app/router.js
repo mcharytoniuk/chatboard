@@ -28,10 +28,10 @@ function create(container) {
     router.get("/:slug.chat", function (req, res, next) {
         Promise.resolve([
             container.facets.chatProvider.get(),
-            container.get("io"),
             container.facets.messageProvider.get(),
-        ]).spread(function (chatProvider, io, messageProvider) {
-            chatController(req, res, next, chatProvider, io, messageProvider);
+            container.get("socketServer")
+        ]).spread(function (chatProvider, messageProvider, socketServer) {
+            chatController(req, res, next, chatProvider, messageProvider, socketServer);
         }).catch(next);
     });
 

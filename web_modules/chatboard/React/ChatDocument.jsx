@@ -39,7 +39,7 @@ export default class ChatDocument extends React.Component {
                             <strong>{this.props.chat.title}</strong>
                         </li>
                         <li className="link-container">
-                            <input type="text" value="http://chtbrd.com/he74n" className="link" />
+                            <input type="text" defaultValue="http://chtbrd.com/he74n" className="link" />
                             <span className="ion-link icon" />
                         </li>
                     </ul>
@@ -95,7 +95,7 @@ export default class ChatDocument extends React.Component {
                                 <label>
                                     Edit:
                                 </label>
-                                <input type="text" className="input-md" value="What to eat!???" />
+                                <input type="text" className="input-md" defaultValue="What to eat!???" />
                             </div>
                         </div>
 

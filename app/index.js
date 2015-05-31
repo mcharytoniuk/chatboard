@@ -45,11 +45,5 @@ env.express(app);
 server = http.createServer(app);
 socketServer = io(server.listen(8063));
 
-socketServer.on("connection", function (socket) {
-    socket.on("chat message", function (msg) {
-        socketServer.emit("chat message", {
-            "content": msg,
-            "_id": Date.now()
-        });
-    });
-});
+containerInstance.set("socketServer", socketServer);
+containerInstance.commit();
