@@ -43,7 +43,7 @@ env.addFilter("json", JSON.stringify);
 env.express(app);
 
 server = http.createServer(app);
-socketServer = io(server.listen(8063));
+socketServer = io(server.listen(process.env.PORT || 8063));
 
 containerInstance.set("socketServer", socketServer);
 containerInstance.commit();
