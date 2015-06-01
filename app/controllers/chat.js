@@ -9,6 +9,12 @@ var _ = require("lodash"),
     Promise = require("bluebird"),
     socketServerListenerMap = new Map();
 
+function create(chatProvider, messageProvider, socketServer) {
+    return {
+        "onHttpRequest": _.partial(onHttpRequest, _, _, _, chatProvider, messageProvider, socketServer)
+    };
+}
+
 function createSocketServerNamespace(req, socketServer) {
     function listener(socket) {
         socket.on("chat message", function (msg) {
@@ -28,23 +34,25 @@ function createSocketServerNamespace(req, socketServer) {
     });
 }
 
-module.exports = function (req, res, next, chatProvider, messageProvider, socketServer) {
-    chatProvider.findOneBySlug(req.params.slug)
-        .then(function (chat) {
-            if (!chat) {
-                return next();
-            }
+function onHttpRequest(req, res, next, chatProvider, messageProvider, socketServer) {
+    return chatProvider.findOneBySlug(req.params.slug).then(function (chat) {
+        if (!chat) {
+            return next();
+        }
 
-            return createSocketServerNamespace(req, socketServer)
-                .then(function () {
-                    return Promise.props({
-                        "chat": chat,
-                        "messageList": messageProvider.findByChat(chat)
-                    });
-                })
-                .then(function (results) {
-                    res.render("layout/chat.html.twig", results);
+        return createSocketServerNamespace(req, socketServer)
+            .then(function () {
+                return Promise.props({
+                    "chat": chat,
+                    "messageList": messageProvider.findByChat(chat)
                 });
-        })
-        .catch(next);
+            })
+            .then(function (results) {
+                res.render("layout/chat.html.twig", results);
+            });
+    });
+};
+
+module.exports = {
+    "create": create
 };

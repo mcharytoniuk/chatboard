@@ -6,9 +6,7 @@
 "use strict";
 
 var path = require("path"),
-    chatController = require(path.resolve(__dirname, "controllers", "chat")),
     express = require("express"),
-    indexController = require(path.resolve(__dirname, "controllers", "index")),
     Promise = require("bluebird");
 
 function create(container) {
@@ -20,18 +18,14 @@ function create(container) {
     });
 
     router.get("/index.html", function (req, res, next) {
-        container.facets.chatProvider.get().then(function (chatProvider) {
-            indexController(req, res, next, chatProvider);
+        container.facets.indexController.get().then(function (indexController) {
+            return indexController.onHttpRequest(req, res, next);
         }).catch(next);
     });
 
     router.get("/:slug.chat", function (req, res, next) {
-        Promise.resolve([
-            container.facets.chatProvider.get(),
-            container.facets.messageProvider.get(),
-            container.get("socketServer")
-        ]).spread(function (chatProvider, messageProvider, socketServer) {
-            chatController(req, res, next, chatProvider, messageProvider, socketServer);
+        container.facets.chatController.get().then(function (chatController) {
+            return chatController.onHttpRequest(req, res, next);
         }).catch(next);
     });
 

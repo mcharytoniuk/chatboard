@@ -7,12 +7,20 @@
 
 var _ = require("lodash");
 
-module.exports = function (req, res, next, chatProvider) {
-    chatProvider.find(25)
-        .then(function (chatList) {
-            res.render("layout/index.html.twig", {
-                "chatList": chatList
-            });
-        })
-        .catch(next);
+function create(chatProvider) {
+    return {
+        "onHttpRequest": _.partial(onHttpRequest, _, _, _, chatProvider)
+    };
+}
+
+function onHttpRequest(req, res, next, chatProvider) {
+    return chatProvider.find(25).then(function (chatList) {
+        res.render("layout/index.html.twig", {
+            "chatList": chatList
+        });
+    });
+}
+
+module.exports = {
+    "create": create
 };

@@ -7,7 +7,9 @@
 
 var path = require("path"),
     Baobab = require("baobab"),
+    chatController = require(path.resolve(__dirname, "controllers", "chat")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
+    indexController = require(path.resolve(__dirname, "controllers", "index")),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
@@ -38,6 +40,17 @@ function create(initialData) {
         }
     });
 
+    container.facets.indexController = container.createFacet({
+        "facets": {
+            "chatProvider": container.facets.chatProvider
+        },
+        "get": function (data) {
+            return data.chatProvider.then(function (chatProvider) {
+                return indexController.create(chatProvider);
+            });
+        }
+    });
+
     container.facets.messageProvider = container.createFacet({
         "facets": {
             "connection": container.facets.connection
@@ -45,6 +58,21 @@ function create(initialData) {
         "get": function (data) {
             return data.connection.then(function (connection) {
                 return messageProvider.create(connection);
+            });
+        }
+    });
+
+    container.facets.chatController = container.createFacet({
+        "cursors": {
+            "socketServer": container.select("socketServer")
+        },
+        "facets": {
+            "chatProvider": container.facets.chatProvider,
+            "messageProvider": container.facets.messageProvider
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return chatController.create(results.chatProvider, results.messageProvider, results.socketServer);
             });
         }
     });
