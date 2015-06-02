@@ -20,7 +20,7 @@ var path = require("path"),
     server,
     socketServer;
 
-containerInstance = container.create({});
+containerInstance = container.create();
 
 function onParametersChange() {
     fs.readFile(parametersFilePath, function (err, data) {

@@ -9,17 +9,17 @@ var _ = require("lodash"),
     Rx = require("rx"),
     socketObservablesMap = new Map();
 
-function create(socketServer) {
+function create(chatPool, socketServer) {
     return {
-        "createSocketServerObservable": _.partial(createSocketServerObservable, socketServer, _)
+        "createSocketServerObservable": _.partial(createSocketServerObservable, chatPool, socketServer, _)
     };
 }
 
-function createSocketServerObservable(socketServer, req) {
-    var observable;
+function createSocketServerObservable(chatPool, socketServer, req) {
+    var observable = chatPool.get(req.params.slug);
 
-    if (socketObservablesMap.has(req.params.slug)) {
-        return Promise.resolve(socketObservablesMap.get(req.params.slug));
+    if (observable) {
+        return Promise.resolve(observable);
     }
 
     observable = Rx.Observable.create(function (observer) {
@@ -46,7 +46,7 @@ function createSocketServerObservable(socketServer, req) {
             });
         });
 
-    socketObservablesMap.set(req.params.slug, observable);
+    chatPool.set(req.params.slug, observable);
 
     return Promise.resolve(observable);
 }

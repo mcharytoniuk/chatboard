@@ -16,8 +16,15 @@ var path = require("path"),
     mongoClientPromise,
     Promise = require("bluebird");
 
-function create(initialData) {
-    var container = new Baobab(initialData);
+function create() {
+    var container,
+        cursors = {};
+
+    container = new Baobab({
+        "chatPool": {}
+    });
+
+    cursors.chatPool = container.select("chatPool");
 
     container.facets.connection = container.createFacet({
         "cursors": {
@@ -68,9 +75,11 @@ function create(initialData) {
             "socketServer": container.select("socketServer")
         },
         "get": function (data) {
-            return chatPoolManager.create(data.socketServer);
+            return chatPoolManager.create(cursors.chatPool, data.socketServer);
         }
     });
+    // on change -> update
+    // on something -> create
 
     container.facets.chatController = container.createFacet({
         "facets": {
