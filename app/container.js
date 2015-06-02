@@ -13,6 +13,7 @@ var path = require("path"),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
+    pool = require(path.resolve(__dirname, "..", "chatboard", "pool")),
     Promise = require("bluebird");
 
 function create(initialData) {
@@ -62,17 +63,24 @@ function create(initialData) {
         }
     });
 
-    container.facets.chatController = container.createFacet({
+    container.facets.pool = container.createFacet({
         "cursors": {
             "socketServer": container.select("socketServer")
         },
+        "get": function (data) {
+            return pool.create(data.socketServer);
+        }
+    });
+
+    container.facets.chatController = container.createFacet({
         "facets": {
             "chatProvider": container.facets.chatProvider,
-            "messageProvider": container.facets.messageProvider
+            "messageProvider": container.facets.messageProvider,
+            "pool": container.facets.pool
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatController.create(results.chatProvider, results.messageProvider, results.socketServer);
+                return chatController.create(results.chatProvider, results.messageProvider, results.pool);
             });
         }
     });
