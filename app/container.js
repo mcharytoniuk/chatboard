@@ -8,12 +8,12 @@
 var path = require("path"),
     Baobab = require("baobab"),
     chatController = require(path.resolve(__dirname, "controllers", "chat")),
+    chatPoolManager = require(path.resolve(__dirname, "..", "chatboard", "chatPoolManager")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
     indexController = require(path.resolve(__dirname, "controllers", "index")),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
-    pool = require(path.resolve(__dirname, "..", "chatboard", "pool")),
     Promise = require("bluebird");
 
 function create(initialData) {
@@ -63,24 +63,24 @@ function create(initialData) {
         }
     });
 
-    container.facets.pool = container.createFacet({
+    container.facets.chatPoolManager = container.createFacet({
         "cursors": {
             "socketServer": container.select("socketServer")
         },
         "get": function (data) {
-            return pool.create(data.socketServer);
+            return chatPoolManager.create(data.socketServer);
         }
     });
 
     container.facets.chatController = container.createFacet({
         "facets": {
+            "chatPoolManager": container.facets.chatPoolManager,
             "chatProvider": container.facets.chatProvider,
-            "messageProvider": container.facets.messageProvider,
-            "pool": container.facets.pool
+            "messageProvider": container.facets.messageProvider
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatController.create(results.chatProvider, results.messageProvider, results.pool);
+                return chatController.create(results.chatPoolManager, results.chatProvider, results.messageProvider);
             });
         }
     });

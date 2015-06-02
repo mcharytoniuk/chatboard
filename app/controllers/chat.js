@@ -14,13 +14,13 @@ function create(chatProvider, messageProvider, socketServer) {
     };
 }
 
-function onHttpRequest(req, res, next, chatProvider, messageProvider, pool) {
+function onHttpRequest(req, res, next, chatPoolManager, chatProvider, messageProvider) {
     return chatProvider.findOneBySlug(req.params.slug).then(function (chat) {
         if (!chat) {
             return next();
         }
 
-        return pool.createSocketServerObservable(req)
+        return chatPoolManager.createSocketServerObservable(req)
             .then(function (observable) {
                 return Promise.props({
                     "chat": chat,
