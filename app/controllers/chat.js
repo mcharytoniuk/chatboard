@@ -7,7 +7,8 @@
 
 var _ = require("lodash"),
     Promise = require("bluebird"),
-    socketServerListenerMap = new Map();
+    Rx = require("rx"),
+    socketObservablesMap = new Map();
 
 function create(chatProvider, messageProvider, socketServer) {
     return {
@@ -15,23 +16,40 @@ function create(chatProvider, messageProvider, socketServer) {
     };
 }
 
-function createSocketServerNamespace(req, socketServer) {
-    function listener(socket) {
-        socket.on("chat message", function (msg) {
-            socketServerListenerMap.get(req.params.slug).emit("chat message", {
-                "content": msg
-            });
-        });
+function createSocketServerObservable(req, socketServer) {
+    var observable;
+
+    if (socketObservablesMap.has(req.params.slug)) {
+        return Promise.resolve(socketObservablesMap.get(req.params.slug));
     }
 
-    return new Promise(function (resolve, reject) {
-        if (!socketServerListenerMap.has(req.params.slug)) {
-            socketServerListenerMap.set(req.params.slug, socketServer.of("/" + req.params.slug));
-            socketServerListenerMap.get(req.params.slug).on("connection", listener);
-        }
+    observable = Rx.Observable.create(function (observer) {
+            var namespacedSocketServer = socketServer.of("/" + req.params.slug);
 
-        resolve();
-    });
+            namespacedSocketServer.on("connection", function (socket) {
+                observer.onNext({
+                    "namespacedSocketServer": namespacedSocketServer,
+                    "socket": socket
+                });
+            });
+        })
+        .flatMap(function (namespacedSocketServerAndSocket) {
+            return Rx.Observable.create(function (observer) {
+                namespacedSocketServerAndSocket.socket.on("disconnect", function () {
+                    observer.onCompleted();
+                });
+
+                namespacedSocketServerAndSocket.socket.on("message", function (message) {
+                    observer.onNext(_.merge(namespacedSocketServerAndSocket, {
+                        "message": message
+                    }));
+                });
+            });
+        });
+
+    socketObservablesMap.set(req.params.slug, observable);
+
+    return Promise.resolve(observable);
 }
 
 function onHttpRequest(req, res, next, chatProvider, messageProvider, socketServer) {
@@ -40,15 +58,18 @@ function onHttpRequest(req, res, next, chatProvider, messageProvider, socketServ
             return next();
         }
 
-        return createSocketServerNamespace(req, socketServer)
-            .then(function () {
+        return createSocketServerObservable(req, socketServer)
+            .then(function (observable) {
                 return Promise.props({
                     "chat": chat,
-                    "messageList": messageProvider.findByChat(chat)
+                    "messageList": messageProvider.findByChat(chat),
+                    "observable": observable
                 });
             })
             .then(function (results) {
                 res.render("layout/chat.html.twig", results);
+
+                return results;
             });
     });
 };

@@ -14,13 +14,13 @@ var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig"
     socket = io.connect("http://localhost:8063/" + chatDocumentConfig.chat.title),
     stateTree = new Baobab(chatDocumentConfig);
 
-socket.on("chat message", function (message) {
+socket.on("message", function (message) {
     stateTree.select("messageList").push(message);
     stateTree.commit();
 });
 
 function onMessageSubmit(message) {
-    socket.emit("chat message", message);
+    socket.emit("message", message);
 }
 
 function render() {

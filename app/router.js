@@ -24,9 +24,16 @@ function create(container) {
     });
 
     router.get("/:slug.chat", function (req, res, next) {
-        container.facets.chatController.get().then(function (chatController) {
-            return chatController.onHttpRequest(req, res, next);
-        }).catch(next);
+        container.facets.chatController.get()
+            .then(function (chatController) {
+                return chatController.onHttpRequest(req, res, next);
+            })
+            .then(function (results) {
+                results.observable.subscribe(function (evt) {
+                    evt.namespacedSocketServer.emit("message", evt.message);
+                });
+            })
+            .catch(next);
     });
 
     router.get("/:page.html", function (req, res) {

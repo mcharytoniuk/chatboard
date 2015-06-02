@@ -12,6 +12,7 @@
         "mongodb": "2.x",
         "nunjucks": "1.x",
         "react": "0.x",
+        "rx": "2.x",
         "socket.io": "1.x",
         "socket.io-client": "1.x"
     },
