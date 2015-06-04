@@ -10,6 +10,7 @@ var path = require("path"),
     chatViewController = require(path.resolve(__dirname, "..", "chatboard", "viewController", "chat")),
     chatPoolManager = require(path.resolve(__dirname, "..", "chatboard", "chatPoolManager")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
+    chatSocketController = require(path.resolve(__dirname, "..", "chatboard", "socketController", "chat")),
     indexViewController = require(path.resolve(__dirname, "..", "chatboard", "viewController", "index")),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
@@ -71,6 +72,12 @@ function create(initialData) {
         },
         "get": function (data) {
             return chatPoolManager.create(data.chatPool, data.chatPoolEventEmitter, data.socketServer);
+        }
+    });
+
+    container.facets.chatSocketController = container.createFacet({
+        "get": function (data) {
+            return Promise.resolve(chatSocketController.create());
         }
     });
 
