@@ -7,6 +7,7 @@
 
 var path = require("path"),
     app,
+    chatPoolEventEmitter,
     container = require(path.resolve(__dirname, "container")),
     containerInstance,
     env,
@@ -22,9 +23,10 @@ var path = require("path"),
     server,
     socketServer;
 
+chatPoolEventEmitter = new EventEmitter2();
 containerInstance = container.create({
     "chatPool": new Map(),
-    "chatPoolEventEmitter": new EventEmitter2()
+    "chatPoolEventEmitter": chatPoolEventEmitter
 });
 
 function onParametersChange() {
@@ -53,6 +55,12 @@ socketServer = io(server.listen(process.env.PORT || 8063));
 containerInstance.set("socketServer", socketServer);
 containerInstance.commit();
 
-containerInstance.get("chatPoolEventEmitter").on("message", function (evt) {
-    evt.namespacedSocketServer.emit("message", evt.message);
+chatPoolEventEmitter.on("message", function (evt) {
+    evt.namespacedSocketServer.emit("message", {
+        "_id": Date.now(),
+        "author": "AUTHOR",
+        "content": evt.message,
+        "date": Date.now(),
+        "type": "message"
+    });
 });
