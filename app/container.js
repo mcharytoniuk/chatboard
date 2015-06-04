@@ -7,10 +7,10 @@
 
 var path = require("path"),
     Baobab = require("baobab"),
-    chatController = require(path.resolve(__dirname, "..", "chatboard", "controllers", "chat")),
+    chatViewController = require(path.resolve(__dirname, "..", "chatboard", "viewController", "chat")),
     chatPoolManager = require(path.resolve(__dirname, "..", "chatboard", "chatPoolManager")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
-    indexController = require(path.resolve(__dirname, "..", "chatboard", "controllers", "index")),
+    indexViewController = require(path.resolve(__dirname, "..", "chatboard", "viewController", "index")),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
@@ -41,13 +41,13 @@ function create(initialData) {
         }
     });
 
-    container.facets.indexController = container.createFacet({
+    container.facets.indexViewController = container.createFacet({
         "facets": {
             "chatProvider": container.facets.chatProvider
         },
         "get": function (data) {
             return data.chatProvider.then(function (chatProvider) {
-                return indexController.create(chatProvider);
+                return indexViewController.create(chatProvider);
             });
         }
     });
@@ -74,7 +74,7 @@ function create(initialData) {
         }
     });
 
-    container.facets.chatController = container.createFacet({
+    container.facets.chatViewController = container.createFacet({
         "facets": {
             "chatPoolManager": container.facets.chatPoolManager,
             "chatProvider": container.facets.chatProvider,
@@ -82,7 +82,7 @@ function create(initialData) {
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatController.create(results.chatPoolManager, results.chatProvider, results.messageProvider);
+                return chatViewController.create(results.chatPoolManager, results.chatProvider, results.messageProvider);
             });
         }
     });

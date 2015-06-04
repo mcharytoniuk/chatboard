@@ -18,14 +18,14 @@ function create(container) {
     });
 
     router.get("/index.html", function (req, res, next) {
-        container.facets.indexController.get().then(function (indexController) {
-            return indexController.onHttpRequest(req, res, next);
+        container.facets.indexViewController.get().then(function (indexViewController) {
+            return indexViewController.onHttpRequest(req, res, next);
         }).catch(next);
     });
 
     router.get("/:slug.chat", function (req, res, next) {
-        container.facets.chatController.get().then(function (chatController) {
-            return chatController.onHttpRequest(req, res, next);
+        container.facets.chatViewController.get().then(function (chatViewController) {
+            return chatViewController.onHttpRequest(req, res, next);
         }).catch(next);
     });
 
