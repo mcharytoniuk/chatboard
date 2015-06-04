@@ -7,10 +7,10 @@
 
 var path = require("path"),
     app,
-    chatPoolEventEmitter,
     container = require(path.resolve(__dirname, "container")),
     containerInstance,
     env,
+    eventDispatcher = require(path.resolve(__dirname, "eventDispatcher")),
     EventEmitter2 = require("eventemitter2").EventEmitter2,
     express = require("express"),
     fs = require("fs"),
@@ -19,14 +19,12 @@ var path = require("path"),
     nunjucks = require("nunjucks"),
     parametersFilePath = path.resolve(__dirname, "..", "parameters.json"),
     router = require(path.resolve(__dirname, "router")),
-    Rx = require("rx"),
     server,
     socketServer;
 
-chatPoolEventEmitter = new EventEmitter2();
 containerInstance = container.create({
     "chatPool": new Map(),
-    "chatPoolEventEmitter": chatPoolEventEmitter
+    "chatPoolEventEmitter": new EventEmitter2()
 });
 
 function onParametersChange() {
@@ -55,12 +53,4 @@ socketServer = io(server.listen(process.env.PORT || 8063));
 containerInstance.set("socketServer", socketServer);
 containerInstance.commit();
 
-chatPoolEventEmitter.on("message", function (evt) {
-    evt.namespacedSocketServer.emit("message", {
-        "_id": Date.now(),
-        "author": "AUTHOR",
-        "content": evt.message,
-        "date": Date.now(),
-        "type": "message"
-    });
-});
+eventDispatcher.create(containerInstance);

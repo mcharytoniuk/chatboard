@@ -7,10 +7,10 @@
 
 var path = require("path"),
     Baobab = require("baobab"),
-    chatController = require(path.resolve(__dirname, "controllers", "chat")),
+    chatController = require(path.resolve(__dirname, "..", "chatboard", "controllers", "chat")),
     chatPoolManager = require(path.resolve(__dirname, "..", "chatboard", "chatPoolManager")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
-    indexController = require(path.resolve(__dirname, "controllers", "index")),
+    indexController = require(path.resolve(__dirname, "..", "chatboard", "controllers", "index")),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,

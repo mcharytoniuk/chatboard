@@ -32,8 +32,9 @@ function createSocketServerObservable(socketServer, slug) {
                 observer.onCompleted();
             });
 
-            namespacedSocketServerAndSocket.socket.on("message", function (message) {
+            namespacedSocketServerAndSocket.socket.on("message", function (message, feedback) {
                 observer.onNext(_.merge(namespacedSocketServerAndSocket, {
+                    "feedback": feedback,
                     "message": message
                 }));
             });

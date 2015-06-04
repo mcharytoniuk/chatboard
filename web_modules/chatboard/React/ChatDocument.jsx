@@ -215,7 +215,7 @@ export default class ChatDocument extends React.Component {
                     </div>
                     <div className="left-side">
                         <input
-                            autofocus
+                            autoFocus
                             onChange={evt => this.onPendingMessageChange(evt)}
                             placeholder="Message..."
                             ref="messageTextInput"
