@@ -11,10 +11,30 @@ import classnames from "classnames";
 import React from "react";
 
 export default class ChatDocument extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            "pendingMessage": ""
+        };
+    }
+
     onFormSubmit(evt) {
         evt.preventDefault();
 
+        this.setState({
+            "pendingMessage": ""
+        });
+
         this.props.onMessageSubmit(React.findDOMNode(this.refs.messageTextInput).value);
+    }
+
+    onPendingMessageChange(evt) {
+        evt.preventDefault();
+
+        this.setState({
+            "pendingMessage": evt.target.value
+        });
     }
 
     render() {
@@ -194,7 +214,14 @@ export default class ChatDocument extends React.Component {
                         <button>Send</button>
                     </div>
                     <div className="left-side">
-                        <textarea placeholder="Message..." ref="messageTextInput" />
+                        <input
+                            autofocus
+                            onChange={evt => this.onPendingMessageChange(evt)}
+                            placeholder="Message..."
+                            ref="messageTextInput"
+                            type="text"
+                            value={this.state.pendingMessage}
+                        ></input>
                     </div>
                 </form>
             </footer>

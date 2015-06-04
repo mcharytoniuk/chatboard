@@ -10,6 +10,7 @@ var path = require("path"),
     container = require(path.resolve(__dirname, "container")),
     containerInstance,
     env,
+    EventEmitter2 = require("eventemitter2").EventEmitter2,
     express = require("express"),
     fs = require("fs"),
     http = require("http"),
@@ -17,10 +18,14 @@ var path = require("path"),
     nunjucks = require("nunjucks"),
     parametersFilePath = path.resolve(__dirname, "..", "parameters.json"),
     router = require(path.resolve(__dirname, "router")),
+    Rx = require("rx"),
     server,
     socketServer;
 
-containerInstance = container.create();
+containerInstance = container.create({
+    "chatPool": new Map(),
+    "chatPoolEventEmitter": new EventEmitter2()
+});
 
 function onParametersChange() {
     fs.readFile(parametersFilePath, function (err, data) {
@@ -47,3 +52,7 @@ socketServer = io(server.listen(process.env.PORT || 8063));
 
 containerInstance.set("socketServer", socketServer);
 containerInstance.commit();
+
+containerInstance.get("chatPoolEventEmitter").on("message", function (evt) {
+    evt.namespacedSocketServer.emit("message", evt.message);
+});

@@ -20,18 +20,15 @@ function onHttpRequest(req, res, next, chatPoolManager, chatProvider, messagePro
             return next();
         }
 
-        return chatPoolManager.createSocketServerObservable(req)
-            .then(function (observable) {
+        return chatPoolManager.createGetSocketServerObservable(req)
+            .then(function () {
                 return Promise.props({
                     "chat": chat,
-                    "messageList": messageProvider.findByChat(chat),
-                    "observable": observable
+                    "messageList": messageProvider.findByChat(chat)
                 });
             })
             .then(function (results) {
                 res.render("layout/chat.html.twig", results);
-
-                return results;
             });
     });
 };

@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import React from "react";
 
 var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig").textContent),
-    socket = io.connect("http://localhost:8063/" + chatDocumentConfig.chat.title),
+    socket = io.connect("http://localhost:8063/" + chatDocumentConfig.chat.slug),
     stateTree = new Baobab(chatDocumentConfig);
 
 socket.on("message", function (message) {

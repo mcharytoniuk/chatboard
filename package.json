@@ -7,6 +7,7 @@
         "baobab": "1.x",
         "bluebird": "2.x",
         "classnames": "2.x",
+        "eventemitter2": "0.x",
         "express": "4.x",
         "lodash": "3.x",
         "mongodb": "2.x",

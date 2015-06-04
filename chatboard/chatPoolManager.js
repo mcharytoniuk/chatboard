@@ -9,46 +9,48 @@ var _ = require("lodash"),
     Rx = require("rx"),
     socketObservablesMap = new Map();
 
-function create(chatPool, socketServer) {
+function create(chatPool, chatPoolEventEmitter, socketServer) {
     return {
-        "createSocketServerObservable": _.partial(createSocketServerObservable, chatPool, socketServer, _)
+        "createGetSocketServerObservable": _.partial(createGetSocketServerObservable, chatPool, chatPoolEventEmitter, socketServer, _)
     };
 }
 
-function createSocketServerObservable(chatPool, socketServer, req) {
-    var observable = chatPool.get(req.params.slug);
+function createSocketServerObservable(socketServer, slug) {
+    return Rx.Observable.create(function (observer) {
+        var namespacedSocketServer = socketServer.of("/" + slug);
 
-    if (observable) {
-        return Promise.resolve(observable);
-    }
-
-    observable = Rx.Observable.create(function (observer) {
-            var namespacedSocketServer = socketServer.of("/" + req.params.slug);
-
-            namespacedSocketServer.on("connection", function (socket) {
-                observer.onNext({
-                    "namespacedSocketServer": namespacedSocketServer,
-                    "socket": socket
-                });
-            });
-        })
-        .flatMap(function (namespacedSocketServerAndSocket) {
-            return Rx.Observable.create(function (observer) {
-                namespacedSocketServerAndSocket.socket.on("disconnect", function () {
-                    observer.onCompleted();
-                });
-
-                namespacedSocketServerAndSocket.socket.on("message", function (message) {
-                    observer.onNext(_.merge(namespacedSocketServerAndSocket, {
-                        "message": message
-                    }));
-                });
+        namespacedSocketServer.on("connection", function (socket) {
+            observer.onNext({
+                "namespacedSocketServer": namespacedSocketServer,
+                "socket": socket
             });
         });
+    })
+    .flatMap(function (namespacedSocketServerAndSocket) {
+        return Rx.Observable.create(function (observer) {
+            namespacedSocketServerAndSocket.socket.on("disconnect", function () {
+                observer.onCompleted();
+            });
 
-    chatPool.set(req.params.slug, observable);
+            namespacedSocketServerAndSocket.socket.on("message", function (message) {
+                observer.onNext(_.merge(namespacedSocketServerAndSocket, {
+                    "message": message
+                }));
+            });
+        });
+    });
+}
 
-    return Promise.resolve(observable);
+function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketServer, req) {
+    var slug = req.params.slug;
+
+    if (!chatPool.has(slug)) {
+        chatPool.set(slug, createSocketServerObservable(socketServer, slug).subscribe(function (message) {
+            chatPoolEventEmitter.emit("message", message);
+        }));
+    }
+
+    return Promise.resolve(chatPool.get(slug));
 }
 
 module.exports = {
