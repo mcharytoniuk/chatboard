@@ -13,6 +13,7 @@ var path = require("path"),
     chatSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "chat")),
     indexViewController = require(path.resolve(__dirname, "..", "chatboard", "controller", "index")),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "message")),
+    messageStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
     Promise = require("bluebird");
@@ -64,6 +65,17 @@ function create(initialData) {
         }
     });
 
+    container.facets.messageStorage = container.createFacet({
+        "facets": {
+            "connection": container.facets.connection
+        },
+        "get": function (data) {
+            return data.connection.then(function (connection) {
+                return messageStorage.create(connection);
+            });
+        }
+    });
+
     container.facets.chatPoolManager = container.createFacet({
         "cursors": {
             "chatPool": container.select("chatPool"),
@@ -71,13 +83,18 @@ function create(initialData) {
             "socketServer": container.select("socketServer")
         },
         "get": function (data) {
-            return chatPoolManager.create(data.chatPool, data.chatPoolEventEmitter, data.socketServer);
+            return Promise.resolve(chatPoolManager.create(data.chatPool, data.chatPoolEventEmitter, data.socketServer));
         }
     });
 
     container.facets.chatSocketController = container.createFacet({
+        "facets": {
+            "messageStorage": container.facets.messageStorage
+        },
         "get": function (data) {
-            return Promise.resolve(chatSocketController.create());
+            return data.messageStorage.then(function (messageStorage) {
+                return chatSocketController.create(messageStorage);
+            });
         }
     });
 

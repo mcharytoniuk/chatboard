@@ -10,20 +10,22 @@ var path = require("path"),
     EVENTS = require(path.join(__dirname, "..", "..", "chatboard-events")),
     Promise = require("bluebird");
 
-function create() {
+function create(messageStorage) {
     return {
-        "onSocketMessage": onSocketMessage
+        "onSocketMessage": _.partial(onSocketMessage, messageStorage, _)
     };
 }
 
-function onSocketMessage(evt) {
-    evt.namespacedSocketServer.emit(EVENTS.SERVER_MESSAGE, {
-        "_id": Date.now(),
-        "author": "AUTHOR",
-        "content": evt.message,
-        "date": Date.now(),
-        "type": "message"
-    });
+function onSocketMessage(messageStorage, evt) {
+    return messageStorage.insertByChat(evt.data.chat, {
+            "author": null,
+            "content": evt.data.message.content,
+            "date": Date.now(),
+            "type": "message"
+        })
+        .then(function (result) {
+            evt.namespacedSocketServer.emit(EVENTS.SERVER_MESSAGE, _.first(result.ops));
+        });
 }
 
 module.exports = {

@@ -34,10 +34,10 @@ function createSocketServerObservable(socketServer, slug) {
                 observer.onCompleted();
             });
 
-            namespacedSocketServerAndSocket.socket.on(EVENTS.CLIENT_MESSAGE, function (message, feedback) {
+            namespacedSocketServerAndSocket.socket.on(EVENTS.CLIENT_MESSAGE, function (data, feedback) {
                 observer.onNext(_.merge(namespacedSocketServerAndSocket, {
-                    "feedback": feedback,
-                    "message": message
+                    "data": data,
+                    "feedback": feedback
                 }));
             });
         });

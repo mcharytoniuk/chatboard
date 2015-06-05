@@ -20,8 +20,13 @@ socket.on(EVENTS.SERVER_MESSAGE, function (message) {
     stateTree.commit();
 });
 
-function onMessageSubmit(message) {
-    socket.emit(EVENTS.CLIENT_MESSAGE, message);
+function onMessageSubmit(content) {
+    socket.emit(EVENTS.CLIENT_MESSAGE, {
+        "chat": chatDocumentConfig.chat,
+        "message": {
+            "content": content
+        }
+    });
 }
 
 function render() {
