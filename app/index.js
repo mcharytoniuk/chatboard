@@ -23,7 +23,7 @@ var path = require("path"),
     socketServer;
 
 containerInstance = container.create({
-    "chatPool": new Map(),
+    "chatPool": {},
     "chatPoolEventEmitter": new EventEmitter2()
 });
 

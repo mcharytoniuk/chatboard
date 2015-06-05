@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <script id="ChatDocumentConfig" type="application/json">
-        {{ {
+    <script id="ChatDocumentConfig" type="application/json">{{
+        {
             "chat": chat,
             "messageList": messageList
-        }|json }}
-    </script>
+        }|json
+    }}</script>
 {% endblock %}
 
 {% block scripts %}

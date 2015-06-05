@@ -8,8 +8,7 @@
 var path = require("path"),
     _ = require("lodash"),
     EVENTS = require(path.resolve(__dirname, "..", "chatboard-events")),
-    Rx = require("rx"),
-    socketObservablesMap = new Map();
+    Rx = require("rx");
 
 function create(chatPool, chatPoolEventEmitter, socketServer) {
     return {
@@ -47,13 +46,13 @@ function createSocketServerObservable(socketServer, slug) {
 function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketServer, req) {
     var slug = req.params.slug;
 
-    if (!chatPool.has(slug)) {
-        chatPool.set(slug, createSocketServerObservable(socketServer, slug).subscribe(function (message) {
+    if (!chatPool[slug]) {
+        chatPool[slug] = createSocketServerObservable(socketServer, slug).subscribe(function (message) {
             chatPoolEventEmitter.emit(EVENTS.CLIENT_MESSAGE, message);
-        }));
+        });
     }
 
-    return Promise.resolve(chatPool.get(slug));
+    return Promise.resolve(chatPool[slug]);
 }
 
 module.exports = {

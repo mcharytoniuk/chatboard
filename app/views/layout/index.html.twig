@@ -5,72 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="wrapper">
+    <script id="MainDocumentConfig" type="application/json">{{
+        {
+            "chatList": chatList
+        }|json
+    }}</script>
+{% endblock %}
 
-      <nav class="topbar">
-        <ul class="topnav">
-          <li><a href="#"><span class="ion-coffee logo"></span></a></li>
-          <li><a href="#">Create Board</a></li>
-          <li><a href="#">Terms of use</a></li>
-          <li><a href="#" for-panel=".panel-myProfile"><span class="ion-person"></span> My profile</a></li>
-          <li><a href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
-          <li class="search-container">
-            <input type="text" placeholder="Search" class="search">
-            <span class="ion-ios-search-strong icon"></span>
-          </li>
-        </ul>
-      </nav>
-      <div class="subbar">
-        <div class="subbar-inwrap">
-          <span class="button-xs circular fblike">like us on facebook</span>
-
-          <div class="gui-slidePanel panel-myProfile">
-            <div class="panelHeader">my profile</div>
-            <div class="panelContent">
-              <label>
-                Edit:
-              <input type="text" class="input-md" value="Dariusz Sikorski">
-              </label>
-              <div class="bar">
-                <div class="bar-left">
-                  <img src="http://woape.com/avatar_placeholder.png" alt="user photo" class="userPhoto">
-                  <span class="button-sm getPhotoBtn">import photo from facebook</span>
-                </div>
-                <div class="bar-right"><a href="#" class="deleteAccountBtn">delete account</a></div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="container">
-
-        <section class="tileGrid">
-            {% for chat in chatList %}
-                <a class="tile {{ chat.themeClassnames }}" href="{{ chat.slug }}.chat">
-                  <div>
-                    <span class="upper-left tile-part">
-                      <span class="ion-chatbubble icon"></span>
-                      <span>{{ chat.messagesCount }}</span>
-                    </span>
-                    <span class="upper-right tile-part">
-                      <span class="ion-person-stalker icon"></span>
-                      <span>{{ chat.membersCount }}</span>
-                    </span>
-                    <span class="centered tile-part">
-                      <span class="icon {{ chat.iconClassnames }}"></span>
-                      <strong>{{ chat.title }}</strong>
-                    </span>
-                  </div>
-                </a>
-            {% endfor %}
-        </section>
-
-      </div>
-    </div>
-
-    <div class="footer">
-        <p>&copy; 2014-2015. Made with love <span class="fa fa-heart-o"></span><br>by Authors of <i>Chatboard</i></p>
-    </div>
+{% block scripts %}
+    <script src="/assets/js/chatboard.chatboard-main.min.js"></script>
 {% endblock %}

@@ -6,6 +6,7 @@
 "use strict";
 
 var path = require("path"),
+    _ = require("lodash"),
     Baobab = require("baobab"),
     chatViewController = require(path.resolve(__dirname, "..", "chatboard", "controller", "chat")),
     chatPoolManager = require(path.resolve(__dirname, "..", "chatboard-sockets", "chatPoolManager")),
