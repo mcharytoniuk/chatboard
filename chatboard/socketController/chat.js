@@ -5,7 +5,9 @@
 
 "use strict";
 
-var _ = require("lodash"),
+var path = require("path"),
+    _ = require("lodash"),
+    EVENTS = require(path.join(__dirname, "..", "..", "chatboard-events")),
     Promise = require("bluebird");
 
 function create() {
@@ -15,7 +17,7 @@ function create() {
 }
 
 function onSocketMessage(evt) {
-    evt.namespacedSocketServer.emit("message", {
+    evt.namespacedSocketServer.emit(EVENTS.SERVER_MESSAGE, {
         "_id": Date.now(),
         "author": "AUTHOR",
         "content": evt.message,

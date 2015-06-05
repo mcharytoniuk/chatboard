@@ -5,7 +5,9 @@
 
 "use strict";
 
-var _ = require("lodash"),
+var path = require("path"),
+    _ = require("lodash"),
+    EVENTS = require(path.resolve(__dirname, "..", "chatboard-events")),
     Rx = require("rx"),
     socketObservablesMap = new Map();
 
@@ -32,7 +34,7 @@ function createSocketServerObservable(socketServer, slug) {
                 observer.onCompleted();
             });
 
-            namespacedSocketServerAndSocket.socket.on("message", function (message, feedback) {
+            namespacedSocketServerAndSocket.socket.on(EVENTS.CLIENT_MESSAGE, function (message, feedback) {
                 observer.onNext(_.merge(namespacedSocketServerAndSocket, {
                     "feedback": feedback,
                     "message": message
@@ -47,7 +49,7 @@ function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketS
 
     if (!chatPool.has(slug)) {
         chatPool.set(slug, createSocketServerObservable(socketServer, slug).subscribe(function (message) {
-            chatPoolEventEmitter.emit("message", message);
+            chatPoolEventEmitter.emit(EVENTS.CLIENT_MESSAGE, message);
         }));
     }
 

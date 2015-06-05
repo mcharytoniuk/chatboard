@@ -7,6 +7,7 @@
 
 import Baobab from "baobab";
 import ChatDocument from "chatboard/React/ChatDocument";
+import EVENTS from "chatboard-events";
 import io from "socket.io-client";
 import React from "react";
 
@@ -14,13 +15,13 @@ var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig"
     socket = io.connect("http://localhost:8063/" + chatDocumentConfig.chat.slug),
     stateTree = new Baobab(chatDocumentConfig);
 
-socket.on("message", function (message) {
+socket.on(EVENTS.SERVER_MESSAGE, function (message) {
     stateTree.select("messageList").push(message);
     stateTree.commit();
 });
 
 function onMessageSubmit(message) {
-    socket.emit("message", message);
+    socket.emit(EVENTS.CLIENT_MESSAGE, message);
 }
 
 function render() {

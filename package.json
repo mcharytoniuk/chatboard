@@ -1,6 +1,7 @@
 {
     "alias": {
-        "chatboard": "web_modules/chatboard"
+        "chatboard": "web_modules/chatboard",
+        "chatboard-events": "chatboard-events/index"
     },
     "dependencies": {
         "ainojs-lipsum": "1.x",
