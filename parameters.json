@@ -1,7 +1,7 @@
 {
     "mongo": {
-        "_connectionString": "mongodb://test:test@ds051577.mongolab.com:51577/heroku_app37378325",
-        "connectionString": "mongodb://localhost:27017/chatboard",
+        "connectionString": "mongodb://test:test@ds051577.mongolab.com:51577/heroku_app37378325",
+        "_connectionString": "mongodb://localhost:27017/chatboard",
         "__connectionString": "mongodb://192.168.0.3:27017/chatboard"
     }
 }

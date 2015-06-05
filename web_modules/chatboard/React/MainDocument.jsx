@@ -35,7 +35,7 @@ export default class MainDocument extends React.Component {
                             <div className="panelContent">
                                 <label>
                                     Edit:
-                                    <input type="text" className="input-md" value="Dariusz Sikorski" />
+                                    <input type="text" className="input-md" defaultValue="Dariusz Sikorski" />
                                 </label>
                                 <div className="bar">
                                     <div className="bar-left">
@@ -50,7 +50,7 @@ export default class MainDocument extends React.Component {
                 </div>
                 <div className="container">
                     <section className="tileGrid">
-                        {this.props.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat.slug + ".chat"}>
+                        {this.props.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat.slug + ".chat"} key={chat._id}>
                             <div>
                                 <span className="upper-left tile-part">
                                     <span className="ion-chatbubble icon"></span>

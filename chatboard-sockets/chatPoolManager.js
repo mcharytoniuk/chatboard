@@ -8,6 +8,7 @@
 var path = require("path"),
     _ = require("lodash"),
     EVENTS = require(path.resolve(__dirname, "..", "chatboard-events")),
+    Promise = require("bluebird"),
     Rx = require("rx");
 
 function create(chatPool, chatPoolEventEmitter, socketServer) {
