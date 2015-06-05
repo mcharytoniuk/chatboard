@@ -61,7 +61,7 @@ export default class MainDocument extends React.Component {
                                     <span>{chat.membersCount}</span>
                                 </span>
                                 <span className="centered tile-part">
-                                    <span className="icon {chat.iconClassnames}"></span>
+                                    <span className={classnames("icon", chat.iconClassnames)}></span>
                                     <strong>{chat.title}</strong>
                                 </span>
                             </div>
