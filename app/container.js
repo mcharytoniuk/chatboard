@@ -7,12 +7,12 @@
 
 var path = require("path"),
     Baobab = require("baobab"),
-    chatViewController = require(path.resolve(__dirname, "..", "chatboard", "viewController", "chat")),
-    chatPoolManager = require(path.resolve(__dirname, "..", "chatboard", "chatPoolManager")),
-    chatProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "chat")),
-    chatSocketController = require(path.resolve(__dirname, "..", "chatboard", "socketController", "chat")),
-    indexViewController = require(path.resolve(__dirname, "..", "chatboard", "viewController", "index")),
-    messageProvider = require(path.resolve(__dirname, "..", "chatboard", "provider", "message")),
+    chatViewController = require(path.resolve(__dirname, "..", "chatboard", "controller", "chat")),
+    chatPoolManager = require(path.resolve(__dirname, "..", "chatboard-sockets", "chatPoolManager")),
+    chatProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "chat")),
+    chatSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "chat")),
+    indexViewController = require(path.resolve(__dirname, "..", "chatboard", "controller", "index")),
+    messageProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
     Promise = require("bluebird");
