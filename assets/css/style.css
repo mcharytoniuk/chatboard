@@ -2,18 +2,18 @@
  * Dariusz Sikorski
  * 2015
  */
-/* 
+/*
 html5doctor.com Reset Stylesheet
 v1.6.1
 Last Updated: 2010-09-17
-Author: Richard Clark - http://richclarkdesign.com 
+Author: Richard Clark - http://richclarkdesign.com
 Twitter: @rich_clark
 */
-@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css';
-@import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
-@import url(http://fonts.googleapis.com/css?family=Grand+Hotel);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,600,300);
-@import url(http://fonts.googleapis.com/css?family=Lora:400,400italic|Lobster|Oswald);
+// @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css';
+// @import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
+// @import url(http://fonts.googleapis.com/css?family=Grand+Hotel);
+// @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,600,300);
+// @import url(http://fonts.googleapis.com/css?family=Lora:400,400italic|Lobster|Oswald);
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,

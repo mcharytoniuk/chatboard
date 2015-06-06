@@ -12,8 +12,20 @@ var path = require("path"),
 
 function create(messageStorage) {
     return {
+        "onSocketConnection": _.partial(onSocketConnection, _),
         "onSocketMessage": _.partial(onSocketMessage, messageStorage, _)
     };
+}
+
+function onSocketConnection(evt) {
+    // evt.socket.broadcast(EVENTS.CHTB_CLIENT_CONNECTION);
+    evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_MESSAGE, {
+        "author": "server",
+        "content": "someone has joined the chat",
+        "date": Date.now(),
+        "_id": Date.now(),
+        "type": "info"
+    });
 }
 
 function onSocketMessage(messageStorage, evt) {
@@ -24,7 +36,10 @@ function onSocketMessage(messageStorage, evt) {
             "type": "message"
         })
         .then(function (result) {
-            evt.namespacedSocketServer.emit(EVENTS.SERVER_MESSAGE, _.first(result.ops));
+            return _.first(result.ops);
+        })
+        .then(function (insertedMessage) {
+            evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_MESSAGE, insertedMessage);
         });
 }
 

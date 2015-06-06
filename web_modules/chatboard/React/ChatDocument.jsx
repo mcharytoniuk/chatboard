@@ -8,6 +8,7 @@
 /*eslint no-underscore-dangle: 0 */
 
 import classnames from "classnames";
+import moment from "moment";
 import React from "react";
 
 export default class ChatDocument extends React.Component {
@@ -193,7 +194,7 @@ export default class ChatDocument extends React.Component {
                     <div className="content">
                         {this.props.messageList.map(message => <article className={"type-" + message.type} key={message._id}>
                             <p className="article-header">
-                                {message.author}, {message.date}
+                                {message.author}, {moment(message.date).format("YYYY-MM-DD HH:mm:ss")}
                             </p>
                             <a href="#">
                                 <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />

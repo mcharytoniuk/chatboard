@@ -17,24 +17,28 @@ function create(chatPool, chatPoolEventEmitter, socketServer) {
     };
 }
 
-function createSocketServerObservable(socketServer, slug) {
+function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) {
     return Rx.Observable.create(function (observer) {
         var namespacedSocketServer = socketServer.of("/" + slug);
 
         namespacedSocketServer.on("connection", function (socket) {
-            observer.onNext({
+            var namespacedSocketServerAndSocket = {
                 "namespacedSocketServer": namespacedSocketServer,
                 "socket": socket
-            });
+            };
+
+            chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_CONNECTION, namespacedSocketServerAndSocket);
+            observer.onNext(namespacedSocketServerAndSocket);
         });
     })
     .flatMap(function (namespacedSocketServerAndSocket) {
         return Rx.Observable.create(function (observer) {
             namespacedSocketServerAndSocket.socket.on("disconnect", function () {
+                chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_DISCONNECT, namespacedSocketServerAndSocket);
                 observer.onCompleted();
             });
 
-            namespacedSocketServerAndSocket.socket.on(EVENTS.CLIENT_MESSAGE, function (data, feedback) {
+            namespacedSocketServerAndSocket.socket.on(EVENTS.CHTB_CLIENT_MESSAGE, function (data, feedback) {
                 observer.onNext(_.merge(namespacedSocketServerAndSocket, {
                     "data": data,
                     "feedback": feedback
@@ -47,10 +51,10 @@ function createSocketServerObservable(socketServer, slug) {
 function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketServer, req) {
     var slug = req.params.slug;
 
-    if (!chatPool[slug]) {
-        chatPool[slug] = createSocketServerObservable(socketServer, slug).subscribe(function (message) {
-            chatPoolEventEmitter.emit(EVENTS.CLIENT_MESSAGE, message);
-        });
+    if (!chatPool.has(slug)) {
+        chatPool.set(slug, createSocketServerObservable(chatPoolEventEmitter, socketServer, slug).subscribe(function (message) {
+            chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_MESSAGE, message);
+        }));
     }
 
     return Promise.resolve(chatPool[slug]);
