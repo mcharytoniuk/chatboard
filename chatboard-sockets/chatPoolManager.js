@@ -7,7 +7,7 @@
 
 var path = require("path"),
     _ = require("lodash"),
-    EVENTS = require(path.resolve(__dirname, "..", "chatboard-events")),
+    EVENTS = require(path.resolve(__dirname, "..", "chatboard-enums", "EVENTS")),
     Promise = require("bluebird"),
     Rx = require("rx");
 

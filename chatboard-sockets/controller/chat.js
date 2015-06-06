@@ -7,7 +7,7 @@
 
 var path = require("path"),
     _ = require("lodash"),
-    EVENTS = require(path.join(__dirname, "..", "..", "chatboard-events")),
+    EVENTS = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "EVENTS")),
     Promise = require("bluebird");
 
 function create(chatStorage, messageStorage) {

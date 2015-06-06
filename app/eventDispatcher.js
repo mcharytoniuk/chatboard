@@ -6,7 +6,7 @@
 "use strict";
 
 var path = require("path"),
-    EVENTS = require(path.resolve(__dirname, "..", "chatboard-events"));
+    EVENTS = require(path.resolve(__dirname, "..", "chatboard-enums", "EVENTS"));
 
 function attachListeners(container) {
     var chatPoolEventEmitter = container.get("chatPoolEventEmitter");

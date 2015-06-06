@@ -7,7 +7,7 @@
 
 import Baobab from "baobab";
 import ChatDocument from "chatboard/React/ChatDocument";
-import EVENTS from "chatboard-events";
+import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
 import React from "react";
 
