@@ -12,6 +12,14 @@ var path = require("path"),
 function create(container) {
     var router = express.Router();
 
+    router.get(/^\/([a-z0-9]{24})$/, function (req, res, next) {
+        req.params._id = req.params[0];
+
+        container.facets.chatViewController.get().then(function (chatViewController) {
+            return chatViewController.onHttpRequest(req, res, next);
+        }).catch(next);
+    });
+
     router.get("/", function (req, res, next) {
         req.url = "/index.html";
         next();
@@ -20,12 +28,6 @@ function create(container) {
     router.get("/index.html", function (req, res, next) {
         container.facets.indexViewController.get().then(function (indexViewController) {
             return indexViewController.onHttpRequest(req, res, next);
-        }).catch(next);
-    });
-
-    router.get("/:slug.chat", function (req, res, next) {
-        container.facets.chatViewController.get().then(function (chatViewController) {
-            return chatViewController.onHttpRequest(req, res, next);
         }).catch(next);
     });
 

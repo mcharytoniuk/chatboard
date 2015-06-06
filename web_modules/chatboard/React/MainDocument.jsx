@@ -50,7 +50,7 @@ export default class MainDocument extends React.Component {
                 </div>
                 <div className="container">
                     <section className="tileGrid">
-                        {this.props.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat.slug + ".chat"} key={chat._id}>
+                        {this.props.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat._id} key={chat._id}>
                             <div>
                                 <span className="upper-left tile-part">
                                     <span className="ion-chatbubble icon"></span>

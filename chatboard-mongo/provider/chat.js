@@ -9,6 +9,7 @@ var path = require("path"),
     _ = require("lodash"),
     iconClassnames,
     lipsum = require("ainojs-lipsum"),
+    ObjectID = require("mongodb").ObjectID,
     Promise = require("bluebird"),
     provider = require(path.resolve(__dirname, "..", "provider")),
     themeClassnames;
@@ -49,10 +50,10 @@ function find(db, count) {
     });
 }
 
-function findOneBySlug(db, slug) {
+function findOneById(db, _id) {
     return Promise.fromNode(function (cb) {
         db.collection("chat").findOne({
-            "slug": slug
+            "_id": new ObjectID(_id)
         }, cb);
     });
 }
@@ -65,7 +66,6 @@ function mockChat() {
         "membersCount": _.random(1, 120),
         "messagesCount": _.random(0, 120),
         "themeClassnames": _.sample(themeClassnames),
-        "slug": _.kebabCase(title),
         "title": title
     };
 }
@@ -73,6 +73,6 @@ function mockChat() {
 module.exports = {
     "create": provider.create({
         "find": find,
-        "findOneBySlug": findOneBySlug
+        "findOneById": findOneById
     })
 };

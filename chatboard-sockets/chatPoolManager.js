@@ -49,7 +49,7 @@ function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) 
 }
 
 function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketServer, req) {
-    var slug = req.params.slug;
+    var slug = req.params._id;
 
     if (!chatPool[slug]) {
         chatPool[slug] = createSocketServerObservable(chatPoolEventEmitter, socketServer, slug).subscribe(function (message) {

@@ -15,7 +15,7 @@ function create(chatProvider, messageProvider, socketServer) {
 }
 
 function onHttpRequest(req, res, next, chatPoolManager, chatProvider, messageProvider) {
-    return chatProvider.findOneBySlug(req.params.slug).then(function (chat) {
+    return chatProvider.findOneById(req.params._id).then(function (chat) {
         if (!chat) {
             return next();
         }
