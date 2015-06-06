@@ -51,10 +51,10 @@ function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) 
 function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketServer, req) {
     var slug = req.params.slug;
 
-    if (!chatPool.has(slug)) {
-        chatPool.set(slug, createSocketServerObservable(chatPoolEventEmitter, socketServer, slug).subscribe(function (message) {
+    if (!chatPool[slug]) {
+        chatPool[slug] = createSocketServerObservable(chatPoolEventEmitter, socketServer, slug).subscribe(function (message) {
             chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_MESSAGE, message);
-        }));
+        });
     }
 
     return Promise.resolve(chatPool[slug]);
