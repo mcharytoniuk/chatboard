@@ -10,22 +10,20 @@ var path = require("path"),
     EVENTS = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "EVENTS")),
     Promise = require("bluebird");
 
-function create(chatStorage, messageStorage) {
+function create(chatProvider, chatStorage, messageStorage) {
     return {
-        "onSocketColorChange": _.partial(onSocketColorChange, chatStorage, _),
+        "onSocketColorChange": _.partial(onSocketColorChange, chatProvider, chatStorage, _),
         "onSocketConnection": _.partial(onSocketConnection, _),
-        "onSocketIconChange": _.partial(onSocketIconChange, chatStorage, _),
+        "onSocketIconChange": _.partial(onSocketIconChange, chatProvider, chatStorage, _),
         "onSocketMessage": _.partial(onSocketMessage, messageStorage, _),
-        "onSocketTitleChange": _.partial(onSocketTitleChange, chatStorage, _)
+        "onSocketTitleChange": _.partial(onSocketTitleChange, chatProvider, chatStorage, _)
     };
 }
 
-function onSocketColorChange(chatStorage, evt) {
+function onSocketColorChange(chatProvider, chatStorage, evt) {
     return chatStorage.updateChatColor(evt.data.chat, evt.data.newChatColor)
         .then(function () {
-            return _.merge(evt.data.chat, {
-                "themeClassnames": evt.data.newChatColor.themeClassnames
-            });
+            return chatProvider.findOneById(evt.data.chat._id);
         })
         .then(function (updatedChat) {
             evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
@@ -42,12 +40,10 @@ function onSocketConnection(evt) {
     });
 }
 
-function onSocketIconChange(chatStorage, evt) {
+function onSocketIconChange(chatProvider, chatStorage, evt) {
     return chatStorage.updateChatIcon(evt.data.chat, evt.data.newChatIcon)
         .then(function () {
-            return _.merge(evt.data.chat, {
-                "iconClassnames": evt.data.newChatIcon
-            });
+            return chatProvider.findOneById(evt.data.chat._id);
         })
         .then(function (updatedChat) {
             evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
@@ -69,12 +65,10 @@ function onSocketMessage(messageStorage, evt) {
         });
 }
 
-function onSocketTitleChange(chatStorage, evt) {
+function onSocketTitleChange(chatProvider, chatStorage, evt) {
     return chatStorage.updateChatTitle(evt.data.chat, evt.data.newChatTitle)
         .then(function () {
-            return _.merge(evt.data.chat, {
-                "title": evt.data.newChatTitle
-            });
+            return chatProvider.findOneById(evt.data.chat._id);
         })
         .then(function (updatedChat) {
             evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);

@@ -102,12 +102,13 @@ function create(initialData) {
 
     container.facets.chatSocketController = container.createFacet({
         "facets": {
+            "chatProvider": container.facets.chatProvider,
             "chatStorage": container.facets.chatStorage,
             "messageStorage": container.facets.messageStorage
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatSocketController.create(results.chatStorage, results.messageStorage);
+                return chatSocketController.create(results.chatProvider, results.chatStorage, results.messageStorage);
             });
         }
     });
