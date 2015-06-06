@@ -7,9 +7,14 @@
 
 /*eslint no-underscore-dangle: 0 */
 
+import ColorSettings from "chatboard/React/ChatDocument/ColorSettings";
+import IconSettings from "chatboard/React/ChatDocument/IconSettings";
+import PrivacySettings from "chatboard/React/ChatDocument/PrivacySettings";
+import TitleSettings from "chatboard/React/ChatDocument/TitleSettings";
 import classnames from "classnames";
 import moment from "moment";
 import React from "react";
+import UserList from "chatboard/React/ChatDocument/UserList";
 
 export default class ChatDocument extends React.Component {
     constructor(props) {
@@ -39,11 +44,19 @@ export default class ChatDocument extends React.Component {
         });
     }
 
-    onSetActiveTabClick(evt, tabName) {
+    onToggleActiveTabClick(evt, tabName) {
+        var newActiveTab;
+
         evt.preventDefault();
 
+        if (this.state.activeTab === tabName) {
+            newActiveTab = null;
+        } else {
+            newActiveTab = tabName;
+        }
+
         this.setState({
-            "activeTab": tabName
+            "activeTab": newActiveTab
         });
     }
 
@@ -76,144 +89,26 @@ export default class ChatDocument extends React.Component {
                 </nav>
                 <div className="subbar">
                     <div className="subbar-inwrap">
-                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "userList")}>guest list</a>
-                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "changeTitle")}>title</a>
-                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "changeIcon")}>icon</a>
-                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "changeColor")}>color</a>
-                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "privPublic")}>private</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onToggleActiveTabClick(evt, "userList")}>guest list</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onToggleActiveTabClick(evt, "changeTitle")}>title</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onToggleActiveTabClick(evt, "changeIcon")}>icon</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onToggleActiveTabClick(evt, "changeColor")}>color</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onToggleActiveTabClick(evt, "privPublic")}>private</a>
 
-                        <div className={classnames({
-                            "active": "userList" === this.state.activeTab,
-                            "gui-slidePanel": true,
-                            "panel-userList": true
-                        })}>
-                            <div className="panelHeader">Conversation guests</div>
-                            <div className="panelContent">
-                                <div className="vert-list">
-                                    <div>
-                                        <a href="#">
-                                            <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
-                                            <span className="userName">Dariusz Sikorski</span>
-                                        </a>
-                                        <span className="button-xs kickButton">kick</span>
-                                    </div>
-                                    <div>
-                                        <a href="#">
-                                            <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
-                                            <span className="userName">Dariusz Sikorski</span>
-                                        </a>
-                                        <span className="button-xs kickButton">kick</span>
-                                    </div>
-                                    <div>
-                                        <a href="#">
-                                            <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
-                                            <span className="userName">Dariusz Sikorski</span>
-                                        </a>
-                                        <span className="userStatus">(Admin)</span>
-                                        <span className="button-xs kickButton">kick</span>
-                                    </div>
-                                    <div>
-                                        <a href="#">
-                                            <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
-                                            <span className="userName">Dariusz Sikorski</span>
-                                        </a>
-                                        <span className="button-xs kickButton">kick</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={classnames({
-                            "active": "changeTitle" === this.state.activeTab,
-                            "gui-slidePanel": true,
-                            "panel-changeTitle": true
-                        })}>
-                            <div className="panelHeader">chat title</div>
-                            <div className="panelContent">
-                                <label>
-                                    Edit:
-                                </label>
-                                <input type="text" className="input-md" defaultValue="What to eat!???" />
-                            </div>
-                        </div>
-
-                        <div className={classnames({
-                            "active": "changeIcon" === this.state.activeTab,
-                            "gui-slidePanel": true,
-                            "panel-changeIcon": true
-                        })}>
-                            <div className="panelHeader">chat icon</div>
-                            <div className="panelContent">
-                                <div className="iconList">
-                                    <span className="ion-android-happy" />
-                                    <span className="fa fa-meh-o" />
-                                    <span className="ion-android-sad" />
-                                    <span className="fa fa-comments-o" />
-                                    <span className="ion-beer" />
-                                    <span className="ion-pizza" />
-                                    <span className="ion-ios-sunny" />
-                                    <span className="ion-headphone" />
-                                    <span className="ion-heart" />
-                                    <span className="ion-transgender" />
-                                    <span className="fa fa-bicycle" />
-                                    <span className="fa fa-facebook-official" />
-                                    <span className="ion-map" />
-                                    <span className="ion-camera active" />
-                                    <span className="ion-iphone" />
-                                    <span className="ion-xbox" />
-                                    <span className="ion-playstation" />
-                                    <span className="ion-model-s" />
-                                    <span className="ion-code-working" />
-                                    <span className="ion-ios-game-controller-b" />
-                                    <span className="fa fa-stethoscope" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={classnames({
-                            "active": "changeColor" === this.state.activeTab,
-                            "gui-slidePanel": true,
-                            "panel-changeColor": true
-                        })}>
-                            <div className="panelHeader">chat color</div>
-                            <div className="panelContent">
-                                <div className="colorPalette">
-                                    <div className="theme-greenSea">color</div>
-                                    <div className="theme-pinkStraw">color</div>
-                                    <div className="theme-redAccent">color</div>
-                                    <div className="theme-greenSun">color</div>
-                                    <div className="theme-redShine">color</div>
-                                    <div className="theme-eveningSand">color</div>
-                                    <div className="theme-underWater">color</div>
-                                    <div className="theme-deepPurple active">color</div>
-                                    <div className="theme-skyBlue">color</div>
-                                    <div className="theme-calmGray">color</div>
-                                    <div className="theme-calmBlack">color</div>
-                                    <div className="theme-deepBlue">color</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={classnames({
-                            "active": "privPublic" === this.state.activeTab,
-                            "gui-slidePanel": true,
-                            "panel-privPublic": true
-                        })}>
-                            <div className="panelHeader">
-                                Set chat as private or public
-                            </div>
-                            <div className="panelContent">
-                                <label>
-                                    <input type="checkbox" />
-                                    Set as private
-                                </label>
-                                <hr />
-                                <i>
-                                    Your chat wont appear on main page when set on private,
-                                    but still can be viewed by people who got link to it.
-                                </i>
-                            </div>
-                        </div>
+                        {(() => {
+                            switch (this.state.activeTab) {
+                                case "changeColor":
+                                    return <ColorSettings />;
+                                case "changeIcon":
+                                    return <IconSettings />;
+                                case "changeTitle":
+                                    return <TitleSettings />;
+                                case "privPublic":
+                                    return <PrivacySettings />;
+                                case "userList":
+                                    return <UserList />;
+                            }
+                        })()}
                     </div>
                 </div>
             </header>

@@ -4,14 +4,11 @@
     <body class="page-main">
 {% endblock %}
 
-{% block content %}
+{% block scripts %}
     <script id="MainDocumentConfig" type="application/json">{{
         {
             "chatList": chatList
         }|json
     }}</script>
-{% endblock %}
-
-{% block scripts %}
     <script src="/assets/js/chatboard.chatboard-main.min.js"></script>
 {% endblock %}
