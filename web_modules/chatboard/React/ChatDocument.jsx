@@ -27,10 +27,19 @@ export default class ChatDocument extends React.Component {
         };
     }
 
-    onChatTitleChange(newChatTitle) {
+    closeTabs() {
         this.setState({
             "activeTab": null
         });
+    }
+
+    onChatIconChange(newChatIcon) {
+        this.closeTabs();
+        this.props.onChatIconChange(newChatIcon);
+    }
+
+    onChatTitleChange(newChatTitle) {
+        this.closeTabs();
         this.props.onChatTitleChange(newChatTitle);
     }
 
@@ -108,7 +117,10 @@ export default class ChatDocument extends React.Component {
                                 case "changeColor":
                                     return <ColorSettings />;
                                 case "changeIcon":
-                                    return <IconSettings />;
+                                    return <IconSettings
+                                        chat={this.props.chat}
+                                        onChatIconChange={newChatIcon => this.onChatIconChange(newChatIcon)}
+                                    ></IconSettings>;
                                 case "changeTitle":
                                     return <TitleSettings
                                         chat={this.props.chat}
@@ -168,6 +180,7 @@ export default class ChatDocument extends React.Component {
 ChatDocument.propTypes = {
     "chat": ChatPropType.isRequired,
     "messageList": React.PropTypes.array.isRequired,
+    "onChatIconChange": React.PropTypes.func.isRequired,
     "onChatTitleChange": React.PropTypes.func.isRequired,
     "onMessageSubmit": React.PropTypes.func.isRequired
 };

@@ -13,6 +13,7 @@ var path = require("path"),
 function create(chatStorage, messageStorage) {
     return {
         "onSocketConnection": _.partial(onSocketConnection, _),
+        "onSocketIconChange": _.partial(onSocketIconChange, chatStorage, _),
         "onSocketMessage": _.partial(onSocketMessage, messageStorage, _),
         "onSocketTitleChange": _.partial(onSocketTitleChange, chatStorage, _)
     };
@@ -26,6 +27,18 @@ function onSocketConnection(evt) {
         "_id": Date.now(),
         "type": "info"
     });
+}
+
+function onSocketIconChange(chatStorage, evt) {
+    return chatStorage.updateChatIcon(evt.data.chat, evt.data.newChatIcon)
+        .then(function () {
+            return _.merge(evt.data.chat, {
+                "iconClassnames": evt.data.newChatIcon
+            });
+        })
+        .then(function (updatedChat) {
+            evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+        });
 }
 
 function onSocketMessage(messageStorage, evt) {

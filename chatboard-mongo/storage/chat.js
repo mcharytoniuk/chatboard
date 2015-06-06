@@ -12,8 +12,21 @@ var path = require("path"),
 
 function create(db) {
     return {
+        "updateChatIcon": _.partial(updateChatIcon, db, _, _),
         "updateChatTitle": _.partial(updateChatTitle, db, _, _)
     };
+}
+
+function updateChatIcon(db, chat, newChatIcon) {
+    return Promise.fromNode(function (cb) {
+        db.collection("chat").update({
+            "_id": new ObjectID(chat._id)
+        }, {
+            "$set": {
+                "iconClassnames": newChatIcon
+            }
+        }, cb);
+    });
 }
 
 function updateChatTitle(db, chat, newChatTitle) {

@@ -33,23 +33,22 @@ function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) 
     })
     .flatMap(function (namespacedSocketServerAndSocket) {
         return Rx.Observable.create(function (observer) {
+            function forwardEvent(eventName) {
+                namespacedSocketServerAndSocket.socket.on(eventName, function (data, feedback) {
+                    chatPoolEventEmitter.emit(eventName, _.merge(namespacedSocketServerAndSocket, {
+                        "data": data,
+                        "feedback": feedback
+                    }));
+                });
+            }
+
+            forwardEvent(EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE);
+            forwardEvent(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE);
+            forwardEvent(EVENTS.CHTB_CLIENT_MESSAGE);
+
             namespacedSocketServerAndSocket.socket.on("disconnect", function () {
                 chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_DISCONNECT, namespacedSocketServerAndSocket);
                 observer.onCompleted();
-            });
-
-            namespacedSocketServerAndSocket.socket.on(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE, function (data, feedback) {
-                chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE, _.merge(namespacedSocketServerAndSocket, {
-                    "data": data,
-                    "feedback": feedback
-                }));
-            });
-
-            namespacedSocketServerAndSocket.socket.on(EVENTS.CHTB_CLIENT_MESSAGE, function (data, feedback) {
-                chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_MESSAGE, _.merge(namespacedSocketServerAndSocket, {
-                    "data": data,
-                    "feedback": feedback
-                }));
             });
         });
     });

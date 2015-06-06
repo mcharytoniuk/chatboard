@@ -5,37 +5,38 @@
 
 "use strict";
 
+import CHAT_ICONS from "chatboard-enums/CHAT_ICONS";
+import ChatPropType from "chatboard/React/PropType/Chat";
+import classnames from "classnames";
 import React from "react";
 
 export default class IconSettings extends React.Component {
+    onChatIconClick(evt, newChatIcon) {
+        evt.preventDefault();
+
+        this.props.onChatIconChange(newChatIcon);
+    }
+
     render() {
         return <div className="active gui-slidePanel panel-changeIcon">
             <div className="panelHeader">chat icon</div>
             <div className="panelContent">
                 <div className="iconList">
-                    <span className="ion-android-happy" />
-                    <span className="fa fa-meh-o" />
-                    <span className="ion-android-sad" />
-                    <span className="fa fa-comments-o" />
-                    <span className="ion-beer" />
-                    <span className="ion-pizza" />
-                    <span className="ion-ios-sunny" />
-                    <span className="ion-headphone" />
-                    <span className="ion-heart" />
-                    <span className="ion-transgender" />
-                    <span className="fa fa-bicycle" />
-                    <span className="fa fa-facebook-official" />
-                    <span className="ion-map" />
-                    <span className="ion-camera active" />
-                    <span className="ion-iphone" />
-                    <span className="ion-xbox" />
-                    <span className="ion-playstation" />
-                    <span className="ion-model-s" />
-                    <span className="ion-code-working" />
-                    <span className="ion-ios-game-controller-b" />
-                    <span className="fa fa-stethoscope" />
+                    {CHAT_ICONS.map(iconClassnames => <span
+                        className={classnames({
+                            "active": this.props.chat.iconClassnames === iconClassnames,
+                            [iconClassnames]: true
+                        })}
+                        key={iconClassnames}
+                        onClick={evt => this.onChatIconClick(evt, iconClassnames)}
+                    ></span>)}
                 </div>
             </div>
         </div>;
     }
 }
+
+IconSettings.propTypes = {
+    "chat": ChatPropType.isRequired,
+    "onChatIconChange": React.PropTypes.func.isRequired
+};

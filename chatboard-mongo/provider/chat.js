@@ -7,42 +7,12 @@
 
 var path = require("path"),
     _ = require("lodash"),
-    iconClassnames,
+    iconClassnames = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "CHAT_ICONS")),
     lipsum = require("ainojs-lipsum"),
     ObjectID = require("mongodb").ObjectID,
     Promise = require("bluebird"),
     provider = require(path.resolve(__dirname, "..", "provider")),
-    themeClassnames;
-
-iconClassnames = [
-    "fa fa-meh-o",
-    "fa fa-comments-o",
-    "fa fa-bicycle",
-    "fa fa-facebook-official",
-    "ion-android-happy",
-    "ion-android-sad",
-    "ion-beer",
-    "ion-pizza",
-    "ion-ios-sunny",
-    "ion-headphone",
-    "ion-heart",
-    "ion-map"
-];
-
-themeClassnames = [
-    "theme-calmBlack",
-    "theme-calmGray",
-    "theme-deepBlue",
-    "theme-deepPurple",
-    "theme-eveningSand",
-    "theme-greenSea",
-    "theme-greenSun",
-    "theme-pinkStraw",
-    "theme-redAccent",
-    "theme-redShine",
-    "theme-skyBlue",
-    "theme-underWater"
-];
+    themeClassnames = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "CHAT_THEMES"));
 
 function find(db, count) {
     return Promise.fromNode(function (cb) {

@@ -25,6 +25,13 @@ socket.on(EVENTS.CHTB_SERVER_MESSAGE, function (message) {
     stateTree.commit();
 });
 
+function onChatIconChange(newChatIcon) {
+    socket.emit(EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE, {
+        "chat": chatDocumentConfig.chat,
+        "newChatIcon": newChatIcon
+    });
+}
+
 function onChatTitleChange(newChatTitle) {
     socket.emit(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE, {
         "chat": chatDocumentConfig.chat,
@@ -43,6 +50,7 @@ function onMessageSubmit(content) {
 
 function render() {
     React.render(<ChatDocument {...stateTree.get()}
+        onChatIconChange={onChatIconChange}
         onChatTitleChange={onChatTitleChange}
         onMessageSubmit={onMessageSubmit}
     ></ChatDocument>, document.body);
