@@ -16,6 +16,7 @@ export default class ChatDocument extends React.Component {
         super(props);
 
         this.state = {
+            "activeTab": null,
             "pendingMessage": ""
         };
     }
@@ -35,6 +36,14 @@ export default class ChatDocument extends React.Component {
 
         this.setState({
             "pendingMessage": evt.target.value
+        });
+    }
+
+    onSetActiveTabClick(evt, tabName) {
+        evt.preventDefault();
+
+        this.setState({
+            "activeTab": tabName
         });
     }
 
@@ -67,13 +76,17 @@ export default class ChatDocument extends React.Component {
                 </nav>
                 <div className="subbar">
                     <div className="subbar-inwrap">
-                        <span className="button-xs sub-button" for-panel=".panel-userList">guest list</span>
-                        <span className="button-xs sub-button" for-panel=".panel-changeTitle">title</span>
-                        <span className="button-xs sub-button" for-panel=".panel-changeIcon">icon</span>
-                        <span className="button-xs sub-button" for-panel=".panel-changeColor">color</span>
-                        <span className="button-xs sub-button" for-panel=".panel-privPublic">private</span>
+                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "userList")}>guest list</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "changeTitle")}>title</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "changeIcon")}>icon</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "changeColor")}>color</a>
+                        <a className="button-xs sub-button" onClick={evt => this.onSetActiveTabClick(evt, "privPublic")}>private</a>
 
-                        <div className="gui-slidePanel panel-userList">
+                        <div className={classnames({
+                            "active": "userList" === this.state.activeTab,
+                            "gui-slidePanel": true,
+                            "panel-userList": true
+                        })}>
                             <div className="panelHeader">Conversation guests</div>
                             <div className="panelContent">
                                 <div className="vert-list">
@@ -110,7 +123,11 @@ export default class ChatDocument extends React.Component {
                             </div>
                         </div>
 
-                        <div className="gui-slidePanel panel-changeTitle">
+                        <div className={classnames({
+                            "active": "changeTitle" === this.state.activeTab,
+                            "gui-slidePanel": true,
+                            "panel-changeTitle": true
+                        })}>
                             <div className="panelHeader">chat title</div>
                             <div className="panelContent">
                                 <label>
@@ -120,7 +137,11 @@ export default class ChatDocument extends React.Component {
                             </div>
                         </div>
 
-                        <div className="gui-slidePanel panel-changeIcon">
+                        <div className={classnames({
+                            "active": "changeIcon" === this.state.activeTab,
+                            "gui-slidePanel": true,
+                            "panel-changeIcon": true
+                        })}>
                             <div className="panelHeader">chat icon</div>
                             <div className="panelContent">
                                 <div className="iconList">
@@ -149,7 +170,11 @@ export default class ChatDocument extends React.Component {
                             </div>
                         </div>
 
-                        <div className="gui-slidePanel panel-changeColor">
+                        <div className={classnames({
+                            "active": "changeColor" === this.state.activeTab,
+                            "gui-slidePanel": true,
+                            "panel-changeColor": true
+                        })}>
                             <div className="panelHeader">chat color</div>
                             <div className="panelContent">
                                 <div className="colorPalette">
@@ -169,7 +194,11 @@ export default class ChatDocument extends React.Component {
                             </div>
                         </div>
 
-                        <div className="gui-slidePanel panel-privPublic">
+                        <div className={classnames({
+                            "active": "privPublic" === this.state.activeTab,
+                            "gui-slidePanel": true,
+                            "panel-privPublic": true
+                        })}>
                             <div className="panelHeader">
                                 Set chat as private or public
                             </div>
