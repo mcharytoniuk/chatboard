@@ -40,6 +40,7 @@ export default class TitleSettings extends React.Component {
                 </label>
                 <input
                     className="input-md"
+                    onBlur={evt => this.onFormSubmit(evt)}
                     onChange={evt => this.onChatTitleChange(evt)}
                     type="text"
                     value={this.state.title}

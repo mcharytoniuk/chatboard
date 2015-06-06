@@ -27,27 +27,6 @@ export default class ChatDocument extends React.Component {
         };
     }
 
-    closeTabs() {
-        this.setState({
-            "activeTab": null
-        });
-    }
-
-    onChatColorChange(newChatColor) {
-        this.closeTabs();
-        this.props.onChatColorChange(newChatColor);
-    }
-
-    onChatIconChange(newChatIcon) {
-        this.closeTabs();
-        this.props.onChatIconChange(newChatIcon);
-    }
-
-    onChatTitleChange(newChatTitle) {
-        this.closeTabs();
-        this.props.onChatTitleChange(newChatTitle);
-    }
-
     onFormSubmit(evt) {
         evt.preventDefault();
 
@@ -122,17 +101,17 @@ export default class ChatDocument extends React.Component {
                                 case "changeColor":
                                     return <ColorSettings
                                         chat={this.props.chat}
-                                        onChatColorChange={newChatColor => this.onChatColorChange(newChatColor)}
+                                        onChatColorChange={newChatColor => this.props.onChatColorChange(newChatColor)}
                                     ></ColorSettings>;
                                 case "changeIcon":
                                     return <IconSettings
                                         chat={this.props.chat}
-                                        onChatIconChange={newChatIcon => this.onChatIconChange(newChatIcon)}
+                                        onChatIconChange={newChatIcon => this.props.onChatIconChange(newChatIcon)}
                                     ></IconSettings>;
                                 case "changeTitle":
                                     return <TitleSettings
                                         chat={this.props.chat}
-                                        onChatTitleChange={newChatTitle => this.onChatTitleChange(newChatTitle)}
+                                        onChatTitleChange={newChatTitle => this.props.onChatTitleChange(newChatTitle)}
                                     ></TitleSettings>;
                                 case "privPublic":
                                     return <PrivacySettings />;
