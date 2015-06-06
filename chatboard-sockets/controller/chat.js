@@ -10,16 +10,16 @@ var path = require("path"),
     EVENTS = require(path.join(__dirname, "..", "..", "chatboard-events")),
     Promise = require("bluebird");
 
-function create(messageStorage) {
+function create(chatStorage, messageStorage) {
     return {
         "onSocketConnection": _.partial(onSocketConnection, _),
-        "onSocketMessage": _.partial(onSocketMessage, messageStorage, _)
+        "onSocketMessage": _.partial(onSocketMessage, messageStorage, _),
+        "onSocketTitleChange": _.partial(onSocketTitleChange, chatStorage, _)
     };
 }
 
 function onSocketConnection(evt) {
-    // evt.socket.broadcast(EVENTS.CHTB_CLIENT_CONNECTION);
-    evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_MESSAGE, {
+    evt.socket.broadcast.emit(EVENTS.CHTB_SERVER_MESSAGE, {
         "author": "server",
         "content": "someone has joined the chat",
         "date": Date.now(),
@@ -40,6 +40,18 @@ function onSocketMessage(messageStorage, evt) {
         })
         .then(function (insertedMessage) {
             evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_MESSAGE, insertedMessage);
+        });
+}
+
+function onSocketTitleChange(chatStorage, evt) {
+    return chatStorage.updateChatTitle(evt.data.chat, evt.data.newChatTitle)
+        .then(function () {
+            return _.merge(evt.data.chat, {
+                "title": evt.data.newChatTitle
+            });
+        })
+        .then(function (updatedChat) {
+            evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
         });
 }
 

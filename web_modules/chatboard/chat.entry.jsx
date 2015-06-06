@@ -15,10 +15,22 @@ var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig"
     socket = io.connect("http://localhost:8063/" + chatDocumentConfig.chat._id),
     stateTree = new Baobab(chatDocumentConfig);
 
+socket.on(EVENTS.CHTB_SERVER_CHAT_UPDATE, function (chat) {
+    stateTree.set("chat", chat);
+    stateTree.commit();
+});
+
 socket.on(EVENTS.CHTB_SERVER_MESSAGE, function (message) {
     stateTree.select("messageList").push(message);
     stateTree.commit();
 });
+
+function onChatTitleChange(newChatTitle) {
+    socket.emit(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE, {
+        "chat": chatDocumentConfig.chat,
+        "newChatTitle": newChatTitle
+    });
+}
 
 function onMessageSubmit(content) {
     socket.emit(EVENTS.CHTB_CLIENT_MESSAGE, {
@@ -31,6 +43,7 @@ function onMessageSubmit(content) {
 
 function render() {
     React.render(<ChatDocument {...stateTree.get()}
+        onChatTitleChange={onChatTitleChange}
         onMessageSubmit={onMessageSubmit}
     ></ChatDocument>, document.body);
 }

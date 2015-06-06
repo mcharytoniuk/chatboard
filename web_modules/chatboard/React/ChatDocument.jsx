@@ -7,6 +7,7 @@
 
 /*eslint no-underscore-dangle: 0 */
 
+import ChatPropType from "chatboard/React/PropType/Chat";
 import ColorSettings from "chatboard/React/ChatDocument/ColorSettings";
 import IconSettings from "chatboard/React/ChatDocument/IconSettings";
 import PrivacySettings from "chatboard/React/ChatDocument/PrivacySettings";
@@ -24,6 +25,13 @@ export default class ChatDocument extends React.Component {
             "activeTab": null,
             "pendingMessage": ""
         };
+    }
+
+    onChatTitleChange(newChatTitle) {
+        this.setState({
+            "activeTab": null
+        });
+        this.props.onChatTitleChange(newChatTitle);
     }
 
     onFormSubmit(evt) {
@@ -102,7 +110,10 @@ export default class ChatDocument extends React.Component {
                                 case "changeIcon":
                                     return <IconSettings />;
                                 case "changeTitle":
-                                    return <TitleSettings />;
+                                    return <TitleSettings
+                                        chat={this.props.chat}
+                                        onChatTitleChange={newChatTitle => this.onChatTitleChange(newChatTitle)}
+                                    ></TitleSettings>;
                                 case "privPublic":
                                     return <PrivacySettings />;
                                 case "userList":
@@ -155,7 +166,8 @@ export default class ChatDocument extends React.Component {
 }
 
 ChatDocument.propTypes = {
-    "chat": React.PropTypes.object.isRequired,
+    "chat": ChatPropType.isRequired,
     "messageList": React.PropTypes.array.isRequired,
+    "onChatTitleChange": React.PropTypes.func.isRequired,
     "onMessageSubmit": React.PropTypes.func.isRequired
 };

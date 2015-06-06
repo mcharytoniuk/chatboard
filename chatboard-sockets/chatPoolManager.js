@@ -38,8 +38,15 @@ function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) 
                 observer.onCompleted();
             });
 
+            namespacedSocketServerAndSocket.socket.on(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE, function (data, feedback) {
+                chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE, _.merge(namespacedSocketServerAndSocket, {
+                    "data": data,
+                    "feedback": feedback
+                }));
+            });
+
             namespacedSocketServerAndSocket.socket.on(EVENTS.CHTB_CLIENT_MESSAGE, function (data, feedback) {
-                observer.onNext(_.merge(namespacedSocketServerAndSocket, {
+                chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_MESSAGE, _.merge(namespacedSocketServerAndSocket, {
                     "data": data,
                     "feedback": feedback
                 }));
@@ -52,9 +59,7 @@ function createGetSocketServerObservable(chatPool, chatPoolEventEmitter, socketS
     var slug = req.params._id;
 
     if (!chatPool[slug]) {
-        chatPool[slug] = createSocketServerObservable(chatPoolEventEmitter, socketServer, slug).subscribe(function (message) {
-            chatPoolEventEmitter.emit(EVENTS.CHTB_CLIENT_MESSAGE, message);
-        });
+        chatPool[slug] = createSocketServerObservable(chatPoolEventEmitter, socketServer, slug).subscribe();
     }
 
     return Promise.resolve(chatPool[slug]);
