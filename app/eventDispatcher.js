@@ -11,6 +11,12 @@ var path = require("path"),
 function attachListeners(container) {
     var chatPoolEventEmitter = container.get("chatPoolEventEmitter");
 
+    chatPoolEventEmitter.on(EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE, function (evt) {
+        container.facets.chatSocketController.get().then(function (chatSocketController) {
+            return chatSocketController.onSocketColorChange(evt);
+        });
+    });
+
     chatPoolEventEmitter.on(EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE, function (evt) {
         container.facets.chatSocketController.get().then(function (chatSocketController) {
             return chatSocketController.onSocketIconChange(evt);

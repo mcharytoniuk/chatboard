@@ -6,16 +6,52 @@
 "use strict";
 
 module.exports = [
-    "theme-calmBlack",
-    "theme-calmGray",
-    "theme-deepBlue",
-    "theme-deepPurple",
-    "theme-eveningSand",
-    "theme-greenSea",
-    "theme-greenSun",
-    "theme-pinkStraw",
-    "theme-redAccent",
-    "theme-redShine",
-    "theme-skyBlue",
-    "theme-underWater"
+    {
+        "themeClassnames": "theme-calmBlack",
+        "title": "Calm Black"
+    },
+    {
+        "themeClassnames": "theme-calmGray",
+        "title": "Calm Gray"
+    },
+    {
+        "themeClassnames": "theme-deepBlue",
+        "title": "Deep Blue"
+    },
+    {
+        "themeClassnames": "theme-deepPurple",
+        "title": "Deep Purple"
+    },
+    {
+        "themeClassnames": "theme-eveningSand",
+        "title": "Evening Sand"
+    },
+    {
+        "themeClassnames": "theme-greenSea",
+        "title": "Green Sea"
+    },
+    {
+        "themeClassnames": "theme-greenSun",
+        "title": "Green Sun"
+    },
+    {
+        "themeClassnames": "theme-pinkStraw",
+        "title": "Pink Straw"
+    },
+    {
+        "themeClassnames": "theme-redAccent",
+        "title": "Red Accent"
+    },
+    {
+        "themeClassnames": "theme-redShine",
+        "title": "Red Shine"
+    },
+    {
+        "themeClassnames": "theme-skyBlue",
+        "title": "Sky Blue"
+    },
+    {
+        "themeClassnames": "theme-underWater",
+        "title": "Under Water"
+    }
 ];

@@ -12,11 +12,24 @@ var path = require("path"),
 
 function create(chatStorage, messageStorage) {
     return {
+        "onSocketColorChange": _.partial(onSocketColorChange, chatStorage, _),
         "onSocketConnection": _.partial(onSocketConnection, _),
         "onSocketIconChange": _.partial(onSocketIconChange, chatStorage, _),
         "onSocketMessage": _.partial(onSocketMessage, messageStorage, _),
         "onSocketTitleChange": _.partial(onSocketTitleChange, chatStorage, _)
     };
+}
+
+function onSocketColorChange(chatStorage, evt) {
+    return chatStorage.updateChatColor(evt.data.chat, evt.data.newChatColor)
+        .then(function () {
+            return _.merge(evt.data.chat, {
+                "themeClassnames": evt.data.newChatColor.themeClassnames
+            });
+        })
+        .then(function (updatedChat) {
+            evt.namespacedSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+        });
 }
 
 function onSocketConnection(evt) {

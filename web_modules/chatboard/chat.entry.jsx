@@ -25,6 +25,13 @@ socket.on(EVENTS.CHTB_SERVER_MESSAGE, function (message) {
     stateTree.commit();
 });
 
+function onChatColorChange(newChatColor) {
+    socket.emit(EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE, {
+        "chat": chatDocumentConfig.chat,
+        "newChatColor": newChatColor
+    });
+}
+
 function onChatIconChange(newChatIcon) {
     socket.emit(EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE, {
         "chat": chatDocumentConfig.chat,
@@ -50,6 +57,7 @@ function onMessageSubmit(content) {
 
 function render() {
     React.render(<ChatDocument {...stateTree.get()}
+        onChatColorChange={onChatColorChange}
         onChatIconChange={onChatIconChange}
         onChatTitleChange={onChatTitleChange}
         onMessageSubmit={onMessageSubmit}

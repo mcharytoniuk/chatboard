@@ -42,6 +42,7 @@ function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) 
                 });
             }
 
+            forwardEvent(EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE);
             forwardEvent(EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE);
             forwardEvent(EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE);
             forwardEvent(EVENTS.CHTB_CLIENT_MESSAGE);
