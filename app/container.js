@@ -30,7 +30,10 @@ var path = require("path"),
     Promise = require("bluebird"),
     router = require(path.resolve(__dirname, "router")),
     session = require("express-session"),
-    RedisStore = require("connect-redis")(session);
+    RedisStore = require("connect-redis")(session),
+    userProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "user")),
+    userSessionManager = require(path.resolve(__dirname, "..", "chatboard-mongo", "userSessionManager")),
+    userStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "user"));
 
 function create(initialData) {
     var container = new Baobab(initialData),
@@ -135,6 +138,40 @@ function create(initialData) {
         }
     });
 
+    container.facets.userProvider = container.createFacet({
+        "facets": {
+            "connection": container.facets.connection
+        },
+        "get": function (data) {
+            return data.connection.then(function (connection) {
+                return userProvider.create(connection);
+            });
+        }
+    });
+
+    container.facets.userStorage = container.createFacet({
+        "facets": {
+            "connection": container.facets.connection
+        },
+        "get": function (data) {
+            return data.connection.then(function (connection) {
+                return userStorage.create(connection);
+            });
+        }
+    });
+
+    container.facets.userSessionManager = container.createFacet({
+        "facets": {
+            "userProvider": container.facets.userProvider,
+            "userStorage": container.facets.userStorage
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return userSessionManager.create(results.userProvider, results.userStorage);
+            });
+        }
+    });
+
     container.facets.app = container.createFacet({
         "cursors": {
             "parameters": parametersCursor,
@@ -142,7 +179,8 @@ function create(initialData) {
         },
         "facets": {
             "router": container.facets.router,
-            "sessionStore": container.facets.sessionStore
+            "sessionStore": container.facets.sessionStore,
+            "userSessionManager": container.facets.userSessionManager
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
@@ -150,17 +188,17 @@ function create(initialData) {
                     env;
 
                 passport.serializeUser(function (user, done) {
-                    done(null, user);
+                    results.userSessionManager.serializeUser(user).nodeify(done);
                 });
 
                 passport.deserializeUser(function (user, done) {
-                    done(null, user);
+                    results.userSessionManager.deserializeUser(user).nodeify(done);
                 });
 
                 passport.use(new FacebookStrategy(_.merge(results.parameters.facebook, {
                     "callbackURL": "http://localhost:8063/auth/login/facebook/callback"
                 }), function (accessToken, refreshToken, profile, done) {
-                    done(null, profile);
+                    results.userSessionManager.registerFacebookUser(profile).nodeify(done);
                 }));
 
                 app = express();
@@ -198,19 +236,31 @@ function create(initialData) {
         }
     });
 
+    container.facets.httpServer = container.createFacet({
+        "facets": {
+            "app": container.facets.app
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                var server = http.createServer(results.app);
+
+                return server.listen(process.env.PORT || 8063);
+            });
+        }
+    });
+
     container.facets.socketServer = container.createFacet({
         "cursors": {
             "parameters": parametersCursor,
             "sessionCookieName": sessionCookieNameCursor
         },
         "facets": {
-            "app": container.facets.app,
+            "httpServer": container.facets.httpServer,
             "sessionStore": container.facets.sessionStore
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                var server = http.createServer(results.app),
-                    socketServer = io(server.listen(process.env.PORT || 8063));
+                var socketServer = io(results.httpServer);
 
                 socketServer.use(passportSocketIo.authorize({
                     "cookieParser": cookieParser,
@@ -219,7 +269,7 @@ function create(initialData) {
                     },
                     "key": results.sessionCookieName,
                     "secret": results.parameters.chatboard.secret,
-                    "store": results.sessionStore,
+                    "store": results.sessionStore
                     // "success": onAuthorizeSuccess
                 }));
 
