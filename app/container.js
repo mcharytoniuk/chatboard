@@ -284,11 +284,12 @@ function create(initialData) {
             "chatStorage": container.facets.chatStorage,
             "messageProvider": container.facets.messageProvider,
             "messageStorage": container.facets.messageStorage,
-            "socketServer": container.facets.socketServer
+            "socketServer": container.facets.socketServer,
+            "userProvider": container.facets.userProvider
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatSocketController.create(results.chatProvider, results.chatStorage, results.messageProvider, results.messageStorage, results.socketServer);
+                return chatSocketController.create(results.chatProvider, results.chatStorage, results.messageProvider, results.messageStorage, results.socketServer, results.userProvider);
             });
         }
     });

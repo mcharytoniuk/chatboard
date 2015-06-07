@@ -6,6 +6,7 @@
 "use strict";
 
 var path = require("path"),
+    _ = require("lodash"),
     ObjectID = require("mongodb").ObjectID,
     Promise = require("bluebird"),
     provider = require(path.resolve(__dirname, "..", "provider"));
@@ -15,6 +16,18 @@ function findOneByFacebookUser(db, user) {
         db.collection("user").findOne({
             "facebookId": user.id
         }, cb);
+    });
+}
+
+function findByIdList(db, idList) {
+    return Promise.fromNode(function (cb) {
+        db.collection("user").find({
+            "_id": {
+                "$in": _(idList).unique().map(function (_id) {
+                    return new ObjectID(_id);
+                }).value()
+            }
+        }).toArray(cb);
     });
 }
 
@@ -28,6 +41,7 @@ function findOneById(db, _id) {
 
 module.exports = {
     "create": provider.create({
+        "findByIdList": findByIdList,
         "findOneByFacebookUser": findOneByFacebookUser,
         "findOneById": findOneById
     })

@@ -126,16 +126,16 @@ export default class ChatDocument extends React.Component {
             <section className="boardMessages">
                 <div className="cell">
                     <div className="content">
-                        {this.props.messageList.map(message => <article className={"type-" + message.type} key={message._id}>
+                        {this.props.messageAndUserList.map(messageAndUser => <article className={"type-" + messageAndUser.type} key={messageAndUser.message._id}>
                             <p className="article-header">
-                                {message.author && message.author.displayName}, {moment(message.date).format("YYYY-MM-DD HH:mm:ss")}
+                                {messageAndUser.user && messageAndUser.user.displayName}, {moment(messageAndUser.message.date).format("YYYY-MM-DD HH:mm:ss")}
                             </p>
                             <a href="#">
                                 <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
                             </a>
                             <div className="article-content">
                                 <p>
-                                    {message.content}
+                                    {messageAndUser.message.content}
                                 </p>
                             </div>
                         </article>)}
@@ -166,7 +166,7 @@ export default class ChatDocument extends React.Component {
 
 ChatDocument.propTypes = {
     "chat": ChatPropType.isRequired,
-    "messageList": React.PropTypes.array.isRequired,
+    "messageAndUserList": React.PropTypes.array.isRequired,
     "onChatColorChange": React.PropTypes.func.isRequired,
     "onChatIconChange": React.PropTypes.func.isRequired,
     "onChatTitleChange": React.PropTypes.func.isRequired,

@@ -19,7 +19,8 @@ function create(db) {
 function insertByChat(db, chat, message) {
     return Promise.fromNode(function (cb) {
         db.collection("message").insert(_.merge(message, {
-            "owner": new ObjectID(chat._id)
+            "owner": new ObjectID(chat._id),
+            "userId": new ObjectID(message.userId)
         }), cb);
     });
 }
