@@ -8,32 +8,24 @@
 var _ = require("lodash"),
     Promise = require("bluebird");
 
-function create(chatProvider, messageProvider, socketServer) {
+function create(chatProvider) {
     return {
-        "onHttpRequest": _.partial(onHttpRequest, _, _, _, chatProvider, messageProvider, socketServer)
+        "onHttpRequest": _.partial(onHttpRequest, _, _, _, chatProvider)
     };
 }
 
-function onHttpRequest(req, res, next, chatPoolManager, chatProvider, messageProvider) {
+function onHttpRequest(req, res, next, chatProvider) {
     return chatProvider.findOneById(req.params._id).then(function (chat) {
         if (!chat) {
             return next();
         }
 
-        return chatPoolManager.createGetSocketServerObservable(req)
-            .then(function () {
-                return Promise.props({
-                    "chat": chat,
-                    "messageList": messageProvider.findByChat(chat)
-                });
-            })
-            .then(function (results) {
-                res.render("layout/chat.html.twig", results);
-            });
+        res.render("layout/chat.html.twig", {
+            "chat": chat
+        });
     });
 };
 
 module.exports = {
     "create": create
 };
-

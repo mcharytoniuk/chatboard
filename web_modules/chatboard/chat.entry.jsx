@@ -12,8 +12,17 @@ import io from "socket.io-client";
 import React from "react";
 
 var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig").textContent),
-    socket = io.connect(window.location.origin + "/" + chatDocumentConfig.chat._id),
+    socket = io.connect(window.location.origin),
     stateTree = new Baobab(chatDocumentConfig);
+
+socket.on("connect", function () {
+    socket.emit(EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST, chatDocumentConfig);
+});
+
+socket.on(EVENTS.CHTB_SERVER_ROOM_JOIN_APPROVE, function (data) {
+    stateTree.set(data);
+    stateTree.commit();
+});
 
 socket.on(EVENTS.CHTB_SERVER_CHAT_UPDATE, function (chat) {
     stateTree.set("chat", chat);

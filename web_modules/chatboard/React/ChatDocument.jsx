@@ -128,7 +128,7 @@ export default class ChatDocument extends React.Component {
                     <div className="content">
                         {this.props.messageList.map(message => <article className={"type-" + message.type} key={message._id}>
                             <p className="article-header">
-                                {message.author}, {moment(message.date).format("YYYY-MM-DD HH:mm:ss")}
+                                {message.author && message.author.displayName}, {moment(message.date).format("YYYY-MM-DD HH:mm:ss")}
                             </p>
                             <a href="#">
                                 <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
