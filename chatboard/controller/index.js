@@ -16,7 +16,8 @@ function create(chatProvider) {
 function onHttpRequest(req, res, next, chatProvider) {
     return chatProvider.find(25).then(function (chatList) {
         res.render("layout/index.html.twig", {
-            "chatList": chatList
+            "chatList": chatList,
+            "user": req.user
         });
     });
 }

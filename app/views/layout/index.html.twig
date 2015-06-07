@@ -7,7 +7,8 @@
 {% block scripts %}
     <script id="MainDocumentConfig" type="application/json">{{
         {
-            "chatList": chatList
+            "chatList": chatList,
+            "user": user
         }|json
     }}</script>
     <script src="/assets/js/chatboard.chatboard-main.min.js"></script>

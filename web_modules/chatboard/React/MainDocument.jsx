@@ -20,7 +20,22 @@ export default class MainDocument extends React.Component {
                         <li><a href="#">Create Board</a></li>
                         <li><a href="#">Terms of use</a></li>
                         <li><a href="#" for-panel=".panel-myProfile"><span className="ion-person"></span> My profile</a></li>
-                        <li><a href="#"><span className="fa fa-sign-out"></span> Logout</a></li>
+                        {(() => {
+                            if (this.props.user) {
+                                return <li>
+                                    <a href="/auth/logout">
+                                        <span className="fa fa-sign-out"></span> Logout
+                                        ({this.props.user.displayName})
+                                    </a>
+                                </li>;
+                            }
+
+                            return <li>
+                                <a href="/login.html">
+                                    <span className="fa fa-sign-in"></span> Login
+                                </a>
+                            </li>;
+                        })()}
                         <li className="search-container">
                             <input type="text" placeholder="Search" className="search" />
                             <span className="ion-ios-search-strong icon"></span>

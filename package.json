@@ -8,12 +8,16 @@
         "baobab": "1.x",
         "bluebird": "2.x",
         "classnames": "2.x",
+        "connect-redis": "2.x",
         "eventemitter2": "0.x",
         "express": "4.x",
+        "express-session": "1.x",
         "lodash": "3.x",
         "moment": "2.x",
         "mongodb": "2.x",
         "nunjucks": "1.x",
+        "passport": "0.x",
+        "passport-facebook": "2.x",
         "react": "0.x",
         "rx": "2.x",
         "socket.io": "1.x",
@@ -21,7 +25,8 @@
     },
     "devDependencies": {
         "gore-gulp": "0.x",
-        "gulp": "3.x"
+        "gulp": "3.x",
+        "gulp-eslint": "0.x"
     },
     "directories": {
         "dist": "assets/js",
