@@ -52,7 +52,7 @@ function onSocketIconChange(chatProvider, chatStorage, evt) {
 
 function onSocketMessage(messageStorage, evt) {
     return messageStorage.insertByChat(evt.data.chat, {
-            "author": null,
+            "author": evt.user,
             "content": evt.data.message.content,
             "date": Date.now(),
             "type": "message"

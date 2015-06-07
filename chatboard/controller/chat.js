@@ -36,3 +36,4 @@ function onHttpRequest(req, res, next, chatPoolManager, chatProvider, messagePro
 module.exports = {
     "create": create
 };
+

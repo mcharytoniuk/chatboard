@@ -10,6 +10,7 @@ var path = require("path"),
     app,
     container = require(path.resolve(__dirname, "container")),
     containerInstance,
+    cookieParser = require("cookie-parser"),
     env,
     eventDispatcher = require(path.resolve(__dirname, "eventDispatcher")),
     EventEmitter2 = require("eventemitter2").EventEmitter2,
@@ -21,6 +22,7 @@ var path = require("path"),
     nunjucks = require("nunjucks"),
     parametersFilePath = path.resolve(__dirname, "..", "parameters.json"),
     passport = require("passport"),
+    passportSocketIo = require("passport.socketio"),
     router = require(path.resolve(__dirname, "router")),
     server,
     session = require("express-session"),
@@ -42,7 +44,9 @@ function onParametersChange() {
 }
 
 containerInstance.select("parameters").on("update", function () {
-    var parameters = containerInstance.get("parameters");
+    var parameters = containerInstance.get("parameters"),
+        sessionCookieName = "chatboard.sid",
+        sessionStore = new RedisStore(parameters.redis);
 
     passport.serializeUser(function (user, done) {
         done(null, user);
@@ -60,11 +64,13 @@ containerInstance.select("parameters").on("update", function () {
 
     app = express();
 
+    app.use(cookieParser(parameters.chatboard.secret));
     app.use(session({
+        "name": sessionCookieName,
         "resave": false,
         "saveUninitialized": false,
         "secret": parameters.chatboard.secret,
-        "store": new RedisStore(parameters.redis)
+        "store": sessionStore
     }));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -87,7 +93,18 @@ containerInstance.select("parameters").on("update", function () {
     env.express(app);
 
     server = http.createServer(app);
+
     socketServer = io(server.listen(process.env.PORT || 8063));
+    socketServer.use(passportSocketIo.authorize({
+        "cookieParser": cookieParser,
+        "fail": function (data, message, error, accept) {
+            accept();
+        },
+        "key": sessionCookieName,
+        "secret": parameters.chatboard.secret,
+        "store": sessionStore,
+        // "success": onAuthorizeSuccess
+    }));
 
     containerInstance.set("socketServer", socketServer);
     containerInstance.commit();

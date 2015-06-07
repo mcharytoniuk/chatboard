@@ -37,7 +37,8 @@ function createSocketServerObservable(chatPoolEventEmitter, socketServer, slug) 
                 namespacedSocketServerAndSocket.socket.on(eventName, function (data, feedback) {
                     chatPoolEventEmitter.emit(eventName, _.merge(namespacedSocketServerAndSocket, {
                         "data": data,
-                        "feedback": feedback
+                        "feedback": feedback,
+                        "user": namespacedSocketServerAndSocket.socket.request.user
                     }));
                 });
             }
