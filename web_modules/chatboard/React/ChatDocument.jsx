@@ -8,14 +8,16 @@
 /*eslint no-underscore-dangle: 0 */
 
 import ChatPropType from "chatboard/React/PropType/Chat";
+import classnames from "classnames";
 import ColorSettings from "chatboard/React/ChatDocument/ColorSettings";
 import IconSettings from "chatboard/React/ChatDocument/IconSettings";
-import PrivacySettings from "chatboard/React/ChatDocument/PrivacySettings";
-import TitleSettings from "chatboard/React/ChatDocument/TitleSettings";
-import classnames from "classnames";
+import MessagePropType from "chatboard/React/PropType/Message";
 import moment from "moment";
+import PrivacySettings from "chatboard/React/ChatDocument/PrivacySettings";
 import React from "react";
+import TitleSettings from "chatboard/React/ChatDocument/TitleSettings";
 import UserList from "chatboard/React/ChatDocument/UserList";
+import UserPropType from "chatboard/React/PropType/User";
 
 export default class ChatDocument extends React.Component {
     constructor(props) {
@@ -166,7 +168,10 @@ export default class ChatDocument extends React.Component {
 
 ChatDocument.propTypes = {
     "chat": ChatPropType.isRequired,
-    "messageAndUserList": React.PropTypes.array.isRequired,
+    "messageAndUserList": React.PropTypes.arrayOf(React.PropTypes.shape({
+        "message": MessagePropType.isRequired,
+        "user": UserPropType.isRequired
+    })).isRequired,
     "onChatColorChange": React.PropTypes.func.isRequired,
     "onChatIconChange": React.PropTypes.func.isRequired,
     "onChatTitleChange": React.PropTypes.func.isRequired,
