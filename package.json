@@ -9,6 +9,7 @@
         "classnames": "2.x",
         "connect-redis": "2.x",
         "cookie-parser": "1.x",
+        "csurf": "1.x",
         "eventemitter2": "0.x",
         "express": "4.x",
         "express-session": "1.x",
@@ -43,7 +44,7 @@
     "name": "chatboard",
     "repository": {
         "type": "git",
-        "url": "git@github.com:goreutils/chatboard.git"
+        "url": "git@github.com:chatboard/chatboard.git"
     },
     "scripts": {
         "start": "node app/index.js",

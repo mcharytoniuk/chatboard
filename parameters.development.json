@@ -1,5 +1,6 @@
 {
     "chatboard": {
+        "host": "http://localhost:8063",
         "secret": "hohoho"
     },
     "facebook": {

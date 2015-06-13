@@ -7,6 +7,7 @@
 
 var path = require("path"),
     _ = require("lodash"),
+    app = require(path.resolve(__dirname, "app")),
     Baobab = require("baobab"),
     chatPoolManager = require(path.resolve(__dirname, "..", "chatboard-sockets", "chatPoolManager")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "chat")),
@@ -15,8 +16,6 @@ var path = require("path"),
     chatViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "chat")),
     cookieParser = require("cookie-parser"),
     eventDispatcher = require(path.resolve(__dirname, "eventDispatcher")),
-    express = require("express"),
-    FacebookStrategy = require("passport-facebook").Strategy,
     http = require("http"),
     indexSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "index")),
     indexViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "index")),
@@ -26,8 +25,6 @@ var path = require("path"),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
     NAMESPACES = require(path.resolve(__dirname, "..", "chatboard-enums", "NAMESPACES")),
-    nunjucks = require("nunjucks"),
-    passport = require("passport"),
     passportSocketIo = require("passport.socketio"),
     Promise = require("bluebird"),
     router = require(path.resolve(__dirname, "router")),
@@ -35,8 +32,7 @@ var path = require("path"),
     RedisStore = require("connect-redis")(session),
     userProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "user")),
     userSessionManager = require(path.resolve(__dirname, "..", "chatboard-mongo", "userSessionManager")),
-    userStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "user")),
-    winston = require("winston");
+    userStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "user"));
 
 function create(initialData) {
     var container = new Baobab(initialData),
@@ -183,54 +179,7 @@ function create(initialData) {
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                var app,
-                    env;
-
-                passport.serializeUser(function (user, done) {
-                    results.userSessionManager.serializeUser(user).nodeify(done);
-                });
-
-                passport.deserializeUser(function (user, done) {
-                    results.userSessionManager.deserializeUser(user).nodeify(done);
-                });
-
-                passport.use(new FacebookStrategy(_.merge(results.parameters.facebook, {
-                    "callbackURL": "http://localhost:8063/auth/login/facebook/callback"
-                }), function (accessToken, refreshToken, profile, done) {
-                    results.userSessionManager.registerFacebookUser(profile).nodeify(done);
-                }));
-
-                app = express();
-
-                app.use(cookieParser(results.parameters.chatboard.secret));
-                app.use(session({
-                    "name": results.sessionCookieName,
-                    "resave": false,
-                    "saveUninitialized": false,
-                    "secret": results.parameters.chatboard.secret,
-                    "store": results.sessionStore
-                }));
-                app.use(passport.initialize());
-                app.use(passport.session());
-
-                app.get("/auth/login/facebook", passport.authenticate("facebook"));
-                app.get("/auth/login/facebook/callback", passport.authenticate("facebook", {
-                    "failureRedirect": "/login.html",
-                    "successRedirect": "/"
-                }));
-                app.get("/auth/logout", function(req, res){
-                    req.logout();
-                    res.redirect("/");
-                });
-
-                app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
-                app.use("/", results.router);
-
-                env = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.resolve(__dirname, "views")));
-                env.addFilter("json", JSON.stringify);
-                env.express(app);
-
-                return app;
+                return app.create(results.parameters, results.router, results.sessionCookieName, results.sessionStore, results.userSessionManager);
             });
         }
     });

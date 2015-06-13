@@ -9,6 +9,7 @@
 
 import ChatPropType from "chatboard/React/PropType/Chat";
 import classnames from "classnames";
+import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import React from "react";
 import UserPropType from "chatboard/React/PropType/User";
 
@@ -21,20 +22,8 @@ export default class MainDocument extends React.Component {
         };
     }
 
-    onToggleActiveTabClick(evt, tabName) {
-        var newActiveTab;
-
-        evt.preventDefault();
-
-        if (this.state.activeTab === tabName) {
-            newActiveTab = null;
-        } else {
-            newActiveTab = tabName;
-        }
-
-        this.setState({
-            "activeTab": newActiveTab
-        });
+    onToggleActiveTabClick() {
+        return onToggleActiveTabClick.apply(this, arguments);
     }
 
     render() {
@@ -43,7 +32,7 @@ export default class MainDocument extends React.Component {
                 <nav className="topbar">
                     <ul className="topnav">
                         <li><a href="#"><span className="ion-coffee logo" /></a></li>
-                        <li><a href="#">Create Board</a></li>
+                        <li><a href="/create">Create Board</a></li>
                         <li><a href="#">Terms of use</a></li>
                         {(() => {
                             if (this.props.user) {

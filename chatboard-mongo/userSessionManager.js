@@ -31,10 +31,9 @@ function registerFacebookUser(userProvider, userStorage, user) {
                 return storedUser;
             }
 
-            return userStorage.insertUsingFacebookUser(user)
-                .then(function () {
-                    return userProvider.findOneByFacebookUser(user);
-                });
+            return userStorage.insertUsingFacebookUser(user).then(function () {
+                return userProvider.findOneByFacebookUser(user);
+            });
         });
 }
 

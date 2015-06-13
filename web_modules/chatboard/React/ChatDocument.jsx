@@ -13,6 +13,7 @@ import ColorSettings from "chatboard/React/ChatDocument/ColorSettings";
 import IconSettings from "chatboard/React/ChatDocument/IconSettings";
 import MessagePropType from "chatboard/React/PropType/Message";
 import moment from "moment";
+import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import PrivacySettings from "chatboard/React/ChatDocument/PrivacySettings";
 import React from "react";
 import TitleSettings from "chatboard/React/ChatDocument/TitleSettings";
@@ -47,20 +48,8 @@ export default class ChatDocument extends React.Component {
         });
     }
 
-    onToggleActiveTabClick(evt, tabName) {
-        var newActiveTab;
-
-        evt.preventDefault();
-
-        if (this.state.activeTab === tabName) {
-            newActiveTab = null;
-        } else {
-            newActiveTab = tabName;
-        }
-
-        this.setState({
-            "activeTab": newActiveTab
-        });
+    onToggleActiveTabClick() {
+        return onToggleActiveTabClick.apply(this, arguments);
     }
 
     render() {
