@@ -10,19 +10,22 @@ var path = require("path"),
     ObjectID = require("mongodb").ObjectID,
     Promise = require("bluebird");
 
-function create(db) {
+function create(chatStorage, db) {
     return {
-        "insertByChat": _.partial(insertByChat, db, _, _)
+        "insertByChat": _.partial(insertByChat, chatStorage, db, _, _)
     };
 }
 
-function insertByChat(db, chat, message) {
-    return Promise.fromNode(function (cb) {
-        db.collection("message").insert(_.merge(message, {
-            "owner": new ObjectID(chat._id),
-            "userId": new ObjectID(message.userId)
-        }), cb);
-    });
+function insertByChat(chatStorage, db, chat, message) {
+    return Promise.all([
+        chatStorage.incrementChatMessageListLength(chat),
+        Promise.fromNode(function (cb) {
+            db.collection("message").insert(_.merge(message, {
+                "owner": new ObjectID(chat._id),
+                "userId": new ObjectID(message.userId)
+            }), cb);
+        })
+    ]);
 }
 
 module.exports = {

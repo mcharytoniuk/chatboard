@@ -10,10 +10,11 @@ import Baobab from "baobab";
 import ChatDocument from "chatboard/React/ChatDocument";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
+import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
 
 var chatDocumentConfig = JSON.parse(document.getElementById("ChatDocumentConfig").textContent),
-    socket = io.connect(window.location.origin),
+    socket = io.connect(window.location.origin + NAMESPACES.CHAT),
     stateTree = new Baobab(chatDocumentConfig);
 
 stateTree.facets.messageAndUserList = stateTree.createFacet({

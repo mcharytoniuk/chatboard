@@ -128,7 +128,7 @@ export default class ChatDocument extends React.Component {
             <section className="boardMessages">
                 <div className="cell">
                     <div className="content">
-                        {this.props.messageAndUserList.map(messageAndUser => <article className={"type-" + messageAndUser.type} key={messageAndUser.message._id}>
+                        {this.props.messageAndUserList.map(messageAndUser => <article className={"type-" + messageAndUser.message.type} key={messageAndUser.message._id}>
                             <p className="article-header">
                                 {messageAndUser.user && messageAndUser.user.displayName}, {moment(messageAndUser.message.date).format("YYYY-MM-DD HH:mm:ss")}
                             </p>

@@ -7,28 +7,9 @@
 
 var path = require("path"),
     _ = require("lodash"),
-    lipsum = require("ainojs-lipsum"),
     ObjectID = require("mongodb").ObjectID,
     Promise = require("bluebird"),
-    provider = require(path.resolve(__dirname, "..", "provider")),
-    types;
-
-types = [
-    "communicate",
-    "info",
-    "message",
-    "success",
-    "warning"
-];
-
-function mockMessage() {
-    return {
-        "author": lipsum.words(_.random(2, 3)),
-        "content": lipsum.words(_.random(10, 25)),
-        "date": new Date(),
-        "type": _.sample(types)
-    };
-}
+    provider = require(path.resolve(__dirname, "..", "provider"));
 
 function findByChat(db, chat) {
     return Promise.fromNode(function (cb) {

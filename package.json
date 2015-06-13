@@ -4,7 +4,6 @@
         "chatboard-enums": "chatboard-enums"
     },
     "dependencies": {
-        "ainojs-lipsum": "1.x",
         "baobab": "1.x",
         "bluebird": "2.x",
         "classnames": "2.x",
@@ -23,12 +22,13 @@
         "react": "0.x",
         "rx": "2.x",
         "socket.io": "1.x",
-        "socket.io-client": "1.x"
+        "socket.io-client": "1.x",
+        "winston": "1.x"
     },
     "devDependencies": {
+        "ainojs-lipsum": "1.x",
         "gore-gulp": "0.x",
-        "gulp": "3.x",
-        "gulp-eslint": "0.x"
+        "gulp": "3.x"
     },
     "directories": {
         "dist": "assets/js",

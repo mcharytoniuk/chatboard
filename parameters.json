@@ -1,18 +1,6 @@
 {
-    "facebook": {
-        "clientID": "865098323537637",
-        "clientSecret": "48a4e622c5d5a87324455bd5c76777e8"
-    },
-    "mongo": {
-        "_connectionString": "mongodb://test:test@ds051577.mongolab.com:51577/heroku_app37378325",
-        "connectionString": "mongodb://localhost:27017/chatboard",
-        "__connectionString": "mongodb://192.168.0.3:27017/chatboard"
-    },
-    "chatboard": {
-        "secret": "hohoho"
-    },
-    "redis": {
-        "host": "localhost",
-        "port": "6379"
+    "override": {
+        "development": "parameters.development.json",
+        "production": "/home/chatboard/parameters.json"
     }
 }

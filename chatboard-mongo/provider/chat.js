@@ -8,7 +8,6 @@
 var path = require("path"),
     _ = require("lodash"),
     iconClassnames = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "CHAT_ICONS")),
-    lipsum = require("ainojs-lipsum"),
     ObjectID = require("mongodb").ObjectID,
     Promise = require("bluebird"),
     provider = require(path.resolve(__dirname, "..", "provider")),
@@ -28,21 +27,19 @@ function findOneById(db, _id) {
     });
 }
 
-function mockChat() {
-    var title = lipsum.words(_.random(1, 5));
-
-    return {
-        "iconClassnames": _.sample(iconClassnames),
-        "membersCount": _.random(1, 120),
-        "messagesCount": _.random(0, 120),
-        "themeClassnames": _.sample(themeClassnames),
-        "title": title
-    };
+function findSample(db, limit) {
+    return Promise.fromNode(function (cb) {
+        db.collection("chat")
+            .find({})
+            .limit(limit)
+            .toArray(cb);
+    });
 }
 
 module.exports = {
     "create": provider.create({
         "find": find,
-        "findOneById": findOneById
+        "findOneById": findOneById,
+        "findSample": findSample
     })
 };

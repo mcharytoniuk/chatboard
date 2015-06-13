@@ -9,10 +9,11 @@ import Baobab from "baobab";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
 import MainDocument from "chatboard/React/MainDocument";
+import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
 
 var mainDocumentConfig = JSON.parse(document.getElementById("MainDocumentConfig").textContent),
-    socket = io.connect(window.location.origin),
+    socket = io.connect(window.location.origin + NAMESPACES.INDEX),
     stateTree = new Baobab(mainDocumentConfig);
 
 socket.on(EVENTS.CHTB_SERVER_CHAT_LIST_UPDATE, function (chatList) {
@@ -25,7 +26,7 @@ socket.on(EVENTS.CHTB_SERVER_USER_UPDATE, function (user) {
     stateTree.commit();
 });
 
-function onUserDisplayNameChange(newDisplayName) {
+function onUserDisplayNameChange() {
 }
 
 function render() {

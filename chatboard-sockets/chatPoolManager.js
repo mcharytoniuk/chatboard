@@ -12,18 +12,20 @@ var path = require("path"),
     Promise = require("bluebird"),
     Rx = require("rx");
 
-function create(chatPool, socketServer) {
+function create(chatPool, chatSocketServer) {
     return Rx.Observable.create(function (observer) {
-        socketServer.on("connection", function (socket) {
+        chatSocketServer.on("connection", function (socket) {
             observer.onNext(socket);
         });
 
-        socketServer.on("close", function () {
+        chatSocketServer.on("close", function () {
             observer.onCompleted();
         });
     })
     .flatMap(function (socket) {
         return Rx.Observable.create(function (observer) {
+            triggerEvent(socket, observer, EVENTS.CHTB_CLIENT_CONNECTION);
+
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE);
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE);
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST);
@@ -39,13 +41,17 @@ function create(chatPool, socketServer) {
 
 function forwardEvent(socket, observer, eventName) {
     socket.on(eventName, function (data, feedback) {
-        observer.onNext({
-            "data": data,
-            "feedback": feedback,
-            "name": eventName,
-            "socket": socket,
-            "user": socket.request.user
-        });
+        triggerEvent(socket, observer, eventName, data, feedback);
+    });
+}
+
+function triggerEvent(socket, observer, eventName, data, feedback) {
+    observer.onNext({
+        "data": data,
+        "feedback": feedback,
+        "name": eventName,
+        "socket": socket,
+        "user": socket.request.user
     });
 }
 

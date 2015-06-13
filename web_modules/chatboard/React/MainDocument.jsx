@@ -7,6 +7,7 @@
 
 /*eslint no-underscore-dangle: 0 */
 
+import ChatPropType from "chatboard/React/PropType/Chat";
 import classnames from "classnames";
 import React from "react";
 import UserPropType from "chatboard/React/PropType/User";
@@ -106,11 +107,11 @@ export default class MainDocument extends React.Component {
                             <div>
                                 <span className="upper-left tile-part">
                                     <span className="ion-chatbubble icon" />
-                                    <span>{chat.messagesCount}</span>
+                                    <span>{chat.messageListLength}</span>
                                 </span>
                                 <span className="upper-right tile-part">
                                     <span className="ion-person-stalker icon" />
-                                    <span>{chat.membersCount}</span>
+                                    <span>{chat.memberListLength}</span>
                                 </span>
                                 <span className="centered tile-part">
                                     <span className={classnames("icon", chat.iconClassnames)} />
@@ -134,6 +135,7 @@ export default class MainDocument extends React.Component {
 }
 
 MainDocument.propTypes = {
+    "chatList": React.PropTypes.arrayOf(ChatPropType).isRequired,
     "onUserDisplayNameChange": React.PropTypes.func.isRequired,
     "user": UserPropType
 };

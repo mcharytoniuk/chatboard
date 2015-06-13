@@ -6,11 +6,9 @@
 "use strict";
 
 var path = require("path"),
-    _ = require("lodash"),
-    app,
     container = require(path.resolve(__dirname, "container")),
     containerInstance,
-    fs = require("fs"),
+    parameters = require(path.resolve(__dirname, "parameters")),
     parametersFilePath = path.resolve(__dirname, "..", "parameters.json");
 
 containerInstance = container.create({
@@ -18,17 +16,10 @@ containerInstance = container.create({
     "sessionCookieName": "chatboard.sid"
 });
 
-function onParametersChange() {
-    fs.readFile(parametersFilePath, function (err, data) {
-        data = JSON.parse(data.toString());
+parameters.create(parametersFilePath).onUpdate(function (err, data) {
+    containerInstance.set("parameters", data);
+    containerInstance.commit();
 
-        containerInstance.set("parameters", data);
-        containerInstance.commit();
-
-        containerInstance.facets.eventDispatcher.get();
-        containerInstance.facets.socketServer.get();
-    });
-}
-
-fs.watch(parametersFilePath, onParametersChange);
-onParametersChange();
+    containerInstance.facets.eventDispatcher.get();
+    containerInstance.facets.socketServer.get();
+});

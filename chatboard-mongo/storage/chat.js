@@ -12,10 +12,23 @@ var path = require("path"),
 
 function create(db) {
     return {
+        "incrementChatMessageListLength": _.partial(incrementChatMessageListLength, db, _),
         "updateChatColor": _.partial(updateChatColor, db, _, _),
         "updateChatIcon": _.partial(updateChatIcon, db, _, _),
         "updateChatTitle": _.partial(updateChatTitle, db, _, _)
     };
+}
+
+function incrementChatMessageListLength(db, chat) {
+    return Promise.fromNode(function (cb) {
+        db.collection("chat").update({
+            "_id": new ObjectID(chat._id)
+        }, {
+            "$inc": {
+                "messageListLength": 1
+            }
+        }, cb);
+    });
 }
 
 function updateChatColor(db, chat, newChatColor) {

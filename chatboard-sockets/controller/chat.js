@@ -10,28 +10,28 @@ var path = require("path"),
     EVENTS = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "EVENTS")),
     Promise = require("bluebird");
 
-function create(chatProvider, chatStorage, messageProvider, messageStorage, socketServer, userProvider) {
+function create(chatProvider, chatSocketServer, chatStorage, messageProvider, messageStorage, userProvider) {
     return {
-        "onSocketColorChange": _.partial(onSocketColorChange, chatProvider, chatStorage, socketServer, _),
-        "onSocketConnection": _.partial(onSocketConnection, socketServer, _),
-        "onSocketIconChange": _.partial(onSocketIconChange, chatProvider, chatStorage, socketServer, _),
-        "onSocketMessage": _.partial(onSocketMessage, messageStorage, socketServer, _),
+        "onSocketColorChange": _.partial(onSocketColorChange, chatProvider, chatSocketServer, chatStorage, _),
+        "onSocketConnection": _.partial(onSocketConnection, chatSocketServer, _),
+        "onSocketIconChange": _.partial(onSocketIconChange, chatProvider, chatSocketServer, chatStorage, _),
+        "onSocketMessage": _.partial(onSocketMessage, messageStorage, chatSocketServer, _),
         "onSocketRoomJoinRequest": _.partial(onSocketRoomJoinRequest, messageProvider, userProvider, _),
-        "onSocketTitleChange": _.partial(onSocketTitleChange, chatProvider, chatStorage, socketServer, _)
+        "onSocketTitleChange": _.partial(onSocketTitleChange, chatProvider, chatSocketServer, chatStorage, _)
     };
 }
 
-function onSocketColorChange(chatProvider, chatStorage, socketServer, evt) {
+function onSocketColorChange(chatProvider, chatSocketServer, chatStorage, evt) {
     return chatStorage.updateChatColor(evt.data.chat, evt.data.newChatColor)
         .then(function () {
             return chatProvider.findOneById(evt.data.chat._id);
         })
         .then(function (updatedChat) {
-            socketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+            chatSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
         });
 }
 
-function onSocketConnection(socketServer, evt) {
+function onSocketConnection(chatSocketServer, evt) {
     evt.socket.broadcast.emit(EVENTS.CHTB_SERVER_MESSAGE, {
         "author": "server",
         "content": "someone has joined the chat",
@@ -41,17 +41,17 @@ function onSocketConnection(socketServer, evt) {
     });
 }
 
-function onSocketIconChange(chatProvider, chatStorage, socketServer, evt) {
+function onSocketIconChange(chatProvider, chatSocketServer, chatStorage, evt) {
     return chatStorage.updateChatIcon(evt.data.chat, evt.data.newChatIcon)
         .then(function () {
             return chatProvider.findOneById(evt.data.chat._id);
         })
         .then(function (updatedChat) {
-            socketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+            chatSocketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
         });
 }
 
-function onSocketMessage(messageStorage, socketServer, evt) {
+function onSocketMessage(messageStorage, chatSocketServer, evt) {
     return messageStorage.insertByChat(evt.data.chat, {
             "content": evt.data.message.content,
             "date": Date.now(),
@@ -62,7 +62,7 @@ function onSocketMessage(messageStorage, socketServer, evt) {
             return _.first(result.ops);
         })
         .then(function (insertedMessage) {
-            socketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, {
+            chatSocketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, {
                 "message": insertedMessage,
                 "user": evt.data.user
             });
@@ -87,13 +87,13 @@ function onSocketRoomJoinRequest(messageProvider, userProvider, evt) {
         });
 }
 
-function onSocketTitleChange(chatProvider, chatStorage, socketServer, evt) {
+function onSocketTitleChange(chatProvider, chatSocketServer, chatStorage, evt) {
     return chatStorage.updateChatTitle(evt.data.chat, evt.data.newChatTitle)
         .then(function () {
             return chatProvider.findOneById(evt.data.chat._id);
         })
         .then(function (updatedChat) {
-            socketServer.of(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+            chatSocketServer.of(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
         });
 }
 

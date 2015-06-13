@@ -12,18 +12,20 @@ var path = require("path"),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "chat")),
     chatSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "chat")),
     chatStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "chat")),
-    chatViewController = require(path.resolve(__dirname, "..", "chatboard", "controller", "chat")),
+    chatViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "chat")),
     cookieParser = require("cookie-parser"),
-    express = require("express"),
     eventDispatcher = require(path.resolve(__dirname, "eventDispatcher")),
+    express = require("express"),
     FacebookStrategy = require("passport-facebook").Strategy,
     http = require("http"),
-    indexViewController = require(path.resolve(__dirname, "..", "chatboard", "controller", "index")),
+    indexSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "index")),
+    indexViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "index")),
     io = require("socket.io"),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "message")),
     messageStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "message")),
     MongoClient = require("mongodb").MongoClient,
     mongoClientPromise,
+    NAMESPACES = require(path.resolve(__dirname, "..", "chatboard-enums", "NAMESPACES")),
     nunjucks = require("nunjucks"),
     passport = require("passport"),
     passportSocketIo = require("passport.socketio"),
@@ -33,7 +35,8 @@ var path = require("path"),
     RedisStore = require("connect-redis")(session),
     userProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "user")),
     userSessionManager = require(path.resolve(__dirname, "..", "chatboard-mongo", "userSessionManager")),
-    userStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "user"));
+    userStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "user")),
+    winston = require("winston");
 
 function create(initialData) {
     var container = new Baobab(initialData),
@@ -74,13 +77,8 @@ function create(initialData) {
     });
 
     container.facets.indexViewController = container.createFacet({
-        "facets": {
-            "chatProvider": container.facets.chatProvider
-        },
-        "get": function (data) {
-            return data.chatProvider.then(function (chatProvider) {
-                return indexViewController.create(chatProvider);
-            });
+        "get": function () {
+            return Promise.resolve(indexViewController.create());
         }
     });
 
@@ -97,11 +95,12 @@ function create(initialData) {
 
     container.facets.messageStorage = container.createFacet({
         "facets": {
+            "chatStorage": container.facets.chatStorage,
             "connection": container.facets.connection
         },
         "get": function (data) {
-            return data.connection.then(function (connection) {
-                return messageStorage.create(connection);
+            return Promise.props(data).then(function (results) {
+                return messageStorage.create(results.chatStorage, results.connection);
             });
         }
     });
@@ -278,18 +277,53 @@ function create(initialData) {
         }
     });
 
+    container.facets.chatSocketServer = container.createFacet({
+        "facets": {
+            "socketServer": container.facets.socketServer
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return results.socketServer.of(NAMESPACES.CHAT);
+            });
+        }
+    });
+
+    container.facets.indexSocketServer = container.createFacet({
+        "facets": {
+            "socketServer": container.facets.socketServer
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return results.socketServer.of(NAMESPACES.INDEX);
+            });
+        }
+    });
+
     container.facets.chatSocketController = container.createFacet({
         "facets": {
             "chatProvider": container.facets.chatProvider,
+            "chatSocketServer": container.facets.chatSocketServer,
             "chatStorage": container.facets.chatStorage,
             "messageProvider": container.facets.messageProvider,
             "messageStorage": container.facets.messageStorage,
-            "socketServer": container.facets.socketServer,
             "userProvider": container.facets.userProvider
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatSocketController.create(results.chatProvider, results.chatStorage, results.messageProvider, results.messageStorage, results.socketServer, results.userProvider);
+                return chatSocketController.create(results.chatProvider, results.chatSocketServer, results.chatStorage, results.messageProvider, results.messageStorage, results.userProvider);
+            });
+        }
+    });
+
+    container.facets.indexSocketController = container.createFacet({
+        "facets": {
+            "chatProvider": container.facets.chatProvider,
+            "chatSocketServer": container.facets.chatSocketServer,
+            "indexSocketServer": container.facets.indexSocketServer
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return indexSocketController.create(results.chatProvider, results.chatSocketServer, results.indexSocketServer);
             });
         }
     });
@@ -299,11 +333,11 @@ function create(initialData) {
             "chatPool": container.select("chatPool")
         },
         "facets": {
-            "socketServer": container.facets.socketServer
+            "chatSocketServer": container.facets.chatSocketServer
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatPoolManager.create(results.chatPool, results.socketServer)
+                return chatPoolManager.create(results.chatPool, results.chatSocketServer)
             });
         }
     });
@@ -311,12 +345,18 @@ function create(initialData) {
     container.facets.eventDispatcher = container.createFacet({
         "facets": {
             "chatPoolManager": container.facets.chatPoolManager,
-            "chatSocketController": container.facets.chatSocketController
+            "chatSocketController": container.facets.chatSocketController,
+            "indexSocketController": container.facets.indexSocketController
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return eventDispatcher.create(results.chatPoolManager, results.chatSocketController);
+                return eventDispatcher.create(results.chatPoolManager, results.chatSocketController, results.indexSocketController);
             });
+        }
+    });
+
+    container.facets.logger = container.createFacet({
+        "get": function () {
         }
     });
 

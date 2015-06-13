@@ -1,5 +1,6 @@
 # generated files
-/assets/js/*
+assets
 
 # vendor libraries
+bower_components
 node_modules

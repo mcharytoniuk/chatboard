@@ -1,0 +1,16 @@
+{
+    "chatboard": {
+        "secret": "hohoho"
+    },
+    "facebook": {
+        "clientID": "865098323537637",
+        "clientSecret": "48a4e622c5d5a87324455bd5c76777e8"
+    },
+    "mongo": {
+        "connectionString": "mongodb://localhost:27017/chatboard"
+    },
+    "redis": {
+        "host": "localhost",
+        "port": "6379"
+    }
+}
