@@ -30,6 +30,7 @@
     },
     "devDependencies": {
         "autoprefixer-core": "5.x",
+        "csswring": "3.x",
         "font-awesome": "4.x",
         "gore-gulp": "0.x",
         "gulp": "3.x",
