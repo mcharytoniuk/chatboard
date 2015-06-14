@@ -1,15 +1,10 @@
 {% extends "layout.html.twig" %}
 
-{% block bodyOpenTag %}
-    <body class="page-chat">
-{% endblock %}
-
-{% block scripts %}
+{% block content %}
     <script id="ChatDocumentConfig" type="application/json">{{
         {
             "chat": chat,
             "messageList": []
         }|json
     }}</script>
-    <script src="/assets/js/chatboard.chatboard-chat.min.js"></script>
 {% endblock %}

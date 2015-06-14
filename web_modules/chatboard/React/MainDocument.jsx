@@ -7,11 +7,13 @@
 
 /*eslint no-underscore-dangle: 0 */
 
-import ChatPropType from "chatboard/React/PropType/Chat";
 import classnames from "classnames";
 import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import React from "react";
-import UserPropType from "chatboard/React/PropType/User";
+import {Link} from "react-router";
+
+// import ChatPropType from "chatboard/React/PropType/Chat";
+// import UserPropType from "chatboard/React/PropType/User";
 
 import "whatwg-fetch";
 
@@ -21,8 +23,13 @@ export default class MainDocument extends React.Component {
 
         this.state = {
             "activeTab": null,
+            "chatList": [],
             "isBoardLoading": false
         };
+    }
+
+    componentWillMount() {
+        document.body.className = "page-main";
     }
 
     onCreateBoardClick(evt) {
@@ -58,41 +65,35 @@ export default class MainDocument extends React.Component {
                         <li>
                             <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
                                 Create Board
-                                {(() => {
-                                    if (this.state.isBoardLoading) {
-                                        return <span className="fa fa-spinner fa-pulse" />;
-                                    }
-                                }())}
+                                {this.state.isBoardLoading && (
+                                    <span className="fa fa-spinner fa-pulse" />
+                                )}
                             </a>
                         </li>
                         <li>
                             <a href="#">Terms of use</a>
                         </li>
-                        {(() => {
-                            if (this.props.user) {
-                                return <li>
-                                    <a href="#" onClick={evt => this.onToggleActiveTabClick(evt, "myProfile")}>
-                                        <span className="ion-person" /> My profile
-                                    </a>
-                                </li>;
-                            }
-                        }())}
-                        {(() => {
-                            if (this.props.user) {
-                                return <li>
-                                    <a href="/auth/logout">
-                                        <span className="fa fa-sign-out" /> Logout
-                                        ({this.props.user.displayName})
-                                    </a>
-                                </li>;
-                            }
-
-                            return <li>
-                                <a href="/login.html">
-                                    <span className="fa fa-sign-in" /> Login
+                        {this.state.user && (
+                            <li>
+                                <a href="#" onClick={evt => this.onToggleActiveTabClick(evt, "myProfile")}>
+                                    <span className="ion-person" /> My profile
                                 </a>
-                            </li>;
-                        })()}
+                            </li>
+                        )}
+                        {this.state.user ? (
+                            <li>
+                                <a href="/auth/logout">
+                                    <span className="fa fa-sign-out" /> Logout
+                                    ({this.state.user.displayName})
+                                </a>
+                            </li>
+                        ) : (
+                            <li>
+                                <Link to="/login">
+                                    <span className="fa fa-sign-in" /> Login
+                                </Link>
+                            </li>
+                        )}
                         <li className="search-container">
                             <input type="text" placeholder="Search" className="search" />
                             <span className="ion-ios-search-strong icon" />
@@ -102,31 +103,29 @@ export default class MainDocument extends React.Component {
                 <div className="subbar">
                     <div className="subbar-inwrap">
                         <span className="button-xs circular fblike">like us on facebook</span>
-                        {(() => {
-                            if (this.props.user && "myProfile" === this.state.activeTab) {
-                                return <form className="active gui-slidePanel panel-myProfile">
-                                    <div className="panelHeader">my profile</div>
-                                    <div className="panelContent">
-                                        <label>
-                                            Edit:
-                                            <input type="text" className="input-md" defaultValue={this.props.user.displayName} />
-                                        </label>
-                                        <div className="bar">
-                                            <div className="bar-left">
-                                                <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
-                                                <span className="button-sm getPhotoBtn">import photo from facebook</span>
-                                            </div>
-                                            <div className="bar-right"><a href="#" className="deleteAccountBtn">delete account</a></div>
+                        {this.state.user && "myProfile" === this.state.activeTab && (
+                            <form className="active gui-slidePanel panel-myProfile">
+                                <div className="panelHeader">my profile</div>
+                                <div className="panelContent">
+                                    <label>
+                                        Edit:
+                                        <input type="text" className="input-md" defaultValue={this.state.user.displayName} />
+                                    </label>
+                                    <div className="bar">
+                                        <div className="bar-left">
+                                            <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
+                                            <span className="button-sm getPhotoBtn">import photo from facebook</span>
                                         </div>
+                                        <div className="bar-right"><a href="#" className="deleteAccountBtn">delete account</a></div>
                                     </div>
-                                </form>;
-                            }
-                        }())}
+                                </div>
+                            </form>
+                        )}
                     </div>
                 </div>
                 <div className="container">
                     <section className="tileGrid">
-                        {this.props.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat._id} key={chat._id}>
+                        {this.state.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat._id} key={chat._id}>
                             <div>
                                 <span className="upper-left tile-part">
                                     <span className="ion-chatbubble icon" />
@@ -157,8 +156,8 @@ export default class MainDocument extends React.Component {
     }
 }
 
-MainDocument.propTypes = {
-    "chatList": React.PropTypes.arrayOf(ChatPropType).isRequired,
-    "onUserDisplayNameChange": React.PropTypes.func.isRequired,
-    "user": UserPropType
-};
+// MainDocument.propTypes = {
+//     "chatList": React.PropTypes.arrayOf(ChatPropType).isRequired,
+//     "onUserDisplayNameChange": React.PropTypes.func.isRequired,
+//     "user": UserPropType
+// };
