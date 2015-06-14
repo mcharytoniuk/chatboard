@@ -19,15 +19,10 @@ function create(chatViewController, indexViewController) {
     });
 
     router.get("/", function (req, res, next) {
-        req.url = "/index.html";
-        next();
-    });
-
-    router.get("/index.html", function (req, res, next) {
         indexViewController.onHttpRequest(req, res, next).catch(next);
     });
 
-    router.get("/:page.html", function (req, res) {
+    router.get("/:page", function (req, res) {
         res.render("layout/" + req.params.page + ".html.twig");
     });
 

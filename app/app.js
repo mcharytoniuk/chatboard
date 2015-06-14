@@ -48,7 +48,7 @@ function create(parameters, router, sessionCookieName, sessionStore, userSession
 
     app.get("/auth/login/facebook", passport.authenticate("facebook"));
     app.get("/auth/login/facebook/callback", passport.authenticate("facebook", {
-        "failureRedirect": "/login.html",
+        "failureRedirect": "/login",
         "successRedirect": "/"
     }));
     app.get("/auth/logout", function(req, res){
