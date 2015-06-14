@@ -5,8 +5,7 @@
 
 "use strict";
 
-var express = require("express"),
-    Promise = require("bluebird");
+var express = require("express");
 
 function create(chatViewController, indexViewController) {
     var router = express.Router();
@@ -21,9 +20,9 @@ function create(chatViewController, indexViewController) {
         indexViewController.onHttpRequest(req, res, next).catch(next);
     });
 
-    router.get("/:page", function (req, res) {
-        res.render("layout/" + req.params.page + ".html.twig");
-    });
+    // router.get("/:page", function (req, res) {
+    //     res.render("layout/" + req.params.page + ".html.twig");
+    // });
 
     return router;
 }

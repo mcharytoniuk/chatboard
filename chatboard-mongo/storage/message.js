@@ -17,15 +17,14 @@ function create(chatStorage, db) {
 }
 
 function insertByChat(chatStorage, db, chat, message) {
-    return Promise.all([
-        chatStorage.incrementChatMessageListLength(chat),
-        Promise.fromNode(function (cb) {
-            db.collection("message").insert(_.merge(message, {
-                "owner": new ObjectID(chat._id),
-                "userId": new ObjectID(message.userId)
-            }), cb);
-        })
-    ]);
+    return Promise.fromNode(function (cb) {
+        db.collection("message").insert(_.merge(message, {
+            "owner": new ObjectID(chat._id),
+            "userId": new ObjectID(message.userId)
+        }), cb);
+    }).then(function () {
+        return chatStorage.incrementChatMessageListLength(chat)
+    });
 }
 
 module.exports = {

@@ -4,6 +4,7 @@
         "chatboard-enums": "chatboard-enums"
     },
     "dependencies": {
+        "ainojs-lipsum": "1.x",
         "baobab": "1.x",
         "bluebird": "2.x",
         "classnames": "2.x",
@@ -26,7 +27,6 @@
         "winston": "1.x"
     },
     "devDependencies": {
-        "ainojs-lipsum": "1.x",
         "gore-gulp": "0.x",
         "gulp": "3.x"
     },

@@ -20,8 +20,13 @@ function onHttpRequest(req, res, next, chatProvider) {
             return next();
         }
 
-        res.render("layout/chat.html.twig", {
-            "chat": chat
+        return new Promise(function (resolve, reject) {
+            res.on("close", reject);
+            res.on("finish", resolve);
+
+            res.render("layout/chat.html.twig", {
+                "chat": chat
+            });
         });
     });
 };

@@ -8,23 +8,25 @@
 var _ = require("lodash"),
     Promise = require("bluebird");
 
-function create() {
+function create(chatStorage) {
     return {
-        "onHttpRequest": _.partial(onHttpRequest, _, _, _)
+        "onHttpRequest": _.partial(onHttpRequest, _, _, _, chatStorage)
     };
 }
 
-function onHttpRequest(req, res) {
+function onHttpRequest(req, res, next, chatStorage) {
     return new Promise(function (resolve, reject) {
         res.on("close", reject);
         res.on("finish", resolve);
 
-        res.render("layout/index.html.twig", {
-            "chatList": [],
-            "user": req.user
+        chatStorage.insert().then(function (result) {
+            res.json({
+                "error": null,
+                "result": result
+            });
         });
     });
-}
+};
 
 module.exports = {
     "create": create

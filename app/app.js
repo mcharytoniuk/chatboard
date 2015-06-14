@@ -13,9 +13,10 @@ var path = require("path"),
     nunjucks = require("nunjucks"),
     passport = require("passport"),
     passportSocketIo = require("passport.socketio"),
-    session = require("express-session");
+    session = require("express-session"),
+    url = require("url");
 
-function create(parameters, router, sessionCookieName, sessionStore, userSessionManager) {
+function create(apiRouter, httpRouter, parameters, sessionCookieName, sessionStore, userSessionManager) {
     var app,
         env;
 
@@ -28,7 +29,9 @@ function create(parameters, router, sessionCookieName, sessionStore, userSession
     });
 
     passport.use(new FacebookStrategy(_.merge(parameters.facebook, {
-        "callbackURL": parameters.chatboard.host + "/auth/login/facebook/callback"
+        "callbackURL": url.format(_.merge(_.cloneDeep(parameters.chatboard.url), {
+            "pathname": "/auth/login/facebook/callback"
+        }))
     }), function (accessToken, refreshToken, profile, done) {
         userSessionManager.registerFacebookUser(profile).nodeify(done);
     }));
@@ -57,7 +60,8 @@ function create(parameters, router, sessionCookieName, sessionStore, userSession
     });
 
     app.use("/assets", express.static(path.resolve(__dirname, "..", "assets")));
-    app.use("/", router);
+    app.use("/api/v1", apiRouter);
+    app.use("/", httpRouter);
 
     env = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.resolve(__dirname, "views")));
     env.addFilter("json", JSON.stringify);

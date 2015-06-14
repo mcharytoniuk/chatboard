@@ -1,7 +1,11 @@
 {
     "chatboard": {
-        "host": "http://localhost:8063",
-        "secret": "hohoho"
+        "secret": "hohoho",
+        "url": {
+            "hostname": "localhost",
+            "port": 8063,
+            "protocol": "http"
+        }
     },
     "facebook": {
         "clientID": "865098323537637",

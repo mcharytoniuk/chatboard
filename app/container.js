@@ -7,8 +7,10 @@
 
 var path = require("path"),
     _ = require("lodash"),
+    apiRouter = require(path.resolve(__dirname, "..", "chatboard-api", "router")),
     app = require(path.resolve(__dirname, "app")),
     Baobab = require("baobab"),
+    chatApiController = require(path.resolve(__dirname, "..", "chatboard-api", "controller", "chat")),
     chatPoolManager = require(path.resolve(__dirname, "..", "chatboard-sockets", "chatPoolManager")),
     chatProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "chat")),
     chatSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "chat")),
@@ -17,6 +19,7 @@ var path = require("path"),
     cookieParser = require("cookie-parser"),
     eventDispatcher = require(path.resolve(__dirname, "eventDispatcher")),
     http = require("http"),
+    httpRouter = require(path.resolve(__dirname, "..", "chatboard-http", "router")),
     indexSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "index")),
     indexViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "index")),
     io = require("socket.io"),
@@ -27,7 +30,6 @@ var path = require("path"),
     NAMESPACES = require(path.resolve(__dirname, "..", "chatboard-enums", "NAMESPACES")),
     passportSocketIo = require("passport.socketio"),
     Promise = require("bluebird"),
-    router = require(path.resolve(__dirname, "..", "chatboard-http", "router")),
     session = require("express-session"),
     RedisStore = require("connect-redis")(session),
     userProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "user")),
@@ -62,12 +64,16 @@ function create(initialData) {
     });
 
     container.facets.chatStorage = container.createFacet({
+        "cursors": {
+            "parameters": parametersCursor
+        },
         "facets": {
+            "chatProvider": container.facets.chatProvider,
             "connection": container.facets.connection
         },
         "get": function (data) {
-            return data.connection.then(function (connection) {
-                return chatStorage.create(connection);
+            return Promise.props(data).then(function (results) {
+                return chatStorage.create(results.chatProvider, results.connection, results.parameters);
             });
         }
     });
@@ -121,14 +127,36 @@ function create(initialData) {
         }
     });
 
-    container.facets.router = container.createFacet({
+    container.facets.chatApiController = container.createFacet({
+        "facets": {
+            "chatStorage": container.facets.chatStorage
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return chatApiController.create(results.chatStorage);
+            });
+        }
+    });
+
+    container.facets.apiRouter = container.createFacet({
+        "facets": {
+            "chatApiController": container.facets.chatApiController
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return apiRouter.create(results.chatApiController);
+            });
+        }
+    });
+
+    container.facets.httpRouter = container.createFacet({
         "facets": {
             "chatViewController": container.facets.chatViewController,
             "indexViewController": container.facets.indexViewController
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return router.create(results.chatViewController, results.indexViewController);
+                return httpRouter.create(results.chatViewController, results.indexViewController);
             });
         }
     });
@@ -173,13 +201,14 @@ function create(initialData) {
             "sessionCookieName": sessionCookieNameCursor
         },
         "facets": {
-            "router": container.facets.router,
+            "apiRouter": container.facets.apiRouter,
+            "httpRouter": container.facets.httpRouter,
             "sessionStore": container.facets.sessionStore,
             "userSessionManager": container.facets.userSessionManager
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return app.create(results.parameters, results.router, results.sessionCookieName, results.sessionStore, results.userSessionManager);
+                return app.create(results.apiRouter, results.httpRouter, results.parameters, results.sessionCookieName, results.sessionStore, results.userSessionManager);
             });
         }
     });

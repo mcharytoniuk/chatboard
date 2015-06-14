@@ -5,17 +5,21 @@
 
 "use strict";
 
-var lipsum = require("ainojs-lipsum"),
+var path = require("path"),
+    _ = require("lodash"),
+    CHAT_ICONS = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "CHAT_ICONS")),
+    CHAT_THEMES = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "CHAT_THEMES")),
+    lipsum = require("ainojs-lipsum");
 
 function mockChat() {
-    var title = lipsum.words(_.random(1, 5));
-
     return {
-        "iconClassnames": _.sample(iconClassnames),
-        "memberListLength": _.random(1, 120),
-        "messageListLength": _.random(0, 120),
-        "themeClassnames": _.sample(themeClassnames),
-        "title": title
+        "iconClassnames": _.sample(CHAT_ICONS),
+        "memberListLength": 0,
+        "messageListLength": 0,
+        "themeClassnames": _.sample(CHAT_THEMES).themeClassnames,
+        "title": lipsum.words(_.random(1, 5)),
+        "urlCanonical": null,
+        "urlOther": []
     };
 }
 
