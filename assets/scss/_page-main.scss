@@ -3,10 +3,10 @@
  * 2015
  */
 
-// ------------------------------------------------
+/* ------------------------------------------------ */
 .page-main {
   background: #F0DFCC;
-  // background: url(http://www.free-patterns.info/wp-content/uploads/2014/09/light-triangle-mix-313279.png);
+  /* background: url(http://www.free-patterns.info/wp-content/uploads/2014/09/light-triangle-mix-313279.png); */
   .wrapper {
     min-height: 100%;
     margin-bottom: -75px;
@@ -31,17 +31,17 @@
     padding-bottom: 100px;
     .tile {
       &,* {cursor: pointer;}
-      @include tile;
+      /* @include tile; */
       display: inline-block;
       width: 19%;
       margin: 5px;
       max-width: 380px;
-      @include shape(rounded);
+      /* @include shape(rounded); */
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      .upper-left {@include position(top-left);}
-      .upper-right {@include position(top-right);}
+      /* .upper-left {@include position(top-left);} */
+      /* .upper-right {@include position(top-right);} */
       .centered {
-        @include position(center);
+        /* @include position(center); */
         font-style: italic;
         font-family: 'Lora', serif;
         width: 75%;
@@ -54,16 +54,16 @@
           font-size: 1.2rem;
         }
       }
-      .tile-part {@include box(sm);}
+      /* .tile-part {@include box(sm);} */
       border: solid 3px transparent;
       transition: all 0.1s;
       &:hover {
         border: solid 3px rgba(0,0,0,0.25);
       }
     }
-    @include xxl{.tile {width: 23%;}}
-    @include lg{.tile {width: 31%;}}
-    @include md{.tile {width: 48%;}}
-    @include sm{.tile {width: 80%;}}
+    /* @include xxl{.tile {width: 23%;}} */
+    /* @include lg{.tile {width: 31%;}} */
+    /* @include md{.tile {width: 48%;}} */
+    /* @include sm{.tile {width: 80%;}} */
   }
 }

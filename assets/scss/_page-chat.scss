@@ -24,7 +24,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     .content {
-      @include container(lg);
+      /* @include container(lg); */
     }
     .article-header {
       color: #959599;
@@ -40,14 +40,14 @@
       position: relative;
       .article-content {
         background: rgba(230, 229, 235, 0.5);
-        @include box(md);
-        @include clearfix;
+        /* @include box(md); */
+        /* @include clearfix; */
         border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
         font-size: 0.85rem;
       }
       .userPhoto {
-        @include shape(circular);
+        /* @include shape(circular); */
         float: left;
         max-width: 34px;
         margin-right: 20px;
@@ -83,10 +83,10 @@
             height: 0;
             border-style: solid;
             border-width: 10px 11px 10px 0;
-            border-color: transparent rgb(217, 216, 219) transparent transparent // arrow shadow
+            border-color: transparent rgb(217, 216, 219) transparent transparent /* arrow shadow */
           }
           &:after {
-            border-color: transparent #F2F1F4 transparent transparent; // arrow color
+            border-color: transparent #F2F1F4 transparent transparent; /* arrow color */
             bottom: 17px;
           }
         }
@@ -95,7 +95,7 @@
         &-info,
         &-success {
           .article-content {
-            @include box(sm);
+            /* @include box(sm); */
             font-size: 0.8rem;
           }
         }
@@ -108,17 +108,17 @@
     box-shadow: inset 0px -5px 8px rgba(0, 0, 0, 0.1);
     border-top: solid 2px rgba(0, 0, 0, 0.04);
     .inner-wrap {
-      @include container(lg);
-      @include box(md);
+      /* @include container(lg); */
+      /* @include box(md); */
       .left-side {
         overflow: hidden;
-        @include shape(rounded);
-        box-shadow: 0 0 4px rgba(0,0,0,0.1); 
+        /* @include shape(rounded); */
+        box-shadow: 0 0 4px rgba(0,0,0,0.1);
         textarea {
-          @include input(md);
+          /* @include input(md); */
           min-height: 44px;
           background: #fff;
-          @include shape(rounded);
+          /* @include shape(rounded); */
           transition: all 0.33s;
           &:focus {
             box-shadow: inset 0 0 10px 1px #6cc6f2;
@@ -127,11 +127,11 @@
       }
       .right-side {
         float: right;
-      }      
+      }
     }
     button {
-      @include button(md);
-      @include shape(rounded);
+      /* @include button(md); */
+      /* @include shape(rounded); */
       margin-left: 10px;
       &:hover {
         background: #5199D5;

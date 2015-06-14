@@ -3,18 +3,18 @@
  * 2015
  */
 
-@import '../../../cssfw/1.0/_cssfw.scss';
-@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css';
-@import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
+/* @import '../../../cssfw/1.0/_cssfw.scss'; */
+@import 'font-awesome/css/font-awesome.css';
+@import 'ionicons-pre/css/ionicons.css';
 @import url(http://fonts.googleapis.com/css?family=Grand+Hotel);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,600,300);
 @import url(http://fonts.googleapis.com/css?family=Lora:400,400italic|Lobster|Oswald);
 
-// font-family: 'Lora', serif;
-// font-family: 'Lobster', cursive;
-// font-family: 'Oswald', sans-serif;
-// font-family: 'Open Sans', sans-serif;
-// font-family: 'Grand Hotel', cursive;
+/* font-family: 'Lora', serif; */
+/* font-family: 'Lobster', cursive; */
+/* font-family: 'Oswald', sans-serif; */
+/* font-family: 'Open Sans', sans-serif; */
+/* font-family: 'Grand Hotel', cursive; */
 
 body {
   line-height: 1.5;
@@ -87,10 +87,10 @@ h6 {
     vertical-align: middle;
   }
   ul.topnav {
-    @include box(md, only-x);
-    @include container(lg);
-    @include pile;
-    @include justify;
+    /* @include box(md, only-x); */
+    /* @include container(lg); */
+    /* @include pile; */
+    /* @include justify; */
     > * {
       vertical-align: middle;
       &:first-child {
@@ -110,7 +110,7 @@ h6 {
       font-size: 15px;
       transition: all 0.15s;
       display: inline-block;
-      @include box(sm, only-y);
+      /* @include box(sm, only-y); */
       &:hover {
         opacity: 0.65;
       }
@@ -119,8 +119,8 @@ h6 {
   .search-container {
     position: relative;
     .search {
-      @include shape(rounded);
-      @include input(sm);
+      /* @include shape(rounded); */
+      /* @include input(sm); */
       background: none;
       padding-left: 30px;
       width: 0;
@@ -138,7 +138,7 @@ h6 {
     .icon {
       font-weight: bold;
       font-size: 23px;
-      @include position(left);
+      /* @include position(left); */
       margin-left: 7px;
       pointer-events: none;
     }
@@ -146,8 +146,8 @@ h6 {
   .link-container {
     position: relative;
     .link {
-      @include shape(rounded);
-      @include input(xs);
+      /* @include shape(rounded); */
+      /* @include input(xs); */
       cursor: pointer;
       background: none;
       padding-left: 30px;
@@ -159,14 +159,14 @@ h6 {
         ~ .icon {
           color: rgba(0,0,0,0.45);
           pointer-events: all;
-          
+
         }
       }
     }
     .icon {
       font-weight: bold;
       font-size: 23px;
-      @include position(left);
+      /* @include position(left); */
       margin-left: 7px;
       pointer-events: none;
     }
@@ -174,14 +174,14 @@ h6 {
 }
 
 .subbar {
-  @include box(xxs);
+  /* @include box(xxs); */
   background: #828690;
   color: #fff;
   text-align: left;
   border-top: solid 2px #6A7081;
   .subbar-inwrap {
-    @include container(lg);
-    @include box(md, only-x);
+    /* @include container(lg); */
+    /* @include box(md, only-x); */
   }
   .fblike {
     background: #686D7B;
@@ -331,7 +331,7 @@ h6 {
     max-height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
-    @include box(md);
+    /* @include box(md); */
   }
 }
 
@@ -355,7 +355,7 @@ h6 {
       .kickButton {
         background: #CA615B;
         border-radius: 99px;
-        float: right; 
+        float: right;
       }
       .userName {
         margin-top: 5px;
@@ -383,7 +383,7 @@ h6 {
   &-changeTitle {
   }
   &-changeIcon {
-    @include justify;
+    /* @include justify; */
     .iconList {
 
       > * {

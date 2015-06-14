@@ -29,8 +29,15 @@
         "winston": "1.x"
     },
     "devDependencies": {
+        "font-awesome": "4.x",
         "gore-gulp": "0.x",
-        "gulp": "3.x"
+        "gulp": "3.x",
+        "gulp-postcss": "4.x",
+        "gulp-rename": "1.x",
+        "ionicons-pre": "1.0.0-pre",
+        "postcss-import": "5.x",
+        "postcss-mixins": "0.x",
+        "postcss-nested": "0.x"
     },
     "directories": {
         "dist": "assets/js",

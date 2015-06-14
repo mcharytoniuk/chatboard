@@ -3,13 +3,13 @@
  * 2015
  */
 
-// ------------------------------------------------
+/* ------------------------------------------------ */
 .page-login {
   background: url(../img/bgr.jpg) #3B3D46;
   background-position: center top;
   background-repeat: no-repeat;
   margin-top: 10px;
-  @include box(xl, only-y);
+  /* @include box(xl, only-y); */
   .login-window {
     background: #fff;
     border-top: 7px solid #EB8F4C;
