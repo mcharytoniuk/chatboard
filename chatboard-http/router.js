@@ -5,8 +5,7 @@
 
 "use strict";
 
-var path = require("path"),
-    express = require("express"),
+var express = require("express"),
     Promise = require("bluebird");
 
 function create(chatViewController, indexViewController) {
