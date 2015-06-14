@@ -13,13 +13,32 @@ import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import React from "react";
 import UserPropType from "chatboard/React/PropType/User";
 
+import "whatwg-fetch";
+
 export default class MainDocument extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            "activeTab": null
+            "activeTab": null,
+            "isBoardLoading": false
         };
+    }
+
+    onCreateBoardClick(evt) {
+        evt.preventDefault();
+
+        this.setState({
+            "isBoardLoading": true
+        });
+
+        fetch(window.location.origin + "/api/v1/chat", {
+            "method": "post"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (response) {
+            window.location = response.result.urlCanonical;
+        });
     }
 
     onToggleActiveTabClick() {
@@ -31,9 +50,24 @@ export default class MainDocument extends React.Component {
             <div className="wrapper">
                 <nav className="topbar">
                     <ul className="topnav">
-                        <li><a href="#"><span className="ion-coffee logo" /></a></li>
-                        <li><a href="/create">Create Board</a></li>
-                        <li><a href="#">Terms of use</a></li>
+                        <li>
+                            <a href="#">
+                                <span className="ion-coffee logo" />
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
+                                Create Board
+                                {(() => {
+                                    if (this.state.isBoardLoading) {
+                                        return <span className="fa fa-spinner fa-pulse" />;
+                                    }
+                                }())}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">Terms of use</a>
+                        </li>
                         {(() => {
                             if (this.props.user) {
                                 return <li>
