@@ -36,7 +36,7 @@
         "gulp": "3.x",
         "gulp-postcss": "4.x",
         "gulp-rename": "1.x",
-        "ionicons-pre": "1.0.0-pre",
+        "normalize.css": "3.x",
         "postcss-import": "5.x",
         "postcss-mixins": "0.x",
         "postcss-nested": "0.x"

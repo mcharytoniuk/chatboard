@@ -18,6 +18,10 @@ import {Link} from "react-router";
 import "whatwg-fetch";
 
 export default class MainDocument extends React.Component {
+    componentWillMount() {
+        document.body.className = "page-main";
+    }
+
     constructor(props) {
         super(props);
 
@@ -26,10 +30,6 @@ export default class MainDocument extends React.Component {
             "chatList": [],
             "isBoardLoading": false
         };
-    }
-
-    componentWillMount() {
-        document.body.className = "page-main";
     }
 
     onCreateBoardClick(evt) {
@@ -59,7 +59,7 @@ export default class MainDocument extends React.Component {
                     <ul className="topnav">
                         <li>
                             <a href="#">
-                                <span className="ion-coffee logo" />
+                                <span className="fa fa-coffee logo" />
                             </a>
                         </li>
                         <li>
@@ -76,7 +76,7 @@ export default class MainDocument extends React.Component {
                         {this.state.user && (
                             <li>
                                 <a href="#" onClick={evt => this.onToggleActiveTabClick(evt, "myProfile")}>
-                                    <span className="ion-person" /> My profile
+                                    <span className="fa fa-child" /> My profile
                                 </a>
                             </li>
                         )}
@@ -96,7 +96,7 @@ export default class MainDocument extends React.Component {
                         )}
                         <li className="search-container">
                             <input type="text" placeholder="Search" className="search" />
-                            <span className="ion-ios-search-strong icon" />
+                            <span className="fa fa-search icon" />
                         </li>
                     </ul>
                 </nav>
@@ -128,11 +128,11 @@ export default class MainDocument extends React.Component {
                         {this.state.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat._id} key={chat._id}>
                             <div>
                                 <span className="upper-left tile-part">
-                                    <span className="ion-chatbubble icon" />
+                                    <span className="fa fa-comment icon" />
                                     <span>{chat.messageListLength}</span>
                                 </span>
                                 <span className="upper-right tile-part">
-                                    <span className="ion-person-stalker icon" />
+                                    <span className="fa fa-users icon" />
                                     <span>{chat.memberListLength}</span>
                                 </span>
                                 <span className="centered tile-part">

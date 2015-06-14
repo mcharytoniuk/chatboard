@@ -19,17 +19,10 @@ var path = require("path"),
 
 gg(__dirname).setup(gulp);
 
-gulp.task("font-awesome", function () {
+gulp.task("fonts", function () {
     return gulp.src(path.resolve(__dirname, "node_modules", "font-awesome", "fonts", "*"))
         .pipe(gulp.dest(path.resolve(__dirname, "assets", "fonts")));
 });
-
-gulp.task("ionicons-pre", function () {
-    return gulp.src(path.resolve(__dirname, "node_modules", "ionicons-pre", "fonts", "*"))
-        .pipe(gulp.dest(path.resolve(__dirname, "assets", "fonts")));
-});
-
-gulp.task("fonts", ["font-awesome", "ionicons-pre"]);
 
 gulp.task("css", ["fonts"], function () {
     return gulp.src(path.resolve(__dirname, "assets", "scss", "style.scss"))
@@ -49,3 +42,5 @@ gulp.task("css", ["fonts"], function () {
         }))
         .pipe(gulp.dest(path.resolve(__dirname, "assets", "css")));
 });
+
+gulp.task("build", ["css", "webpack.development"]);

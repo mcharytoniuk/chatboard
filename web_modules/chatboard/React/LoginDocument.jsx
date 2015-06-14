@@ -19,9 +19,7 @@ export default class LoginDocument extends React.Component {
         return <div className="login-window window-md box-lg z-shadow-5 hvr-wobble-vertical">
             <h1 className="grand text-xxl">
                 mychat.chat
-                {/* <span className="ion-chatbox-working" /> */}
-                <span className="ion-chatbubbles" />
-                {/* <span className="ion-chatboxes" /> */}
+                <span className="fa fa-comments" />
             </h1>
             <h2 className="text-md">
                 Anonymous conversation boards in seconds
@@ -37,7 +35,7 @@ export default class LoginDocument extends React.Component {
                 skip
             </Link>
             <a className="button-md circular loginButton hover-grow" href="/auth/login/facebook">
-                <span className="ion-social-facebook icon" />
+                <span className="fa fa-facebook icon" />
                 Log in with Facebook
             </a>
         </div>;

@@ -62,7 +62,7 @@ export default class ChatDocument extends React.Component {
                     <ul className="topnav">
                         <li>
                             <a href="/">
-                                <span className="ion-arrow-left-a arrow" />
+                                <span className="fa fa-arrow-left arrow" />
                                 Boards
                             </a>
                         </li>
@@ -75,7 +75,7 @@ export default class ChatDocument extends React.Component {
                         </li>
                         <li className="link-container">
                             <input type="text" defaultValue="http://chtbrd.com/he74n" className="link" />
-                            <span className="ion-link icon" />
+                            <span className="fa fa-share-alt icon" />
                         </li>
                     </ul>
                 </nav>
