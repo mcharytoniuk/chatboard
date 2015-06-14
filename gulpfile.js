@@ -6,10 +6,13 @@
 "use strict";
 
 var path = require("path"),
+    autoprefixer = require("autoprefixer-core"),
     gg = require("gore-gulp"),
     gulp = require("gulp"),
     postcss = require("gulp-postcss"),
     postcssImport = require("postcss-import"),
+    postcssMixins = require("postcss-mixins"),
+    postcssNested = require("postcss-nested"),
     postcssUrl = require("postcss-url"),
     rename = require("gulp-rename");
 
@@ -27,10 +30,17 @@ gulp.task("ionicons-pre", function () {
 
 gulp.task("fonts", ["font-awesome", "ionicons-pre"]);
 
-gulp.task("sass", ["fonts"], function () {
+gulp.task("css", ["fonts"], function () {
     return gulp.src(path.resolve(__dirname, "assets", "scss", "style.scss"))
         .pipe(postcss([
-            postcssImport()
+            autoprefixer({
+                "browsers": [
+                    "last 2 versions"
+                ]
+            }),
+            postcssImport(),
+            postcssMixins(),
+            postcssNested()
         ]))
         .pipe(rename({
             "extname": ".css"

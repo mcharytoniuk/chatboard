@@ -29,6 +29,7 @@
         "winston": "1.x"
     },
     "devDependencies": {
+        "autoprefixer-core": "5.x",
         "font-awesome": "4.x",
         "gore-gulp": "0.x",
         "gulp": "3.x",
