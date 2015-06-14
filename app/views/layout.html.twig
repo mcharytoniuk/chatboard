@@ -10,9 +10,11 @@
         <title>Chatboard</title>
     </head>
     {% block bodyOpenTag %}
-        <body>
+        <body class="page-preloader">
     {% endblock %}
-        {% block content %}{% endblock %}
+        {% block content %}
+            <span class="fa fa-spinner fa-pulse"></span>
+        {% endblock %}
 
         {% block scripts %}
             <script src="/assets/js/chatboard.common.min.js"></script>

@@ -1,5 +1,7 @@
 # generated files
-assets
+assets/css
+assets/fonts
+assets/js
 
 # vendor libraries
 bower_components

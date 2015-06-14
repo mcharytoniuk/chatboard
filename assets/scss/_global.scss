@@ -13,6 +13,11 @@
 /* font-family: 'Open Sans', sans-serif; */
 /* font-family: 'Grand Hotel', cursive; */
 
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   line-height: 1.5;
   font-family: 'Open Sans', serif;
