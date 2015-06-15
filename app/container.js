@@ -21,6 +21,7 @@ var path = require("path"),
     http = require("http"),
     httpRouter = require(path.resolve(__dirname, "..", "chatboard-http", "router")),
     indexSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "index")),
+    indexSocketServerDispatcher = require(path.resolve(__dirname, "..", "chatboard-sockets", "indexSocketServerDispatcher")),
     indexViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "index")),
     io = require("socket.io"),
     messageProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "message")),
@@ -295,27 +296,33 @@ function create(initialData) {
 
     container.facets.indexSocketController = container.createFacet({
         "facets": {
-            "chatProvider": container.facets.chatProvider,
-            "chatSocketServer": container.facets.chatSocketServer,
-            "indexSocketServer": container.facets.indexSocketServer
+            "chatProvider": container.facets.chatProvider
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return indexSocketController.create(results.chatProvider, results.chatSocketServer, results.indexSocketServer);
+                return indexSocketController.create(results.chatProvider);
             });
         }
     });
 
     container.facets.chatPoolManager = container.createFacet({
-        "cursors": {
-            "chatPool": container.select("chatPool")
-        },
         "facets": {
             "chatSocketServer": container.facets.chatSocketServer
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return chatPoolManager.create(results.chatPool, results.chatSocketServer)
+                return chatPoolManager.create(results.chatSocketServer)
+            });
+        }
+    });
+
+    container.facets.indexSocketServerDispatcher = container.createFacet({
+        "facets": {
+            "indexSocketServer": container.facets.indexSocketServer
+        },
+        "get": function (data) {
+            return Promise.props(data).then(function (results) {
+                return indexSocketServerDispatcher.create(results.indexSocketServer)
             });
         }
     });
@@ -325,11 +332,12 @@ function create(initialData) {
             "chatPoolManager": container.facets.chatPoolManager,
             "chatSocketController": container.facets.chatSocketController,
             "indexSocketController": container.facets.indexSocketController,
-            "indexSocketServer": container.facets.indexSocketServer
+            "indexSocketServer": container.facets.indexSocketServer,
+            "indexSocketServerDispatcher": container.facets.indexSocketServerDispatcher
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return eventDispatcher.create(results.chatPoolManager, results.chatSocketController, results.indexSocketController, results.indexSocketServer);
+                return eventDispatcher.create(results.chatPoolManager, results.chatSocketController, results.indexSocketController, results.indexSocketServer, results.indexSocketServerDispatcher);
             });
         }
     });

@@ -24,12 +24,7 @@ export default class ChatListDocument extends React.Component {
                 "chatList": chatList
             });
         });
-
-        socket.on(EVENTS.CHTB_SERVER_USER_UPDATE, user => {
-            this.setState({
-                "user": user
-            });
-        });
+        socket.emit(EVENTS.CHTB_CLIENT_CHAT_LIST_UPDATE_REQUEST);
     }
 
     constructor(props) {

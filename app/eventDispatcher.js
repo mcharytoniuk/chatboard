@@ -8,24 +8,31 @@
 var path = require("path"),
     EVENTS = require(path.resolve(__dirname, "..", "chatboard-enums", "EVENTS"));
 
-function create(chatPoolManager, chatSocketController, indexSocketController, indexSocketServer) {
-    var callbacks = {};
-
-    callbacks[EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE] = chatSocketController.onSocketColorChange;
-    callbacks[EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE] = chatSocketController.onSocketIconChange;
-    callbacks[EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST] = chatSocketController.onSocketRoomJoinRequest;
-    callbacks[EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE] = chatSocketController.onSocketTitleChange;
-    callbacks[EVENTS.CHTB_CLIENT_CONNECTION] = chatSocketController.onSocketConnection;
-    callbacks[EVENTS.CHTB_CLIENT_MESSAGE] = chatSocketController.onSocketMessage;
-
+function create(chatPoolManager, chatSocketController, indexSocketController, indexSocketServer, indexSocketServerDispatcher) {
     chatPoolManager.subscribe(function (evt) {
-        callbacks[evt.name](evt);
+        switch (evt.name) {
+            case EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE:
+                return chatSocketController.onSocketColorChange(evt);
+            case EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE:
+                return chatSocketController.onSocketIconChange(evt);
+            case EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST:
+                return chatSocketController.onSocketRoomJoinRequest(evt);
+            case EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE:
+                return chatSocketController.onSocketTitleChange(evt);
+            case EVENTS.CHTB_CLIENT_CONNECTION:
+                return chatSocketController.onSocketConnection(evt);
+            case EVENTS.CHTB_CLIENT_MESSAGE:
+                return chatSocketController.onSocketMessage(evt);
+        }
+
+        // evt.socket.disconnect();
     });
 
-    indexSocketServer.on("connection", function (socket) {
-        indexSocketController.onSocketConnection({
-            "socket": socket
-        });
+    indexSocketServerDispatcher.subscribe(function (evt) {
+        switch (evt.name) {
+            case EVENTS.CHTB_CLIENT_CHAT_LIST_UPDATE_REQUEST:
+                return indexSocketController.onSocketChatListUpdateRequest(evt);
+        }
     });
 }
 

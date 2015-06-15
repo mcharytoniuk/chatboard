@@ -47,7 +47,7 @@ export default class MainDocument extends React.Component {
                 <nav>
                     <Link to="/">
                         <span className="fa fa-coffee" />
-                        mychat.chat
+                        board list
                     </Link>
                     <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
                         {this.state.isBoardLoading ? (

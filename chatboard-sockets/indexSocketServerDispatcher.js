@@ -12,13 +12,13 @@ var path = require("path"),
     Promise = require("bluebird"),
     Rx = require("rx");
 
-function create(chatSocketServer) {
+function create(indexSocketServer) {
     return Rx.Observable.create(function (observer) {
-        chatSocketServer.on("connection", function (socket) {
+        indexSocketServer.on("connection", function (socket) {
             observer.onNext(socket);
         });
 
-        chatSocketServer.on("close", function () {
+        indexSocketServer.on("close", function () {
             observer.onCompleted();
         });
     })
@@ -26,11 +26,7 @@ function create(chatSocketServer) {
         return Rx.Observable.create(function (observer) {
             triggerEvent(socket, observer, EVENTS.CHTB_CLIENT_CONNECTION);
 
-            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE);
-            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE);
-            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST);
-            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE);
-            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_MESSAGE);
+            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_LIST_UPDATE_REQUEST);
 
             socket.on("disconnect", function () {
                 observer.onCompleted();

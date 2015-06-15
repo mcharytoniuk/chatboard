@@ -10,22 +10,13 @@ var path = require("path"),
     EVENTS = require(path.resolve(__dirname, "..", "..", "chatboard-enums", "EVENTS")),
     Promise = require("bluebird");
 
-function create(chatProvider, chatSocketServer, indexSocketServer) {
+function create(chatProvider) {
     return {
-        "onSocketConnection": _.partial(onSocketConnection, chatProvider, chatSocketServer, indexSocketServer, _),
+        "onSocketChatListUpdateRequest": _.partial(onSocketChatListUpdateRequest, chatProvider, _),
     };
 }
 
-function onSocketConnection(chatProvider, chatSocketServer, indexSocketServer, evt) {
-    // _(chatSocketServer.sockets)
-    //     .map(function (socket) {
-    //         return socket.rooms;
-    //     })
-    //     .forEach(function (rooms) {
-    //         console.log(rooms);
-    //     })
-    //     .value();
-
+function onSocketChatListUpdateRequest(chatProvider, evt) {
     return chatProvider.findSample(45).then(function (chatList) {
         evt.socket.emit(EVENTS.CHTB_SERVER_CHAT_LIST_UPDATE, chatList);
     });
