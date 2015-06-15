@@ -1,18 +1,9 @@
-/* Chatboard style,
- * Dariusz Sikorski
- * 2015
- */
+@import "font-awesome/css/font-awesome.css";
+@import "normalize.css";
 
+@import "_global.scss";
 
-
-/* ------------------------------------------------ */
-
-@import 'font-awesome/css/font-awesome.css';
-@import 'normalize.css';
-
-@import '_global.scss';
-
-@import '_page-chat.scss';
-@import '_page-login.scss';
-@import '_page-main.scss';
-@import '_page-preloader.scss';
+@import "_page-chat.scss";
+@import "_page-login.scss";
+@import "_page-main.scss";
+@import "_page-preloader.scss";

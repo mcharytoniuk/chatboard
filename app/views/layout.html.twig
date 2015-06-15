@@ -3,17 +3,16 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" />
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Grand+Hotel" />
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,600,300" />
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,400italic|Lobster|Oswald" />
         <link rel="stylesheet" href="/assets/css/style.css" />
         <title>Chatboard</title>
     </head>
     {% block bodyOpenTag %}
-        <body class="page-preloader">
+        <body>
     {% endblock %}
         {% block content %}
-            <span class="fa fa-spinner fa-pulse"></span>
+            <div class="page-preloader" id="page">
+                <span class="fa fa-spinner fa-pulse"></span>
+            </div>
         {% endblock %}
 
         {% block scripts %}

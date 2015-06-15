@@ -1,540 +1,163 @@
-/* Chatboard style,
- * Dariusz Sikorski
- * 2015
- */
-
-/* font-family: 'Lora', serif; */
-/* font-family: 'Lobster', cursive; */
-/* font-family: 'Oswald', sans-serif; */
-/* font-family: 'Open Sans', sans-serif; */
-/* font-family: 'Grand Hotel', cursive; */
+*, * * {
+    box-sizing: border-box;
+}
 
 html, body {
-  height: 100%;
-  width: 100%;
-}
-
-body {
-  line-height: 1.5;
-  font-family: 'Open Sans', serif;
-  color: #333;
-}
-
-.grand {
-  font-family: 'Grand Hotel', cursive;
-}
-
-h1,h2,h3,h4,h5,h6 {
-  font-weight: normal;
-}
-
-* {
-  transition: padding 0.62s
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
 }
 
 a {
-  text-decoration: none;
-  color: #002557;
+    text-decoration: none;
 }
 
-label {
-  font-size: 0.85em;
-  font-weight: bold;
-}
-
-* {box-sizing: border-box;}
 body {
-  color: #47515B;
-  background-size: cover;
-  background-position: center center;
-  font-size: 15px;
-  line-height: 1.5;
-}
-a {text-decoration: none;}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #333;
+    line-height: 1.3em;
 }
 
-@media (min-width: 1201px){html,body {font-size: 16px;}}
-@media (max-width: 1200px){html,body {font-size: 15.65px;}}
-@media (max-width: 992px){html,body {font-size: 15.25px;}}
-@media (max-width: 768px){html,body {font-size: 14.85px;}}
-@media (max-width: 480px){html,body {font-size: 14.3px;}}
-@media (max-width: 320px){html,body {font-size: 14px;}}
+#page {
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
 
-.topbar {
-  font-family: 'Open Sans';
-  border-top: solid 3px #EB8F4C;
-  background: #f4f4f4;
-  * {
-    font-weight: 500;
-  }
-  input {
-    font-weight: normal;
-  }
-  .logo,
-  .arrow {
-    font-size: 25px;
-    line-height: 0.5;
-    vertical-align: middle;
-  }
-  ul.topnav {
-    /* @include box(md, only-x); */
-    /* @include container(lg); */
-    /* @include pile; */
-    /* @include justify; */
-    > * {
-      vertical-align: middle;
-      &:first-child {
-        > * {
-          margin-left: 0;
+    aside {
+        background-color: #eee;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        position: fixed;
+        width: 22.5vw;
+
+        footer {
+            display: block;
+            padding: 1vw;
         }
-      }
-      &:last-child {
-        > * {
-          margin-right: 0;
+
+        nav {
+            flex-grow: 1;
+
+            a {
+                display: block;
+                padding: 1vw;
+                text-decoration: none;
+                width: 22.5vw;
+
+                &.active {
+                    background-color: #fff;
+                }
+
+                .fa {
+                    margin-right: 1vw;
+                    width: 1vw;
+                }
+            }
         }
-      }
     }
-    a {
-      margin-left: 10px;
-      margin-right: 10px;
-      font-size: 15px;
-      transition: all 0.15s;
-      display: inline-block;
-      /* @include box(sm, only-y); */
-      &:hover {
-        opacity: 0.65;
-      }
-    }
-  }
-  .search-container {
-    position: relative;
-    .search {
-      /* @include shape(rounded); */
-      /* @include input(sm); */
-      background: none;
-      padding-left: 30px;
-      width: 0;
-      transition: all 0.4s;
-      &:focus {
-        background: #fff;
-        width: 250px;
-        ~ .icon {
-          color: rgba(0,0,0,0.45);
-          pointer-events: all;
-          cursor: pointer;
-        }
-      }
-    }
-    .icon {
-      font-weight: bold;
-      font-size: 23px;
-      /* @include position(left); */
-      margin-left: 7px;
-      pointer-events: none;
-    }
-  }
-  .link-container {
-    position: relative;
-    .link {
-      /* @include shape(rounded); */
-      /* @include input(xs); */
-      cursor: pointer;
-      background: none;
-      padding-left: 30px;
-      width: 0;
-      transition: all 0.4s;
-      &:focus {
-        background: #fff;
-        width: 250px;
-        ~ .icon {
-          color: rgba(0,0,0,0.45);
-          pointer-events: all;
 
-        }
-      }
+    main {
+        margin-left: 22.5vw;
+        width: 77.5vw;
     }
-    .icon {
-      font-weight: bold;
-      font-size: 23px;
-      /* @include position(left); */
-      margin-left: 7px;
-      pointer-events: none;
-    }
-  }
 }
 
-.subbar {
-  /* @include box(xxs); */
-  background: #828690;
-  color: #fff;
-  text-align: left;
-  border-top: solid 2px #6A7081;
-  .subbar-inwrap {
-    /* @include container(lg); */
-    /* @include box(md, only-x); */
-  }
-  .fblike {
-    background: #686D7B;
-    margin-right: -30px;
-  }
-  .sub-button {
-    background: transparent;
-    padding-left: 0;
-    font-weight: bold;
-    margin-right: 35px;
-    padding-right: 0;
-    color: rgb(118, 118, 118);
-    &:hover {
-      color: #333;
-    }
-  }
-}
-
-/*
----------------------------------------------------- */
-//https://github.com/IanLunn/Hover/blob/master/css/hover.css
-
-/* Wobble Vertical */
-@-webkit-keyframes hvr-wobble-vertical {
-  16.65% {
-    -webkit-transform: translateY(8px);
-    transform: translateY(8px);
-  }
-
-  33.3% {
-    -webkit-transform: translateY(-6px);
-    transform: translateY(-6px);
-  }
-
-  49.95% {
-    -webkit-transform: translateY(4px);
-    transform: translateY(4px);
-  }
-
-  66.6% {
-    -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
-  }
-
-  83.25% {
-    -webkit-transform: translateY(1px);
-    transform: translateY(1px);
-  }
-
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes hvr-wobble-vertical {
-  16.65% {
-    -webkit-transform: translateY(8px);
-    transform: translateY(8px);
-  }
-
-  33.3% {
-    -webkit-transform: translateY(-6px);
-    transform: translateY(-6px);
-  }
-
-  49.95% {
-    -webkit-transform: translateY(4px);
-    transform: translateY(4px);
-  }
-
-  66.6% {
-    -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
-  }
-
-  83.25% {
-    -webkit-transform: translateY(1px);
-    transform: translateY(1px);
-  }
-
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
-.hvr-wobble-vertical {
-  vertical-align: middle;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-}
-.hvr-wobble-vertical{
-  -webkit-animation-name: hvr-wobble-vertical;
-  animation-name: hvr-wobble-vertical;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: 1;
-  animation-iteration-count: 1;
-}
-
-.hover-grow {
-  transition: all 0.33s;
-  &:hover {
-    transition: all 0.33s;
-    transform: scale(1.06);
-    z-index: 6;
-  }
-}
-
-.gui-slidePanel {
-  opacity: 0;
-  height: 0;
-  overflow: hidden;
-  width: 100%;
-  color: #333;
-  position: relative;
-  background: #fff;
-  -webkit-transition:all ease-out 0.5s;
-  transition:all linear 0.5s;
-  left: -5px;
-  &.active {
-    left: 0;
-    opacity: 1;
-    z-index: 1;
-    height: auto;
-    -webkit-transition:all linear 0.5s;
-    transition:all linear 0.5s;
-  }
-  .panelHeader {
-    color: #000;
-    background: #F7F7F7;
-    border-bottom: solid 1px #D8D8D8;
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    padding: 2px 10px;
-    text-transform: uppercase;
-    border-top: 2px solid #EB8F4C;
-  }
-  .panelContent {
-    max-height: 300px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* @include box(md); */
-  }
-}
-
-.panel {
-  &-userList {
-    a {
-      font-weight: bold;
-      color: #000;
-    }
-    .userPhoto {
-      max-width: 30px;
-      overflow: hidden;
-      border-radius: 99px;
-    }
-    .vert-list {
-      > div * {
-      vertical-align: top;
-        display: inline-block;
-        font-size: 14px;
-      }
-      .kickButton {
-        background: #CA615B;
-        border-radius: 99px;
-        float: right;
-      }
-      .userName {
-        margin-top: 5px;
-        margin-left: 7px;
-      }
-      .userStatus {
-        margin-top: 5px;
-        font-size: 14px;
-      }
-    }
-  }
-  &-myProfile {
-    .bar {
-      margin-top: 15px;
-    }
-    .userPhoto {
-      border-radius: 99px;
-      margin-right: 5px;
-      max-width: 32px;
-      vertical-align: middle;
-    }
-    .getPhotoBtn {background: #26629A; border-radius: 99px;}
-    .deleteAccountBtn {color: #CA615B; border-radius: 99px; background: none;}
-  }
-  &-changeTitle {
-  }
-  &-changeIcon {
-    /* @include justify; */
-    .iconList {
-
-      > * {
-        font-size: 2.5rem;
-        display: inline-block;
-        padding: 0 10px;
-        line-height: 1.2;
-        cursor: pointer;
-        border: solid 2px transparent;
-        transition: all 0.1s;
-        &:hover {
-          transform: scale(1.15);
-        }
-        &.active {
-          color: #4E8EF7;
-          border: solid 2px #eee;
-          transform: scale(1.15);
-        }
-      }
-    }
-  }
-  &-changeColor {
-    .colorPalette {
-      font-size: 0;
-      > * {
-        width: 33%;
-        height: 32px;
-        display: inline-block;
-        font-size: 20px;
-        line-height: 32px;
-        text-align: center;
-        cursor: pointer;
-        border: solid 2px transparent;
-        transition: all 0.1s;
-        &:hover {
-          transform: scale(1.02);
-        }
-        &.active {
-          border: solid 2px rgba(166, 166, 166, 0.34);
-          box-shadow: 0 7px 20px black;
-          transform: scale(1.02);
-          position: relative;
-          z-index: 1;
-        }
-      }
-    }
-  }
-  &-privPublic {
-  }
-}
-
-.vert-list {
-  > * {
-    padding-top: 3px;
-    padding-bottom: 3px;
-  }
-}
-
-.input-xxs,
-.input-xs,
-.input-sm,
-.input-md,
-.input-lg,
-.input-xl {
-  border-radius: 3px;
-  &:focus {
-    background: #f9f9f9;
-    box-shadow: inset 0 0 3px 1px #ccc;
-  }
-}
 .theme {
-  &-calmGray {
-    background: #53575D;
-    color: #E0DED1;
-    a {
-      color: #E0DED1;
+    &-calmGray {
+        background: #53575d;
+        color: #e0ded1;
+
+        a {
+            color: #e0ded1;
+        }
     }
-  }
-  &-greenSea {
-    background: #8ECE71;
-    color: #00737F;
-    a {
-      color: #00737F;
+
+    &-greenSea {
+        background: #8ece71;
+        color: #00737f;
+
+        a {
+            color: #00737f;
+        }
     }
-  }
-  &-greenSun {
-    background: #22A884;
-    color: #F4C200;
-    a {
-      color: #F4C200;
+
+    &-greenSun {
+        background: #22a884;
+        color: #f4c200;
+
+        a {
+            color: #f4c200;
+        }
     }
-  }
-  &-underWater {
-    background: #007A87;
-    color: #89F165;
-    a {
-      color: #89F165;
+    &-underWater {
+        background: #007a87;
+        color: #89f165;
+
+        a {
+            color: #89f165;
+        }
     }
-  }
-  &-pinkStraw {
-    background: #F29D8E;
-    color: #6B1E5C;
-    a {
-      color: #6B1E5C;
+    &-pinkStraw {
+        background: #f29d8e;
+        color: #6b1e5c;
+
+        a {
+            color: #6b1e5c;
+        }
     }
-  }
-  &-redShine {
-    background: #DB564A;
-    color: #FFF9EC;
-    a {
-      color: #FFF9EC;
+    &-redShine {
+        background: #db564a;
+        color: #fff9ec;
+
+        a {
+            color: #fff9ec;
+        }
     }
-  }
-  &-deepPurple {
-    background: #752666;
-    color: #FFC9BF;
-    a {
-      color: #FFC9BF;
+    &-deepPurple {
+        background: #752666;
+        color: #ffc9bf;
+
+        a {
+            color: #ffc9bf;
+        }
     }
-  }
-  &-calmBlack {
-    background: #2A2A2A;
-    color: #797E80;
-    a {
-      color: #797E80;
+    &-calmBlack {
+        background: #2a2a2a;
+        color: #797e80;
+
+        a {
+            color: #797e80;
+        }
     }
-  }
-  &-redAccent {
-    background: #fff;
-    color: #DB564A;
-    a {
-      color: #DB564A;
+    &-redAccent {
+        background: #fff;
+        color: #db564a;
+
+        a {
+            color: #db564a;
+        }
     }
-  }
-  &-eveningSand {
-    background: #F4AD03;
-    color: #CF6B00;
-    a {
-      color: #CF6B00;
+    &-eveningSand {
+        background: #f4ad03;
+        color: #cf6b00;
+
+        a {
+            color: #cf6b00;
+        }
     }
-  }
-  &-skyBlue {
-    background: #4E8EF7;
-    color: #F5FEF1;
-    a {
-      color: #F5FEF1;
+    &-skyBlue {
+        background: #4e8ef7;
+        color: #f5fef1;
+
+        a {
+            color: #f5fef1;
+        }
     }
-  }
-  &-deepBlue {
-    background: #001D54;
-    color: #6F9EC4;
-    a {
-      color: #6F9EC4;
+    &-deepBlue {
+        background: #001d54;
+        color: #6f9ec4;
+
+        a {
+            color: #6f9ec4;
+        }
     }
-  }
 }

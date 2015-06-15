@@ -5,29 +5,18 @@
 
 "use strict";
 
-/*eslint no-underscore-dangle: 0 */
-
-import classnames from "classnames";
 import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import React from "react";
 import {Link} from "react-router";
 
-// import ChatPropType from "chatboard/React/PropType/Chat";
-// import UserPropType from "chatboard/React/PropType/User";
-
 import "whatwg-fetch";
 
 export default class MainDocument extends React.Component {
-    componentWillMount() {
-        document.body.className = "page-main";
-    }
-
     constructor(props) {
         super(props);
 
         this.state = {
             "activeTab": null,
-            "chatList": [],
             "isBoardLoading": false
         };
     }
@@ -53,111 +42,82 @@ export default class MainDocument extends React.Component {
     }
 
     render() {
-        return <div>
-            <div className="wrapper">
-                <nav className="topbar">
-                    <ul className="topnav">
-                        <li>
-                            <a href="#">
-                                <span className="fa fa-coffee logo" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
-                                Create Board
-                                {this.state.isBoardLoading && (
-                                    <span className="fa fa-spinner fa-pulse" />
-                                )}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">Terms of use</a>
-                        </li>
-                        {this.state.user && (
-                            <li>
-                                <a href="#" onClick={evt => this.onToggleActiveTabClick(evt, "myProfile")}>
-                                    <span className="fa fa-child" /> My profile
-                                </a>
-                            </li>
-                        )}
-                        {this.state.user ? (
-                            <li>
-                                <a href="/auth/logout">
-                                    <span className="fa fa-sign-out" /> Logout
-                                    ({this.state.user.displayName})
-                                </a>
-                            </li>
+        return <div className={this.props.className} id="page">
+            <aside>
+                <nav>
+                    <Link to="/">
+                        <span className="fa fa-coffee" />
+                        mychat.chat
+                    </Link>
+                    <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
+                        {this.state.isBoardLoading ? (
+                            <span className="fa fa-spinner fa-pulse" />
                         ) : (
-                            <li>
-                                <Link to="/login">
-                                    <span className="fa fa-sign-in" /> Login
-                                </Link>
-                            </li>
+                            <span className="fa fa-plus" />
                         )}
-                        <li className="search-container">
-                            <input type="text" placeholder="Search" className="search" />
-                            <span className="fa fa-search icon" />
-                        </li>
-                    </ul>
-                </nav>
-                <div className="subbar">
-                    <div className="subbar-inwrap">
-                        <span className="button-xs circular fblike">like us on facebook</span>
-                        {this.state.user && "myProfile" === this.state.activeTab && (
-                            <form className="active gui-slidePanel panel-myProfile">
-                                <div className="panelHeader">my profile</div>
-                                <div className="panelContent">
-                                    <label>
-                                        Edit:
-                                        <input type="text" className="input-md" defaultValue={this.state.user.displayName} />
-                                    </label>
-                                    <div className="bar">
-                                        <div className="bar-left">
-                                            <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
-                                            <span className="button-sm getPhotoBtn">import photo from facebook</span>
-                                        </div>
-                                        <div className="bar-right"><a href="#" className="deleteAccountBtn">delete account</a></div>
-                                    </div>
-                                </div>
-                            </form>
-                        )}
-                    </div>
-                </div>
-                <div className="container">
-                    <section className="tileGrid">
-                        {this.state.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat._id} key={chat._id}>
-                            <div>
-                                <span className="upper-left tile-part">
-                                    <span className="fa fa-comment icon" />
-                                    <span>{chat.messageListLength}</span>
-                                </span>
-                                <span className="upper-right tile-part">
-                                    <span className="fa fa-users icon" />
-                                    <span>{chat.memberListLength}</span>
-                                </span>
-                                <span className="centered tile-part">
-                                    <span className={classnames("icon", chat.iconClassnames)} />
-                                    <strong>{chat.title}</strong>
-                                </span>
-                            </div>
-                        </a>)}
-                    </section>
-                </div>
-            </div>
+                        create board
+                    </a>
+                    <a href="#">
+                        <span className="fa fa-book" />
+                        terms of use
+                    </a>
+                    {this.state.user && (
+                        <a href="#" onClick={evt => this.onToggleActiveTabClick(evt, "myProfile")}>
+                            <span className="fa fa-child" />
+                            my profile
+                        </a>
+                    )}
+                    {this.state.user ? (
+                        <a href="/auth/logout">
+                            <span className="fa fa-sign-out" />
+                            log out
+                        </a>
+                    ) : (
+                        <Link to="/login">
+                            <span className="fa fa-sign-in" />
+                            log in
+                        </Link>
+                    )}
+                    <a href="#">
+                        <span className="fa fa-search" />
+                        search
+                    </a>
 
-            <div className="footer">
-                <p>
+                    {this.state.user && "myProfile" === this.state.activeTab && (
+                        <form className="active gui-slidePanel panel-myProfile">
+                            <div className="panelHeader">my profile</div>
+                            <div className="panelContent">
+                                <label>
+                                    Edit:
+                                    <input type="text" className="input-md" defaultValue={this.state.user.displayName} />
+                                </label>
+                                <div className="bar">
+                                    <div className="bar-left">
+                                        <img src="http://woape.com/avatar_placeholder.png" alt="user photo" className="userPhoto" />
+                                        <span className="button-sm getPhotoBtn">import photo from facebook</span>
+                                    </div>
+                                    <div className="bar-right"><a href="#" className="deleteAccountBtn">delete account</a></div>
+                                </div>
+                            </div>
+                        </form>
+                    )}
+                </nav>
+
+                <footer>
                     &copy; 2015-present.
                     Made with love <span className="fa fa-heart-o" /><br />
                     by Authors of <i>Chatboard</i>
-                </p>
-            </div>
+                </footer>
+            </aside>
+
+            <main>
+                {this.props.children}
+            </main>
         </div>;
     }
 }
 
-// MainDocument.propTypes = {
-//     "chatList": React.PropTypes.arrayOf(ChatPropType).isRequired,
-//     "onUserDisplayNameChange": React.PropTypes.func.isRequired,
-//     "user": UserPropType
-// };
+MainDocument.propTypes = {
+    "children": React.PropTypes.any.isRequired,
+    "className": React.PropTypes.string.isRequired
+};

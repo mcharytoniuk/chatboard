@@ -324,11 +324,12 @@ function create(initialData) {
         "facets": {
             "chatPoolManager": container.facets.chatPoolManager,
             "chatSocketController": container.facets.chatSocketController,
-            "indexSocketController": container.facets.indexSocketController
+            "indexSocketController": container.facets.indexSocketController,
+            "indexSocketServer": container.facets.indexSocketServer
         },
         "get": function (data) {
             return Promise.props(data).then(function (results) {
-                return eventDispatcher.create(results.chatPoolManager, results.chatSocketController, results.indexSocketController);
+                return eventDispatcher.create(results.chatPoolManager, results.chatSocketController, results.indexSocketController, results.indexSocketServer);
             });
         }
     });

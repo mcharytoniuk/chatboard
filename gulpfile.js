@@ -14,7 +14,6 @@ var path = require("path"),
     postcssImport = require("postcss-import"),
     postcssMixins = require("postcss-mixins"),
     postcssNested = require("postcss-nested"),
-    postcssUrl = require("postcss-url"),
     rename = require("gulp-rename");
 
 gg(__dirname).setup(gulp);
@@ -41,6 +40,11 @@ gulp.task("css", ["fonts"], function () {
             "extname": ".css"
         }))
         .pipe(gulp.dest(path.resolve(__dirname, "assets", "css")));
+});
+
+gulp.task("watch", ["build"], function () {
+    gulp.watch(path.resolve(__dirname, "assets", "scss", "*.scss"), ["css"]);
+    gulp.watch(path.resolve(__dirname, "web_modules", "**", "*.jsx"), ["webpack.development"]);
 });
 
 gulp.task("build", ["css", "webpack.development"]);

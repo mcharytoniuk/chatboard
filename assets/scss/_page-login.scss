@@ -3,25 +3,23 @@
  * 2015
  */
 
-/* ------------------------------------------------ */
 .page-login {
-  background: url(../img/bgr.jpg) #3B3D46;
-  background-position: center top;
-  background-repeat: no-repeat;
-  margin-top: 10px;
-  /* @include box(xl, only-y); */
-  .login-window {
-    background: #fff;
-    border-top: 7px solid #EB8F4C;
-    overflow: hidden;
-  }
-  .loginButton {
-    margin-top: 45px;
-    width: 100%;
-    text-align: center;
-    background: #4C578C;
-    .icon {font-size: 1.5em;
-      vertical-align: top;
+    main {
+        padding: 0.5vw;
+
+        a {
+            display: block;
+            margin-top: 0.5vw;
+            padding: 1vw;
+
+            .fa {
+                margin-right: 1vw;
+            }
+        }
+
+        a.facebook {
+            background-color: #3b5998;
+            color: #e2e2e2;
+        }
     }
-  }
 }

@@ -1,69 +1,46 @@
-/* Chatboard style,
- * Dariusz Sikorski
- * 2015
- */
-
-/* ------------------------------------------------ */
 .page-main {
-  background: #F0DFCC;
-  /* background: url(http://www.free-patterns.info/wp-content/uploads/2014/09/light-triangle-mix-313279.png); */
-  .wrapper {
-    min-height: 100%;
-    margin-bottom: -75px;
-    padding-bottom: 100px;
-  }
-  .footer {
-    height: 60px;
-    padding-top: 15px;
-    text-align: center;
-    border-top: dotted 1px rgba(127,127,127,0.5);
-    font-size: 0.85rem;
-  }
-  .topbar {
-    color: #555;
-    a {
-      color: #555;
-    }
-  }
-  section.tileGrid {
-    text-align: center;
-    margin-top: 20px;
-    padding-bottom: 100px;
-    .tile {
-      &,* {cursor: pointer;}
-      /* @include tile; */
-      display: inline-block;
-      width: 19%;
-      margin: 5px;
-      max-width: 380px;
-      /* @include shape(rounded); */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      /* .upper-left {@include position(top-left);} */
-      /* .upper-right {@include position(top-right);} */
-      .centered {
-        /* @include position(center); */
-        font-style: italic;
-        font-family: 'Lora', serif;
-        width: 75%;
-        .icon {
-          font-size: 2.65rem;
-          display: block;
+    main {
+        align-content: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.5vw;
+
+        a {
+            height: 20vw;
+            margin: 0.5vw;
+            width: 24.5vw;
+
+            .content {
+                align-content: center;
+                align-items: center;
+                display: flex;
+                flex-grow: 1;
+                height: 20vw;
+                justify-content: center;
+                margin-top: -4vw;
+                text-align: center;
+
+                .fa {
+                    display: block;
+                    font-size: 4vw;
+                }
+
+                .title {
+                    margin-top: 0.5vw;
+                }
+            }
+
+            .status {
+                display: flex;
+                justify-content: space-between;
+                padding: 1vw;
+                height: 4vw;
+                width: 24.5vw;
+
+                .fa {
+                    margin-right: 0.5vw;
+                }
+            }
         }
-        strong {
-          font-weight: normal;
-          font-size: 1.2rem;
-        }
-      }
-      /* .tile-part {@include box(sm);} */
-      border: solid 3px transparent;
-      transition: all 0.1s;
-      &:hover {
-        border: solid 3px rgba(0,0,0,0.25);
-      }
     }
-    /* @include xxl{.tile {width: 23%;}} */
-    /* @include lg{.tile {width: 31%;}} */
-    /* @include md{.tile {width: 48%;}} */
-    /* @include sm{.tile {width: 80%;}} */
-  }
 }

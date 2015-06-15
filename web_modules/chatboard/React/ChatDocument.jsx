@@ -53,7 +53,7 @@ export default class ChatDocument extends React.Component {
     }
 
     render() {
-        return <div>
+        return <div className="page-chat">
             <header className="boardHeader">
                 <nav className={classnames([
                     "topbar",
