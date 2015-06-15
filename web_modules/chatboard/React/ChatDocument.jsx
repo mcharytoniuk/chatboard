@@ -7,18 +7,20 @@
 
 /*eslint no-underscore-dangle: 0 */
 
-import ChatPropType from "chatboard/React/PropType/Chat";
+// import ChatPropType from "chatboard/React/PropType/Chat";
 import classnames from "classnames";
 import ColorSettings from "chatboard/React/ChatDocument/ColorSettings";
 import IconSettings from "chatboard/React/ChatDocument/IconSettings";
-import MessagePropType from "chatboard/React/PropType/Message";
+import MainDocument from "chatboard/React/MainDocument";
+// import MessagePropType from "chatboard/React/PropType/Message";
 import moment from "moment";
 import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import PrivacySettings from "chatboard/React/ChatDocument/PrivacySettings";
 import React from "react";
 import TitleSettings from "chatboard/React/ChatDocument/TitleSettings";
 import UserList from "chatboard/React/ChatDocument/UserList";
-import UserPropType from "chatboard/React/PropType/User";
+// import UserPropType from "chatboard/React/PropType/User";
+import {Link} from "react-router";
 
 export default class ChatDocument extends React.Component {
     constructor(props) {
@@ -26,6 +28,9 @@ export default class ChatDocument extends React.Component {
 
         this.state = {
             "activeTab": null,
+            "chat": {
+            },
+            "messageAndUserList": [],
             "pendingMessage": ""
         };
     }
@@ -53,25 +58,25 @@ export default class ChatDocument extends React.Component {
     }
 
     render() {
-        return <div className="page-chat">
+        return <MainDocument {...this.props} className="page-chat">
             <header className="boardHeader">
                 <nav className={classnames([
                     "topbar",
-                    this.props.chat.themeClassnames
+                    this.state.chat.themeClassnames
                 ])}>
                     <ul className="topnav">
                         <li>
-                            <a href="/">
+                            <Link to="/">
                                 <span className="fa fa-arrow-left arrow" />
                                 Boards
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <span className={classnames([
                                 "icon",
-                                this.props.chat.iconClassnames
+                                this.state.chat.iconClassnames
                             ])} />
-                            <strong>{this.props.chat.title}</strong>
+                            <strong>{this.state.chat.title}</strong>
                         </li>
                         <li className="link-container">
                             <input type="text" defaultValue="http://chtbrd.com/he74n" className="link" />
@@ -91,17 +96,17 @@ export default class ChatDocument extends React.Component {
                             switch (this.state.activeTab) {
                                 case "changeColor":
                                     return <ColorSettings
-                                        chat={this.props.chat}
+                                        chat={this.state.chat}
                                         onChatColorChange={newChatColor => this.props.onChatColorChange(newChatColor)}
                                     ></ColorSettings>;
                                 case "changeIcon":
                                     return <IconSettings
-                                        chat={this.props.chat}
+                                        chat={this.state.chat}
                                         onChatIconChange={newChatIcon => this.props.onChatIconChange(newChatIcon)}
                                     ></IconSettings>;
                                 case "changeTitle":
                                     return <TitleSettings
-                                        chat={this.props.chat}
+                                        chat={this.state.chat}
                                         onChatTitleChange={newChatTitle => this.props.onChatTitleChange(newChatTitle)}
                                     ></TitleSettings>;
                                 case "privPublic":
@@ -117,7 +122,7 @@ export default class ChatDocument extends React.Component {
             <section className="boardMessages">
                 <div className="cell">
                     <div className="content">
-                        {this.props.messageAndUserList.map(messageAndUser => <article className={"type-" + messageAndUser.message.type} key={messageAndUser.message._id}>
+                        {this.state.messageAndUserList.map(messageAndUser => <article className={"type-" + messageAndUser.message.type} key={messageAndUser.message._id}>
                             <p className="article-header">
                                 {messageAndUser.user && messageAndUser.user.displayName}, {moment(messageAndUser.message.date).format("YYYY-MM-DD HH:mm:ss")}
                             </p>
@@ -151,16 +156,16 @@ export default class ChatDocument extends React.Component {
                     </div>
                 </form>
             </footer>
-        </div>;
+        </MainDocument>;
     }
 }
 
 ChatDocument.propTypes = {
-    "chat": ChatPropType.isRequired,
-    "messageAndUserList": React.PropTypes.arrayOf(React.PropTypes.shape({
-        "message": MessagePropType.isRequired,
-        "user": UserPropType.isRequired
-    })).isRequired,
+    // "chat": ChatPropType.isRequired,
+    // "messageAndUserList": React.PropTypes.arrayOf(React.PropTypes.shape({
+    //     "message": MessagePropType.isRequired,
+    //     "user": UserPropType.isRequired
+    // })).isRequired,
     "onChatColorChange": React.PropTypes.func.isRequired,
     "onChatIconChange": React.PropTypes.func.isRequired,
     "onChatTitleChange": React.PropTypes.func.isRequired,

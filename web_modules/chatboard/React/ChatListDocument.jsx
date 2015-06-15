@@ -13,13 +13,13 @@ import io from "socket.io-client";
 import MainDocument from "chatboard/React/MainDocument";
 import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
+import {Link} from "react-router";
 
 export default class ChatListDocument extends React.Component {
     componentWillMount() {
         var socket = io.connect(window.location.origin + NAMESPACES.INDEX);
 
         socket.on(EVENTS.CHTB_SERVER_CHAT_LIST_UPDATE, chatList => {
-            console.log(chatList);
             this.setState({
                 "chatList": chatList
             });
@@ -37,7 +37,7 @@ export default class ChatListDocument extends React.Component {
 
     render() {
         return <MainDocument {...this.props} className="page-main">
-            {this.state.chatList.map(chat => <a className={classnames("tile", chat.themeClassnames)} href={chat.urlCanonical} key={chat._id}>
+            {this.state.chatList.map(chat => <Link className={classnames("tile", chat.themeClassnames)} key={chat._id} to={chat._id}>
                 <div className="status">
                     <span>
                         <span className="fa fa-comment" />
@@ -54,7 +54,7 @@ export default class ChatListDocument extends React.Component {
                         <div className="title">{chat.title}</div>
                     </div>
                 </div>
-            </a>)}
+            </Link>)}
         </MainDocument>;
     }
 }

@@ -5,6 +5,8 @@
 
 "use strict";
 
+/*eslint no-underscore-dangle: 0 */
+
 import onToggleActiveTabClick from "chatboard/React/onToggleActiveTabClick";
 import React from "react";
 import {Link} from "react-router";
@@ -32,8 +34,8 @@ export default class MainDocument extends React.Component {
             "method": "post"
         }).then(function (response) {
             return response.json();
-        }).then(function (response) {
-            window.location = response.result.urlCanonical;
+        }).then(response => {
+            this.context.router.transitionTo(response.result._id);
         });
     }
 
