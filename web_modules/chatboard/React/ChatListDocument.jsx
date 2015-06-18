@@ -17,14 +17,16 @@ import {Link} from "react-router";
 
 export default class ChatListDocument extends React.Component {
     componentWillMount() {
-        var socket = io.connect(window.location.origin + NAMESPACES.INDEX);
+        this.socket = io.connect(window.location.origin + NAMESPACES.INDEX);
+    }
 
-        socket.on(EVENTS.CHTB_SERVER_CHAT_LIST_UPDATE, chatList => {
+    componentDidMount() {
+        this.socket.on(EVENTS.CHTB_SERVER_CHAT_LIST_UPDATE, chatList => {
             this.setState({
                 "chatList": chatList
             });
         });
-        socket.emit(EVENTS.CHTB_CLIENT_CHAT_LIST_UPDATE_REQUEST);
+        this.socket.emit(EVENTS.CHTB_CLIENT_CHAT_LIST_UPDATE_REQUEST);
     }
 
     constructor(props) {
@@ -37,24 +39,32 @@ export default class ChatListDocument extends React.Component {
 
     render() {
         return <MainDocument {...this.props} className="page-main">
-            {this.state.chatList.map(chat => <Link className={classnames("tile", chat.themeClassnames)} key={chat._id} to={chat._id}>
-                <div className="status">
-                    <span>
-                        <span className="fa fa-comment" />
-                        <span>{chat.messageListLength}</span>
-                    </span>
-                    <span>
-                        <span className="fa fa-users" />
-                        <span>{chat.memberListLength}</span>
-                    </span>
-                </div>
-                <div className="content">
-                    <div>
-                        <div className={chat.iconClassnames} />
-                        <div className="title">{chat.title}</div>
+            <form>
+                <input autoFocus type="search" />
+                <button type="submit">
+                    <span className="fa fa-search" />
+                </button>
+            </form>
+            <section>
+                {this.state.chatList.map(chat => <Link className={classnames("tile", chat.themeClassnames)} key={chat._id} to={chat._id}>
+                    <div className="status">
+                        <span>
+                            <span className="fa fa-comment" />
+                            <span>{chat.messageListLength}</span>
+                        </span>
+                        <span>
+                            <span className="fa fa-users" />
+                            <span>{chat.memberListLength}</span>
+                        </span>
                     </div>
-                </div>
-            </Link>)}
+                    <div className="content">
+                        <div>
+                            <div className={chat.iconClassnames} />
+                            <div className="title">{chat.title}</div>
+                        </div>
+                    </div>
+                </Link>)}
+            </section>
         </MainDocument>;
     }
 }

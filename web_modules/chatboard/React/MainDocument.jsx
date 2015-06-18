@@ -57,7 +57,7 @@ export default class MainDocument extends React.Component {
                         ) : (
                             <span className="fa fa-plus" />
                         )}
-                        create board
+                        create private board
                     </a>
                     <a href="#">
                         <span className="fa fa-book" />

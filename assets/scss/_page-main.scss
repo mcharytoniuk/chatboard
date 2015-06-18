@@ -1,46 +1,73 @@
-.page-main {
-    main {
+.page-main main {
+    section {
         align-content: flex-start;
         display: flex;
         flex-wrap: wrap;
-        padding: 0.5vw;
+        padding-bottom: 0.5vw;
+        padding-left: 0.5vw;
+        padding-right: 0.5vw;
+        padding-top: 4vw;
+    }
 
-        a {
+    section a {
+        height: 20vw;
+        margin: 0.5vw;
+        width: 24.5vw;
+
+        .content {
+            align-content: center;
+            align-items: center;
+            display: flex;
+            flex-grow: 1;
             height: 20vw;
-            margin: 0.5vw;
+            justify-content: center;
+            margin-top: -4vw;
+            text-align: center;
+
+            .fa {
+                display: block;
+                font-size: 4vw;
+            }
+
+            .title {
+                margin-top: 0.5vw;
+            }
+        }
+
+        .status {
+            display: flex;
+            justify-content: space-between;
+            padding: 1vw;
+            height: 4vw;
             width: 24.5vw;
 
-            .content {
-                align-content: center;
-                align-items: center;
-                display: flex;
-                flex-grow: 1;
-                height: 20vw;
-                justify-content: center;
-                margin-top: -4vw;
-                text-align: center;
-
-                .fa {
-                    display: block;
-                    font-size: 4vw;
-                }
-
-                .title {
-                    margin-top: 0.5vw;
-                }
+            .fa {
+                margin-right: 0.5vw;
             }
+        }
+    }
 
-            .status {
-                display: flex;
-                justify-content: space-between;
-                padding: 1vw;
-                height: 4vw;
-                width: 24.5vw;
+    form {
+        background-color: #fff;
+        border-bottom-color: #eee;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        display: flex;
+        flex-direction: row;
+        height: 3.5vw;
+        padding: 0.5vw;
+        position: fixed;
+        width: 77.5vw;
 
-                .fa {
-                    margin-right: 0.5vw;
-                }
-            }
+        button {
+            background-color: #eee;
+            border: none;
+            width: 4.5vw;
+        }
+
+        input {
+            margin-right: 0.5vw;
+            width: 33vw;
         }
     }
 }

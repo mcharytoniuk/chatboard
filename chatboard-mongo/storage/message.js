@@ -22,8 +22,10 @@ function insertByChat(chatStorage, db, chat, message) {
             "owner": new ObjectID(chat._id),
             "userId": new ObjectID(message.userId)
         }), cb);
-    }).then(function () {
-        return chatStorage.incrementChatMessageListLength(chat)
+    }).then(function (result) {
+        return chatStorage.incrementChatMessageListLength(chat).then(function () {
+            return result;
+        });
     });
 }
 

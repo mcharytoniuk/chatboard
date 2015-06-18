@@ -1,25 +1,18 @@
-/* Chatboard style,
- * Dariusz Sikorski
- * 2015
- */
+.page-login main {
+    padding: 1vw;
 
-.page-login {
-    main {
-        padding: 0.5vw;
+    a {
+        display: block;
+        margin-top: 0.5vw;
+        padding: 1vw;
 
-        a {
-            display: block;
-            margin-top: 0.5vw;
-            padding: 1vw;
-
-            .fa {
-                margin-right: 1vw;
-            }
+        .fa {
+            margin-right: 1vw;
         }
+    }
 
-        a.facebook {
-            background-color: #3b5998;
-            color: #e2e2e2;
-        }
+    a.facebook {
+        background-color: #3b5998;
+        color: #e2e2e2;
     }
 }

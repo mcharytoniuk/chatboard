@@ -16,85 +16,81 @@ function create(chatProvider, chatSocketServer, chatStorage, messageProvider, me
         "onSocketConnection": _.partial(onSocketConnection, chatSocketServer, _),
         "onSocketIconChange": _.partial(onSocketIconChange, chatProvider, chatSocketServer, chatStorage, _),
         "onSocketMessage": _.partial(onSocketMessage, messageStorage, chatSocketServer, _),
-        "onSocketRoomJoinRequest": _.partial(onSocketRoomJoinRequest, messageProvider, userProvider, _),
+        "onSocketRoomJoinRequest": _.partial(onSocketRoomJoinRequest, chatProvider, messageProvider, userProvider, _),
         "onSocketTitleChange": _.partial(onSocketTitleChange, chatProvider, chatSocketServer, chatStorage, _)
     };
 }
 
 function onSocketColorChange(chatProvider, chatSocketServer, chatStorage, evt) {
-    return chatStorage.updateChatColor(evt.data.chat, evt.data.newChatColor)
-        .then(function () {
-            return chatProvider.findOneById(evt.data.chat._id);
-        })
-        .then(function (updatedChat) {
-            chatSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
-        });
-}
-
-function onSocketConnection(chatSocketServer, evt) {
-    evt.socket.broadcast.emit(EVENTS.CHTB_SERVER_MESSAGE, {
-        "author": "server",
-        "content": "someone has joined the chat",
-        "date": Date.now(),
-        "_id": Date.now(),
-        "type": "info"
+    return chatStorage.updateChatColor(evt.data.chat, evt.data.newChatColor).then(function () {
+        return chatProvider.findOneById(evt.data.chat._id);
+    }).then(function (updatedChat) {
+        chatSocketServer.emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
     });
 }
 
+function onSocketConnection(chatSocketServer, evt) {
+    // evt.socket.broadcast.emit(EVENTS.CHTB_SERVER_MESSAGE, {
+    //     "author": "server",
+    //     "content": "someone joined the chat",
+    //     "date": Date.now(),
+    //     "_id": Date.now(),
+    //     "type": "info"
+    // });
+}
+
 function onSocketIconChange(chatProvider, chatSocketServer, chatStorage, evt) {
-    return chatStorage.updateChatIcon(evt.data.chat, evt.data.newChatIcon)
-        .then(function () {
-            return chatProvider.findOneById(evt.data.chat._id);
-        })
-        .then(function (updatedChat) {
-            chatSocketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
-        });
+    return chatStorage.updateChatIcon(evt.data.chat, evt.data.newChatIcon).then(function () {
+        return chatProvider.findOneById(evt.data.chat._id);
+    }).then(function (updatedChat) {
+        chatSocketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+    });
 }
 
 function onSocketMessage(messageStorage, chatSocketServer, evt) {
     return messageStorage.insertByChat(evt.data.chat, {
-            "content": evt.data.message.content,
-            "date": Date.now(),
-            "userId": evt.user._id,
-            "type": "message"
-        })
-        .then(function (result) {
-            return _.first(result.ops);
-        })
-        .then(function (insertedMessage) {
-            chatSocketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, {
-                "message": insertedMessage,
-                "user": evt.data.user
-            });
+        "content": evt.data.message.content,
+        "date": Date.now(),
+        "userId": evt.user._id,
+        "type": "message"
+    }).then(function (result) {
+        return _.first(result.ops);
+    }).then(function (insertedMessage) {
+        evt.socket.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, {
+            "message": insertedMessage,
+            "user": evt.data.user
         });
+    });
 }
 
-function onSocketRoomJoinRequest(messageProvider, userProvider, evt) {
-    evt.socket.join(evt.data.chat._id);
-    messageProvider.findByChat(evt.data.chat)
-        .then(function (messageList) {
+function onSocketRoomJoinRequest(chatProvider, messageProvider, userProvider, evt) {
+    chatProvider.findOneById(evt.data.chat._id).then(function (chat) {
+        if (!chat) {
+            return;
+        }
+
+        return messageProvider.findByChat(chat).then(function (messageList) {
             return Promise.all([
                 messageList,
                 userProvider.findByIdList(_.pluck(messageList, "userId"))
             ]);
-        })
-        .spread(function (messageList, userList) {
+        }).spread(function (messageList, userList) {
+            evt.socket.join(evt.data.chat._id);
             evt.socket.emit(EVENTS.CHTB_SERVER_ROOM_JOIN_APPROVE, {
-                "chat": evt.data.chat,
+                "chat": chat,
                 "messageList": messageList,
                 "userList": userList
             });
         });
+    });
 }
 
 function onSocketTitleChange(chatProvider, chatSocketServer, chatStorage, evt) {
-    return chatStorage.updateChatTitle(evt.data.chat, evt.data.newChatTitle)
-        .then(function () {
-            return chatProvider.findOneById(evt.data.chat._id);
-        })
-        .then(function (updatedChat) {
-            chatSocketServer.of(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
-        });
+    return chatStorage.updateChatTitle(evt.data.chat, evt.data.newChatTitle).then(function () {
+        return chatProvider.findOneById(evt.data.chat._id);
+    }).then(function (updatedChat) {
+        evt.socket.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
+    });
 }
 
 module.exports = {

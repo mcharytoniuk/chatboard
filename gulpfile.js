@@ -33,8 +33,8 @@ gulp.task("css", ["fonts"], function () {
                 "browsers": [
                     "last 2 versions"
                 ]
-            })
-            // csswring()
+            }),
+            csswring()
         ]))
         .pipe(rename({
             "extname": ".css"
