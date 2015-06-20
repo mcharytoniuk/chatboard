@@ -16,7 +16,9 @@ var path = require("path"),
     chatSocketController = require(path.resolve(__dirname, "..", "chatboard-sockets", "controller", "chat")),
     chatStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "chat")),
     chatViewController = require(path.resolve(__dirname, "..", "chatboard-http", "controller", "chat")),
+    connectRedis = require("connect-redis"),
     cookieParser = require("cookie-parser"),
+    env = require(path.resolve(__dirname, "env")),
     eventDispatcher = require(path.resolve(__dirname, "eventDispatcher")),
     http = require("http"),
     httpRouter = require(path.resolve(__dirname, "..", "chatboard-http", "router")),
@@ -32,15 +34,20 @@ var path = require("path"),
     passportSocketIo = require("passport.socketio"),
     Promise = require("bluebird"),
     session = require("express-session"),
-    RedisStore = require("connect-redis")(session),
     userProvider = require(path.resolve(__dirname, "..", "chatboard-mongo", "provider", "user")),
     userSessionManager = require(path.resolve(__dirname, "..", "chatboard-mongo", "userSessionManager")),
     userStorage = require(path.resolve(__dirname, "..", "chatboard-mongo", "storage", "user"));
 
 function create(initialData) {
-    var container = new Baobab(initialData),
-        parametersCursor = container.select("parameters"),
-        sessionCookieNameCursor = container.select("sessionCookieName");
+    var container,
+        parametersCursor,
+        sessionCookieNameCursor;
+
+    container = new Baobab(initialData, {
+        "autoCommit": false
+    });
+    parametersCursor = container.select("parameters");
+    sessionCookieNameCursor = container.select("sessionCookieName");
 
     container.facets.connection = container.createFacet({
         "cursors": {
@@ -113,6 +120,8 @@ function create(initialData) {
             "parameters": parametersCursor
         },
         "get": function (data) {
+            var RedisStore = connectRedis(session);
+
             return new RedisStore(data.parameters.redis);
         }
     });

@@ -38,7 +38,6 @@ export default class ChatDocument extends React.Component {
             this.stateTree.commit();
         });
         this.socket.on(EVENTS.CHTB_SERVER_MESSAGE, data => {
-            console.log(data);
             this.stateTree.select("messageList").push(data.message);
             this.stateTree.select("userList").push(data.user);
             this.stateTree.commit();
@@ -67,6 +66,8 @@ export default class ChatDocument extends React.Component {
             "messageList": [],
             "pendingMessage": "",
             "userList": []
+        }, {
+            "autoCommit": false
         });
         this.stateTree.facets.messageAndUserList = this.stateTree.createFacet({
             "cursors": {
