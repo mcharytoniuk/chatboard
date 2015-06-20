@@ -34,11 +34,12 @@ export default React.createClass({
             this.stateTree.commit();
         });
 
-        this.socket.emit(EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST, {
-            "chat": {
-                "_id": this.props.params.chatId
-            }
-        });
+        this.componentWillReceiveProps(this.props);
+    },
+    "componentDidUpdate": function () {
+        var node = React.findDOMNode(this.refs.messageList);
+
+        node.scrollTop = node.scrollHeight;
     },
     "componentWillMount": function () {
         this.socket = io.connect(window.location.origin + NAMESPACES.CHAT);
@@ -58,17 +59,26 @@ export default React.createClass({
                 "userList": this.stateTree.select("userList")
             },
             "get": function (data) {
-                return data.messageList.map(function (message) {
+                return _(data.messageList).sortBy("date").map(function (message) {
                     return {
                         "message": message,
                         "user": _.find(data.userList, {
                             "_id": message.userId
                         })
                     };
-                });
+                }).value();
             }
         });
         this.stateTree.on("update", () => this.forceUpdate());
+    },
+    "componentWillReceiveProps": function (nextProps) {
+        if (nextProps.params.chatId === this.props.params.chatId) {
+            this.socket.emit(EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST, {
+                "chat": {
+                    "_id": nextProps.params.chatId
+                }
+            });
+        }
     },
     "onFormSubmit": function (evt) {
         var pendingMessage = React.findDOMNode(this.refs.messageTextInput).value;
@@ -108,7 +118,7 @@ export default React.createClass({
             state = this.stateTree.get();
 
         return <MainDocument {...this.props} className="page-chat">
-            <section className="messageList">
+            <section className="messageList" ref="messageList">
                 {messageAndUserList.map(messageAndUser => {
                     var messageMoment = moment(messageAndUser.message.date);
 

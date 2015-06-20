@@ -35,6 +35,9 @@ export default React.createClass({
             return response.json();
         }).then(response => {
             this.transitionTo(response.result._id);
+            this.setState({
+                "isBoardLoading": false
+            });
         });
     },
     "propTypes": {
