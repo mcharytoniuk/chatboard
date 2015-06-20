@@ -15,7 +15,15 @@
     }
 
     form {
+        display: flex;
+        flex-direction: row;
+        height: 3.5vw;
         padding: 0.5vw;
+
+        input {
+            flex-grow: 1;
+            margin-right: 0.5vw;
+        }
     }
 
     header {

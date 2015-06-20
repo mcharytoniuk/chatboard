@@ -56,10 +56,13 @@ function onSocketMessage(messageStorage, chatSocketServer, evt) {
     }).then(function (result) {
         return _.first(result.ops);
     }).then(function (insertedMessage) {
-        evt.socket.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, {
+        var emit = {
             "message": insertedMessage,
             "user": evt.data.user
-        });
+        };
+
+        evt.socket.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, emit);
+        evt.socket.emit(EVENTS.CHTB_SERVER_MESSAGE, emit);
     });
 }
 

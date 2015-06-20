@@ -10,13 +10,12 @@ export default function onToggleActiveTabClick(evt, tabName) {
 
     evt.preventDefault();
 
-    if (this.state.activeTab === tabName) {
+    if (this.stateTree.get("activeTab") === tabName) {
         newActiveTab = null;
     } else {
         newActiveTab = tabName;
     }
 
-    this.setState({
-        "activeTab": newActiveTab
-    });
+    this.stateTree.set("activeTab", newActiveTab);
+    this.stateTree.commit();
 }
