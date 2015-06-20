@@ -1,32 +1,44 @@
 .page-chat main {
-    display: flex;
-    flex-direction: column;
     height: 100%;
 
     .messageList {
-        flex-grow: 1;
+        height: 94vh;
         overflow: scroll;
 
         article {
             background-color: #eee;
+            display: flex;
+            flex-direction: row;
             margin: 1vw;
             padding: 0.5vw;
+
+            header {
+                margin-right: 1vw;
+                padding: 0;
+                text-align: right;
+                width: 10vw;
+
+                time {
+                    font-weight: bold;
+                }
+            }
+
+            p {
+                flex-grow: 1;
+                margin: 0;
+            }
         }
     }
 
     form {
         display: flex;
         flex-direction: row;
-        height: 3.5vw;
-        padding: 0.5vw;
+        height: 6vh;
+        padding: 1vh;
 
         input {
             flex-grow: 1;
             margin-right: 0.5vw;
         }
-    }
-
-    header {
-        padding: 0.5vw;
     }
 }

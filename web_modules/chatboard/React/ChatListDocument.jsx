@@ -15,36 +15,25 @@ import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
 import {Link} from "react-router";
 
-export default class ChatListDocument extends React.Component {
-    componentWillMount() {
-        this.socket = io.connect(window.location.origin + NAMESPACES.INDEX);
-    }
-
-    componentDidMount() {
+export default React.createClass({
+    "componentDidMount": function () {
         this.socket.on(EVENTS.CHTB_SERVER_CHAT_LIST_UPDATE, chatList => {
             this.setState({
                 "chatList": chatList
             });
         });
         this.socket.emit(EVENTS.CHTB_CLIENT_CHAT_LIST_UPDATE_REQUEST);
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
+    },
+    "componentWillMount": function () {
+        this.socket = io.connect(window.location.origin + NAMESPACES.INDEX);
+    },
+    "getInitialState": function () {
+        return {
             "chatList": []
         };
-    }
-
-    render() {
+    },
+    "render": function () {
         return <MainDocument {...this.props} className="page-main">
-            <form>
-                <input autoFocus type="search" />
-                <button type="submit">
-                    <span className="fa fa-search" />
-                </button>
-            </form>
             <section>
                 {this.state.chatList.map(chat => <Link className={classnames("tile", chat.themeClassnames)} key={chat._id} to={chat._id}>
                     <div className="status">
@@ -67,4 +56,4 @@ export default class ChatListDocument extends React.Component {
             </section>
         </MainDocument>;
     }
-}
+});

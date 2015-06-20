@@ -11,8 +11,8 @@ import MainDocument from "chatboard/React/MainDocument";
 import React from "react";
 import {Link} from "react-router";
 
-export default class LoginDocument extends React.Component {
-    render() {
+export default React.createClass({
+    "render": function () {
         return <MainDocument {...this.props} className="page-login">
             <h1>
                 Log in using any of the following services:
@@ -27,4 +27,4 @@ export default class LoginDocument extends React.Component {
             </a>
         </MainDocument>;
     }
-}
+});

@@ -29,10 +29,9 @@ function findOneById(db, _id) {
 
 function findSample(db, limit) {
     return Promise.fromNode(function (cb) {
-        db.collection("chat")
-            .find({})
-            .limit(limit)
-            .toArray(cb);
+        db.collection("chat").find({
+            "isPublic": true
+        }).limit(limit).toArray(cb);
     });
 }
 

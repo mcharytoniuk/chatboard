@@ -46,28 +46,4 @@
             }
         }
     }
-
-    form {
-        background-color: #fff;
-        border-bottom-color: #eee;
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        display: flex;
-        flex-direction: row;
-        height: 3.5vw;
-        padding: 0.5vw;
-        position: fixed;
-        width: 77.5vw;
-
-        button {
-            background-color: #eee;
-            border: none;
-            width: 4.5vw;
-        }
-
-        input {
-            margin-right: 0.5vw;
-            width: 33vw;
-        }
-    }
 }
