@@ -1,3 +1,6 @@
+# cache files
+.vagrant
+
 # generated files
 assets/css
 assets/fonts
