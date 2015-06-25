@@ -6,10 +6,13 @@ Vagrant.configure(2) do |config|
 
     config.vm.provision :docker
     config.vm.provision :shell, inline: <<-SHELL
-        sudo apt-get update;
-        sudo apt-get install -y python-pip;
-        sudo pip install -U docker-compose;
+        if [ -z "$( which docker-compose )" ] ; then
+            apt-get update;
+            apt-get install -y python-pip;
+            pip install -U docker-compose;
+        fi
+
         cd /vagrant;
-        sudo docker-compose up;
+        docker-compose up;
     SHELL
 end
