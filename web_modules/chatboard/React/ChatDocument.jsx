@@ -52,7 +52,6 @@ export default React.createClass({
     },
     "getInitialState": function () {
         return {
-            "activeTab": null,
             "chat": null,
             "messageList": [],
             "pendingMessage": "",
@@ -118,7 +117,9 @@ export default React.createClass({
                 </LinkToggle>
             </nav>
 
-            {this.props.children}
+            {React.cloneElement(React.Children.only(this.props.children), {
+                "chat": this.state.chat
+            })}
 
             <section className="chatboard">
                 <ChatMessageList

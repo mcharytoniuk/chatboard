@@ -65,7 +65,7 @@ export default React.createClass({
                 </footer>
             </aside>
 
-            {this.props.children}
+            {React.Children.only(this.props.children)}
         </section>;
     }
 });
