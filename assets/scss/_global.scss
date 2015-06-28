@@ -61,6 +61,19 @@ body {
     }
 }
 
+.preloader {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+
+    .fa-spinner {
+        color: #eee;
+        font-size: 30vh;
+    }
+}
+
 .theme {
     &-calmGray {
         background: #53575d;

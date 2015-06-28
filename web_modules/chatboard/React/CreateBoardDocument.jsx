@@ -26,7 +26,8 @@ export default React.createClass({
         Navigation
     ],
     "render": function () {
-        return <main>
+        return <main className="preloader">
+            <span className="fa fa-spinner fa-pulse"></span>
         </main>;
     }
 });
