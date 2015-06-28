@@ -7,6 +7,7 @@
 
 /*eslint no-underscore-dangle: 0 */
 
+import PreloaderDocument from "chatboard/React/PreloaderDocument";
 import React from "react";
 import {Navigation} from "react-router";
 
@@ -26,8 +27,6 @@ export default React.createClass({
         Navigation
     ],
     "render": function () {
-        return <main className="preloader">
-            <span className="fa fa-spinner fa-pulse" />
-        </main>;
+        return <PreloaderDocument />;
     }
 });

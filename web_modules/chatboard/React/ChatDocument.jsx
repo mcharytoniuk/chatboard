@@ -7,69 +7,39 @@
 
 /*eslint no-underscore-dangle: 0 */
 
-import _ from "lodash";
-import Baobab from "baobab";
-import ChatMessage from "chatboard/React/ChatMessage";
+import ChatMessageList from "chatboard/React/ChatMessageList";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
 import LinkToggle from "chatboard/React/LinkToggle";
 import NAMESPACES from "chatboard-enums/NAMESPACES";
+import PreloaderDocument from "chatboard/React/PreloaderDocument";
 import React from "react";
 
 export default React.createClass({
     "componentDidMount": function () {
         this.socket.on(EVENTS.CHTB_SERVER_CHAT_UPDATE, chat => {
-            this.stateTree.set("chat", chat);
-            this.stateTree.commit();
+            this.setState({
+                "chat": chat
+            });
         });
         this.socket.on(EVENTS.CHTB_SERVER_MESSAGE, data => {
-            this.stateTree.select("messageList").push(data.message);
-            this.stateTree.select("userList").push(data.user);
-            this.stateTree.commit();
+            this.setState({
+                "messageList": this.state.messageList.concat(data.message),
+                "userList": this.state.userList.concat(data.message)
+            });
         });
         this.socket.on(EVENTS.CHTB_SERVER_ROOM_JOIN_APPROVE, data => {
-            this.stateTree.set("chat", data.chat);
-            this.stateTree.set("messageList", data.messageList);
-            this.stateTree.set("userList", data.userList);
-            this.stateTree.commit();
+            this.setState({
+                "chat": data.chat,
+                "messageList": data.messageList,
+                "userList": data.userList
+            });
         });
 
         this.componentWillReceiveProps(this.props);
     },
-    "componentDidUpdate": function () {
-        var node = React.findDOMNode(this.refs.messageList);
-
-        node.scrollTop = node.scrollHeight;
-    },
     "componentWillMount": function () {
         this.socket = io.connect(window.location.origin + NAMESPACES.CHAT);
-        this.stateTree = new Baobab({
-            "activeTab": null,
-            "chat": {
-            },
-            "messageList": [],
-            "pendingMessage": "",
-            "userList": []
-        }, {
-            "autoCommit": false
-        });
-        this.stateTree.facets.messageAndUserList = this.stateTree.createFacet({
-            "cursors": {
-                "messageList": this.stateTree.select("messageList"),
-                "userList": this.stateTree.select("userList")
-            },
-            "get": function (data) {
-                return _(data.messageList).sortBy("date").map(function (message) {
-                    return {
-                        "message": message,
-                        "user": _.find(data.userList, {
-                            "_id": message.userId
-                        })
-                    };
-                }).value();
-            }
-        });
-        this.stateTree.on("update", () => this.forceUpdate());
     },
     "componentWillReceiveProps": function (nextProps) {
         if (nextProps.params.chatId === this.props.params.chatId) {
@@ -80,6 +50,15 @@ export default React.createClass({
             });
         }
     },
+    "getInitialState": function () {
+        return {
+            "activeTab": null,
+            "chat": null,
+            "messageList": [],
+            "pendingMessage": "",
+            "userList": []
+        };
+    },
     "onFormSubmit": function (evt) {
         var pendingMessage = React.findDOMNode(this.refs.messageTextInput).value;
 
@@ -89,14 +68,15 @@ export default React.createClass({
             return;
         }
 
-        this.stateTree.set("pendingMessage", "");
-        this.stateTree.commit();
+        this.setState({
+            "pendingMessage": ""
+        });
 
         this.onMessageSubmit(pendingMessage);
     },
     "onMessageSubmit": function (message) {
         this.socket.emit(EVENTS.CHTB_CLIENT_MESSAGE, {
-            "chat": this.stateTree.get("chat"),
+            "chat": this.state.chat,
             "message": {
                 "content": message
             }
@@ -105,8 +85,9 @@ export default React.createClass({
     "onPendingMessageChange": function (evt) {
         evt.preventDefault();
 
-        this.stateTree.set("pendingMessage", evt.target.value);
-        this.stateTree.commit();
+        this.setState({
+            "pendingMessage": evt.target.value
+        });
     },
     "propTypes": {
         "params": React.PropTypes.shape({
@@ -114,20 +95,22 @@ export default React.createClass({
         }).isRequired
     },
     "render": function () {
-        var linkToggleTarget,
-            messageAndUserList = this.stateTree.facets.messageAndUserList.get(),
-            state = this.stateTree.get();
+        var linkToggleTarget;
 
-        linkToggleTarget = `/${state.chat._id}`;
+        if (!this.state.chat) {
+            return <PreloaderDocument />;
+        }
+
+        linkToggleTarget = `/${this.state.chat._id}`;
 
         return <main className="page-chat">
             <nav className="settings">
-                <LinkToggle to={`/${state.chat._id}/guests`} toggle={linkToggleTarget}>
+                <LinkToggle to={`/${this.state.chat._id}/guests`} toggle={linkToggleTarget}>
                     guest list
                 </LinkToggle>
                 <a href="#">hashtags</a>
                 <a href="#">icon</a>
-                <LinkToggle to={`/${state.chat._id}/color`} toggle={linkToggleTarget}>
+                <LinkToggle to={`/${this.state.chat._id}/color`} toggle={linkToggleTarget}>
                     color
                 </LinkToggle>
                 <a href="#">privacy</a>
@@ -136,20 +119,11 @@ export default React.createClass({
             {this.props.children}
 
             <section className="chatboard">
-                <section className="messageList" ref="messageList">
-                    {state.chat && messageAndUserList.length < 1 && (
-                        <article>
-                            <p className="type-info">
-                                Go ahead and type in your first message!
-                            </p>
-                        </article>
-                    )}
-
-                    {messageAndUserList.map(messageAndUser => <ChatMessage
-                        key={messageAndUser.message._id}
-                        messageAndUser={messageAndUser}
-                    ></ChatMessage>)}
-                </section>
+                <ChatMessageList
+                    chat={this.state.chat}
+                    messageList={this.state.messageList}
+                    userList={this.state.userList}
+                ></ChatMessageList>
 
                 <form onSubmit={evt => this.onFormSubmit(evt)}>
                     <input
@@ -157,7 +131,7 @@ export default React.createClass({
                         onChange={evt => this.onPendingMessageChange(evt)}
                         ref="messageTextInput"
                         type="text"
-                        value={state.pendingMessage}
+                        value={this.state.pendingMessage}
                     ></input>
                     <button>Send</button>
                 </form>
