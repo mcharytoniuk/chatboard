@@ -8,7 +8,7 @@
 /*eslint no-underscore-dangle: 0 */
 
 import React from "react";
-import {Navigation} from "react-router";
+import {Link, Navigation} from "react-router";
 
 import "whatwg-fetch";
 
@@ -44,17 +44,17 @@ export default React.createClass({
         "children": React.PropTypes.any.isRequired
     },
     "render": function () {
-        return <div id="page">
+        return <section id="page">
             <aside>
                 <nav>
-                    <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
-                        {this.state.isBoardLoading ? (
-                            <span className="fa fa-spinner fa-pulse" />
-                        ) : (
-                            <span className="fa fa-plus" />
-                        )}
+                    <Link to="/create">
+                        <span className="fa fa-plus" />
                         create private board
-                    </a>
+                    </Link>
+                    <Link to="/login">
+                        <span className="fa fa-sign-in" />
+                        log in
+                    </Link>
                 </nav>
 
                 <footer>
@@ -65,6 +65,6 @@ export default React.createClass({
             </aside>
 
             {this.props.children}
-        </div>;
+        </section>;
     }
 });
