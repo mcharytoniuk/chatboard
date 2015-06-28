@@ -3,23 +3,28 @@ main.page-chat {
     flex-direction: row;
     height: 100%;
 
-    header.settings {
-        background-color: #ddd;
-        display: flex;
-        flex-direction: row;
-        width: 12.5vw;
+    .chatSettings, .settings {
+        width: 20vw;
 
-        nav {
+        a {
+            align-items: center;
             display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+            padding: 1vw;
 
-            a {
-                align-items: center;
-                display: flex;
-                padding: 1vw;
+            &.active {
+                background-color: #eee;
             }
         }
+    }
+
+    .chatSettings {
+        background-color: #ccc;
+    }
+
+    .settings {
+        background-color: #ddd;
+        display: flex;
+        flex-direction: column;
     }
 
     section.chatboard {

@@ -12,6 +12,7 @@ import Baobab from "baobab";
 import ChatMessage from "chatboard/React/ChatMessage";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
+import LinkToggle from "chatboard/React/LinkToggle";
 import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
 
@@ -113,19 +114,26 @@ export default React.createClass({
         }).isRequired
     },
     "render": function () {
-        var messageAndUserList = this.stateTree.facets.messageAndUserList.get(),
+        var linkToggleTarget,
+            messageAndUserList = this.stateTree.facets.messageAndUserList.get(),
             state = this.stateTree.get();
 
+        linkToggleTarget = `/${state.chat._id}`;
+
         return <main className="page-chat">
-            <header className="settings">
-                <nav>
-                    <a href="#">guest list</a>
-                    <a href="#">hashtags</a>
-                    <a href="#">icon</a>
-                    <a href="#">color</a>
-                    <a href="#">privacy</a>
-                </nav>
-            </header>
+            <nav className="settings">
+                <LinkToggle to={`/${state.chat._id}/guests`} toggle={linkToggleTarget}>
+                    guest list
+                </LinkToggle>
+                <a href="#">hashtags</a>
+                <a href="#">icon</a>
+                <LinkToggle to={`/${state.chat._id}/color`} toggle={linkToggleTarget}>
+                    color
+                </LinkToggle>
+                <a href="#">privacy</a>
+            </nav>
+
+            {this.props.children}
 
             <section className="chatboard">
                 <section className="messageList" ref="messageList">

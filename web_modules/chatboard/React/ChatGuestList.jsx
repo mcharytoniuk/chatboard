@@ -1,0 +1,19 @@
+/**
+ * Copyright (c) 2015-present, chatboard
+ * All rights reserved.
+ */
+
+"use strict";
+
+/*eslint no-underscore-dangle: 0 */
+
+import React from "react";
+
+export default React.createClass({
+    "propTypes": {
+    },
+    "render": function () {
+        return <nav className="chatSettings chatGuestList">
+        </nav>;
+    }
+});

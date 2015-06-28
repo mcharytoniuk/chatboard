@@ -14,7 +14,7 @@ import UserPropType from "chatboard/React/PropType/User";
 
 export default React.createClass({
     "propTypes": {
-        "this.props.messageAndUser": React.PropTypes.shape({
+        "messageAndUser": React.PropTypes.shape({
             "message": MessagePropType.isRequired,
             "user": UserPropType.isRequired
         }).isRequired
