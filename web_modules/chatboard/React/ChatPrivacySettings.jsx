@@ -20,7 +20,7 @@ export default React.createClass({
         console.log("onSetPublicClick");
     },
     "propTypes": {
-        "chat": ChatPropType.isRequired
+        "chat": ChatPropType
     },
     "render": function () {
         return <nav className="chatSettings chatColorSettings">

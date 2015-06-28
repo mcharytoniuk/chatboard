@@ -117,7 +117,7 @@ export default React.createClass({
                 </LinkToggle>
             </nav>
 
-            {React.cloneElement(React.Children.only(this.props.children), {
+            {React.cloneElement(this.props.children, {
                 "chat": this.state.chat
             })}
 
