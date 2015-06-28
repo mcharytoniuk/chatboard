@@ -41,11 +41,10 @@ export default React.createClass({
         });
     },
     "propTypes": {
-        "children": React.PropTypes.any.isRequired,
-        "className": React.PropTypes.string.isRequired
+        "children": React.PropTypes.any.isRequired
     },
     "render": function () {
-        return <div className={this.props.className} id="page">
+        return <div id="page">
             <aside>
                 <nav>
                     <a href="#" onClick={evt => this.onCreateBoardClick(evt)}>
@@ -65,9 +64,7 @@ export default React.createClass({
                 </footer>
             </aside>
 
-            <main>
-                {this.props.children}
-            </main>
+            {this.props.children}
         </div>;
     }
 });

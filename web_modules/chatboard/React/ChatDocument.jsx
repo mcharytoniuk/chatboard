@@ -11,7 +11,6 @@ import _ from "lodash";
 import Baobab from "baobab";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
-import MainDocument from "chatboard/React/MainDocument";
 import moment from "moment";
 import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
@@ -117,7 +116,7 @@ export default React.createClass({
         var messageAndUserList = this.stateTree.facets.messageAndUserList.get(),
             state = this.stateTree.get();
 
-        return <MainDocument {...this.props} className="page-chat">
+        return <main className="page-chat">
             <section className="messageList" ref="messageList">
                 {messageAndUserList.map(messageAndUser => {
                     var messageMoment = moment(messageAndUser.message.date);
@@ -145,6 +144,6 @@ export default React.createClass({
                 ></input>
                 <button>Send</button>
             </form>
-        </MainDocument>;
+        </main>;
     }
 });

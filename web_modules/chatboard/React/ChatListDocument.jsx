@@ -10,7 +10,6 @@
 import classnames from "classnames";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
-import MainDocument from "chatboard/React/MainDocument";
 import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
 import {Link} from "react-router";
@@ -33,27 +32,25 @@ export default React.createClass({
         };
     },
     "render": function () {
-        return <MainDocument {...this.props} className="page-main">
-            <section>
-                {this.state.chatList.map(chat => <Link className={classnames("tile", chat.themeClassnames)} key={chat._id} to={chat._id}>
-                    <div className="status">
-                        <span>
-                            <span className="fa fa-comment" />
-                            <span>{chat.messageListLength}</span>
-                        </span>
-                        <span>
-                            <span className="fa fa-users" />
-                            <span>{chat.memberListLength}</span>
-                        </span>
+        return <main className="page-main">
+            {this.state.chatList.map(chat => <Link className={classnames("tile", chat.themeClassnames)} key={chat._id} to={chat._id}>
+                <div className="status">
+                    <span>
+                        <span className="fa fa-comment" />
+                        <span>{chat.messageListLength}</span>
+                    </span>
+                    <span>
+                        <span className="fa fa-users" />
+                        <span>{chat.memberListLength}</span>
+                    </span>
+                </div>
+                <div className="content">
+                    <div>
+                        <div className={chat.iconClassnames} />
+                        <div className="title">{chat.title}</div>
                     </div>
-                    <div className="content">
-                        <div>
-                            <div className={chat.iconClassnames} />
-                            <div className="title">{chat.title}</div>
-                        </div>
-                    </div>
-                </Link>)}
-            </section>
-        </MainDocument>;
+                </div>
+            </Link>)}
+        </main>;
     }
 });
