@@ -5,8 +5,6 @@
 
 "use strict";
 
-/*eslint no-underscore-dangle: 0 */
-
 import CHAT_THEMES from "chatboard-enums/CHAT_THEMES";
 import React from "react";
 

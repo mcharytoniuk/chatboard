@@ -5,8 +5,6 @@
 
 "use strict";
 
-/*eslint no-underscore-dangle: 0 */
-
 import MessagePropType from "chatboard/React/PropType/Message";
 import moment from "moment";
 import React from "react";

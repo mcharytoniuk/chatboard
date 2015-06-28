@@ -11,7 +11,13 @@ export default React.createClass({
     "propTypes": {
     },
     "render": function () {
-        return <nav className="chatSettings chatGuestList">
+        return <nav className="chatSettings chatColorSettings">
+            <a>
+                private
+            </a>
+            <a>
+                public
+            </a>
         </nav>;
     }
 });

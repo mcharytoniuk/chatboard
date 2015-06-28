@@ -10,6 +10,7 @@ import ChatColorSettings from "chatboard/React/ChatColorSettings";
 import ChatDocument from "chatboard/React/ChatDocument";
 import ChatGuestList from "chatboard/React/ChatGuestList";
 import ChatListDocument from "chatboard/React/ChatListDocument";
+import ChatPrivacySettings from "chatboard/React/ChatPrivacySettings";
 import CreateBoardDocument from "chatboard/React/CreateBoardDocument";
 import LoginDocument from "chatboard/React/LoginDocument";
 import MainDocument from "chatboard/React/MainDocument";
@@ -24,6 +25,7 @@ React.render(<Router history={new BrowserHistory()}>
         <Route path="/:chatId" component={ChatDocument}>
             <Route path="/color" component={ChatColorSettings} />
             <Route path="/guests" component={ChatGuestList} />
+            <Route path="/privacy" component={ChatPrivacySettings} />
         </Route>
     </Route>
 </Router>, document.body);

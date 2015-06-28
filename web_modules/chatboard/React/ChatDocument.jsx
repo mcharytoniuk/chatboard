@@ -105,15 +105,17 @@ export default React.createClass({
 
         return <main className="page-chat">
             <nav className="settings">
-                <LinkToggle to={`/${this.state.chat._id}/guests`} toggle={linkToggleTarget}>
+                <LinkToggle to={`${linkToggleTarget}/guests`} toggle={linkToggleTarget}>
                     guest list
                 </LinkToggle>
                 <a href="#">hashtags</a>
                 <a href="#">icon</a>
-                <LinkToggle to={`/${this.state.chat._id}/color`} toggle={linkToggleTarget}>
+                <LinkToggle to={`${linkToggleTarget}/color`} toggle={linkToggleTarget}>
                     color
                 </LinkToggle>
-                <a href="#">privacy</a>
+                <LinkToggle to={`${linkToggleTarget}/privacy`} toggle={linkToggleTarget}>
+                    privacy
+                </LinkToggle>
             </nav>
 
             {this.props.children}
