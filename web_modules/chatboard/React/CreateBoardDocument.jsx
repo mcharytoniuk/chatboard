@@ -19,7 +19,7 @@ export default React.createClass({
         }).then(function (response) {
             return response.json();
         }).then(response => {
-            this.transitionTo(response.result._id);
+            this.replaceWith(response.result._id);
         });
     },
     "mixins": [
@@ -27,7 +27,7 @@ export default React.createClass({
     ],
     "render": function () {
         return <main className="preloader">
-            <span className="fa fa-spinner fa-pulse"></span>
+            <span className="fa fa-spinner fa-pulse" />
         </main>;
     }
 });

@@ -118,6 +118,14 @@ export default React.createClass({
 
         return <main className="page-chat">
             <section className="messageList" ref="messageList">
+                {state.chat && messageAndUserList.length < 1 && (
+                    <article>
+                        <p className="type-info">
+                            Go ahead and type in your first message!
+                        </p>
+                    </article>
+                )}
+
                 {messageAndUserList.map(messageAndUser => {
                     var messageMoment = moment(messageAndUser.message.date);
 
