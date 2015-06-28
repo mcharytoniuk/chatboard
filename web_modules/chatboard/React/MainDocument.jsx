@@ -47,12 +47,13 @@ export default React.createClass({
         return <section id="page">
             <aside>
                 <nav>
+                    <Link to="/">
+                        chati
+                    </Link>
                     <Link to="/create">
-                        <span className="fa fa-plus" />
                         create private board
                     </Link>
                     <Link to="/login">
-                        <span className="fa fa-sign-in" />
                         log in
                     </Link>
                 </nav>
@@ -60,7 +61,7 @@ export default React.createClass({
                 <footer>
                     &copy; 2015-present.
                     Made with love <span className="fa fa-heart-o" /><br />
-                    by authors of mychat.chat
+                    by authors of chati
                 </footer>
             </aside>
 

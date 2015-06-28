@@ -27,7 +27,7 @@ body {
         flex-direction: column;
         height: 100vh;
         position: fixed;
-        width: 22.5vw;
+        width: 20vw;
 
         footer {
             display: block;
@@ -41,7 +41,7 @@ body {
                 display: block;
                 padding: 1vw;
                 text-decoration: none;
-                width: 22.5vw;
+                width: 20vw;
 
                 &.active {
                     background-color: #fff;
@@ -56,8 +56,8 @@ body {
     }
 
     main {
-        margin-left: 22.5vw;
-        width: 77.5vw;
+        margin-left: 20vw;
+        width: 80vw;
     }
 }
 

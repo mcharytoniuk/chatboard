@@ -1,44 +1,65 @@
 main.page-chat {
+    display: flex;
+    flex-direction: row;
     height: 100%;
 
-    .messageList {
-        height: 94vh;
-        overflow: scroll;
+    header.settings {
+        background-color: #ddd;
+        display: flex;
+        flex-direction: row;
+        width: 12.5vw;
 
-        article {
-            background-color: #eee;
+        nav {
             display: flex;
-            flex-direction: row;
-            margin: 1vw;
-            padding: 0.5vw;
+            flex-direction: column;
+            flex-grow: 1;
 
-            header {
-                margin-right: 1vw;
-                padding: 0;
-                text-align: right;
-                width: 10vw;
-
-                time {
-                    font-weight: bold;
-                }
-            }
-
-            p {
-                flex-grow: 1;
-                margin: 0;
+            a {
+                align-items: center;
+                display: flex;
+                padding: 1vw;
             }
         }
     }
 
-    form {
-        display: flex;
-        flex-direction: row;
-        height: 6vh;
-        padding: 1vh;
+    section.chatboard {
+        flex-grow: 1;
 
-        input {
-            flex-grow: 1;
-            margin-right: 0.5vw;
+        .messageList {
+            height: 94vh;
+            overflow: scroll;
+
+            article {
+                display: flex;
+                flex-direction: column;
+                padding: 0.5vw;
+
+                header {
+                    padding: 0;
+
+                    time {
+                        font-weight: bold;
+                    }
+                }
+
+                p {
+                    background-color: #eee;
+                    flex-grow: 1;
+                    margin: 0;
+                }
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            height: 6vh;
+            padding: 1vh;
+
+            input {
+                flex-grow: 1;
+                margin-right: 0.5vw;
+            }
         }
     }
 }

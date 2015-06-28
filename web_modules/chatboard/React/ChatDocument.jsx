@@ -9,9 +9,9 @@
 
 import _ from "lodash";
 import Baobab from "baobab";
+import ChatMessage from "chatboard/React/ChatMessage";
 import EVENTS from "chatboard-enums/EVENTS";
 import io from "socket.io-client";
-import moment from "moment";
 import NAMESPACES from "chatboard-enums/NAMESPACES";
 import React from "react";
 
@@ -117,41 +117,43 @@ export default React.createClass({
             state = this.stateTree.get();
 
         return <main className="page-chat">
-            <section className="messageList" ref="messageList">
-                {state.chat && messageAndUserList.length < 1 && (
-                    <article>
-                        <p className="type-info">
-                            Go ahead and type in your first message!
-                        </p>
-                    </article>
-                )}
+            <header className="settings">
+                <nav>
+                    <a href="#">guest list</a>
+                    <a href="#">hashtags</a>
+                    <a href="#">icon</a>
+                    <a href="#">color</a>
+                    <a href="#">privacy</a>
+                </nav>
+            </header>
 
-                {messageAndUserList.map(messageAndUser => {
-                    var messageMoment = moment(messageAndUser.message.date);
+            <section className="chatboard">
+                <section className="messageList" ref="messageList">
+                    {state.chat && messageAndUserList.length < 1 && (
+                        <article>
+                            <p className="type-info">
+                                Go ahead and type in your first message!
+                            </p>
+                        </article>
+                    )}
 
-                    return <article className={"type-" + messageAndUser.message.type} key={messageAndUser.message._id}>
-                        <header>
-                            <time dateTime={messageMoment.format("YYYY-MM-DD HH:mm")}>
-                                {messageMoment.fromNow()}
-                            </time>
-                        </header>
-                        <p>
-                            {messageAndUser.message.content}
-                        </p>
-                    </article>;
-                })}
+                    {messageAndUserList.map(messageAndUser => <ChatMessage
+                        key={messageAndUser.message._id}
+                        messageAndUser={messageAndUser}
+                    ></ChatMessage>)}
+                </section>
+
+                <form onSubmit={evt => this.onFormSubmit(evt)}>
+                    <input
+                        autoFocus
+                        onChange={evt => this.onPendingMessageChange(evt)}
+                        ref="messageTextInput"
+                        type="text"
+                        value={state.pendingMessage}
+                    ></input>
+                    <button>Send</button>
+                </form>
             </section>
-
-            <form onSubmit={evt => this.onFormSubmit(evt)}>
-                <input
-                    autoFocus
-                    onChange={evt => this.onPendingMessageChange(evt)}
-                    ref="messageTextInput"
-                    type="text"
-                    value={state.pendingMessage}
-                ></input>
-                <button>Send</button>
-            </form>
         </main>;
     }
 });
