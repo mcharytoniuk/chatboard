@@ -1,18 +1,13 @@
 main.page-main {
-    section {
-        align-content: flex-start;
-        display: flex;
-        flex-wrap: wrap;
-        padding-bottom: 0.5vw;
-        padding-left: 0.5vw;
-        padding-right: 0.5vw;
-        padding-top: 4vw;
-    }
+    align-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1vw;
 
-    section a {
+    a {
         height: 20vw;
         margin: 0.5vw;
-        width: 24.5vw;
+        width: 25vw;
 
         .content {
             align-content: center;
