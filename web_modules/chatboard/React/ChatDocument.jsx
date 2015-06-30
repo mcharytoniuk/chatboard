@@ -89,6 +89,7 @@ export default React.createClass({
         });
     },
     "propTypes": {
+        "children": React.PropTypes.element,
         "params": React.PropTypes.shape({
             "chatId": React.PropTypes.string.isRequired
         }).isRequired
@@ -117,8 +118,9 @@ export default React.createClass({
                 </LinkToggle>
             </nav>
 
-            {React.cloneElement(this.props.children, {
-                "chat": this.state.chat
+            {this.props.children && React.cloneElement(React.Children.only(this.props.children), {
+                "chat": this.state.chat,
+                "socket": this.socket
             })}
 
             <section className="chatboard">

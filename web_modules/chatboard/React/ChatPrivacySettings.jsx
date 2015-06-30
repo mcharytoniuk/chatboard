@@ -5,8 +5,10 @@
 
 "use strict";
 
+import classnames from "classnames";
 import ChatPropType from "chatboard/React/PropType/Chat";
 import React from "react";
+import SocketPropType from "chatboard/React/PropType/Socket";
 
 export default React.createClass({
     "onSetPrivateClick": function (evt) {
@@ -20,14 +22,19 @@ export default React.createClass({
         console.log("onSetPublicClick");
     },
     "propTypes": {
-        "chat": ChatPropType
+        "chat": ChatPropType.isRequired,
+        "socket": SocketPropType.isRequired
     },
     "render": function () {
         return <nav className="chatSettings chatColorSettings">
-            <a href="#" onClick={this.onSetPrivateClick}>
+            <a className={classnames({
+                "active": !this.props.chat.isPublic
+            })} href="#" onClick={this.onSetPrivateClick}>
                 private ({!this.props.chat.isPublic})
             </a>
-            <a href="#" onClick={this.onSetPublicClick}>
+            <a className={classnames({
+                "active": this.props.chat.isPublic
+            })} href="#" onClick={this.onSetPublicClick}>
                 public ({this.props.chat.isPublic})
             </a>
         </nav>;
