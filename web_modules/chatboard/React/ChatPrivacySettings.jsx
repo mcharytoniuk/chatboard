@@ -7,6 +7,7 @@
 
 import classnames from "classnames";
 import ChatPropType from "chatboard/React/PropType/Chat";
+import EVENTS from "chatboard-enums/EVENTS";
 import React from "react";
 import SocketPropType from "chatboard/React/PropType/Socket";
 
@@ -14,12 +15,12 @@ export default React.createClass({
     "onSetPrivateClick": function (evt) {
         evt.preventDefault();
 
-        console.log("onSetPrivateClick");
+        this.setChatPrivacy(true);
     },
     "onSetPublicClick": function (evt) {
         evt.preventDefault();
 
-        console.log("onSetPublicClick");
+        this.setChatPrivacy(false);
     },
     "propTypes": {
         "chat": ChatPropType.isRequired,
@@ -28,15 +29,21 @@ export default React.createClass({
     "render": function () {
         return <nav className="chatSettings chatColorSettings">
             <a className={classnames({
-                "active": !this.props.chat.isPublic
+                "active": this.props.chat.isPrivate
             })} href="#" onClick={this.onSetPrivateClick}>
-                private ({!this.props.chat.isPublic})
+                private
             </a>
             <a className={classnames({
-                "active": this.props.chat.isPublic
+                "active": !this.props.chat.isPrivate
             })} href="#" onClick={this.onSetPublicClick}>
-                public ({this.props.chat.isPublic})
+                public
             </a>
         </nav>;
+    },
+    "setChatPrivacy": function (newChatPrivacy) {
+        this.props.socket.emit(EVENTS.CHTB_CLIENT_CHAT_PRIVACY_CHANGE, {
+            "chat": this.props.chat,
+            "newChatPrivacy": newChatPrivacy
+        });
     }
 });

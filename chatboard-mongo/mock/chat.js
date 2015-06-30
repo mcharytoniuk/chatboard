@@ -14,6 +14,7 @@ var path = require("path"),
 function mockChat() {
     return {
         "iconClassnames": _.sample(CHAT_ICONS),
+        "isPrivate": true,
         "memberListLength": 0,
         "messageListLength": 0,
         "themeClassnames": _.sample(CHAT_THEMES).themeClassnames,

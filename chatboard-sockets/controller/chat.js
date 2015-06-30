@@ -16,6 +16,7 @@ function create(chatProvider, chatSocketServer, chatStorage, messageProvider, me
         "onSocketConnection": _.partial(onSocketConnection, chatSocketServer, _),
         "onSocketIconChange": _.partial(onSocketIconChange, chatProvider, chatSocketServer, chatStorage, _),
         "onSocketMessage": _.partial(onSocketMessage, messageStorage, chatSocketServer, _),
+        "onSocketPrivacyChange": _.partial(onSocketPrivacyChange, chatProvider, chatSocketServer, chatStorage, _),
         "onSocketRoomJoinRequest": _.partial(onSocketRoomJoinRequest, chatProvider, messageProvider, userProvider, _),
         "onSocketTitleChange": _.partial(onSocketTitleChange, chatProvider, chatSocketServer, chatStorage, _)
     };
@@ -63,6 +64,14 @@ function onSocketMessage(messageStorage, chatSocketServer, evt) {
 
         evt.socket.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_MESSAGE, emit);
         evt.socket.emit(EVENTS.CHTB_SERVER_MESSAGE, emit);
+    });
+}
+
+function onSocketPrivacyChange(chatProvider, chatSocketServer, chatStorage, evt) {
+    return chatStorage.updateChatPrivacy(evt.data.chat, evt.data.newChatPrivacy).then(function () {
+        return chatProvider.findOneById(evt.data.chat._id);
+    }).then(function (updatedChat) {
+        chatSocketServer.to(evt.data.chat._id).emit(EVENTS.CHTB_SERVER_CHAT_UPDATE, updatedChat);
     });
 }
 

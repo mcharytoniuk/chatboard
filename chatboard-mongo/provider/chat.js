@@ -30,7 +30,7 @@ function findOneById(db, _id) {
 function findSample(db, limit) {
     return Promise.fromNode(function (cb) {
         db.collection("chat").find({
-            "isPublic": true
+            "isPrivate": false
         }).limit(limit).toArray(cb);
     });
 }

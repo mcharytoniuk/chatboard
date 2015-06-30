@@ -15,6 +15,8 @@ function create(chatPoolManager, chatSocketController, indexSocketController, in
                 return chatSocketController.onSocketColorChange(evt);
             case EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE:
                 return chatSocketController.onSocketIconChange(evt);
+            case EVENTS.CHTB_CLIENT_CHAT_PRIVACY_CHANGE:
+                return chatSocketController.onSocketPrivacyChange(evt);
             case EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST:
                 return chatSocketController.onSocketRoomJoinRequest(evt);
             case EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE:

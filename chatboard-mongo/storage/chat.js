@@ -18,6 +18,7 @@ function create(chatProvider, db, parameters) {
         "insert": _.partial(insert, chatProvider, db, parameters, _),
         "updateChatColor": _.partial(updateChatColor, db, _, _),
         "updateChatIcon": _.partial(updateChatIcon, db, _, _),
+        "updateChatPrivacy": _.partial(updateChatPrivacy, db, _, _),
         "updateChatTitle": _.partial(updateChatTitle, db, _, _)
     };
 }
@@ -81,6 +82,18 @@ function updateChatIcon(db, chat, newChatIcon) {
         }, {
             "$set": {
                 "iconClassnames": newChatIcon
+            }
+        }, cb);
+    });
+}
+
+function updateChatPrivacy(db, chat, newChatPrivacy) {
+    return Promise.fromNode(function (cb) {
+        db.collection("chat").update({
+            "_id": new ObjectID(chat._id)
+        }, {
+            "$set": {
+                "isPrivate": newChatPrivacy
             }
         }, cb);
     });

@@ -28,6 +28,7 @@ function create(chatSocketServer) {
 
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_COLOR_CHANGE);
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_ICON_CHANGE);
+            forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_PRIVACY_CHANGE);
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_ROOM_JOIN_REQUEST);
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_CHAT_TITLE_CHANGE);
             forwardEvent(socket, observer, EVENTS.CHTB_CLIENT_MESSAGE);
